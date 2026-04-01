@@ -1,0 +1,260 @@
+{
+    "categories": [
+        {
+            "name": "Main dishes",
+            "slug": "main-dishes",
+            "subtitle": "Menu",
+            "description": "Consectetur numquam poro nemo veniam<br>eligendi rem adipisci quo modi.",
+            "items": [
+                {
+                    "image": "/img/menu/1.jpg",
+                    "title": "Paella with seafood",
+                    "price": "6.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/2.jpg",
+                    "title": "Boiled crayfish",
+                    "price": "7.50",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/3.jpg",
+                    "title": "Сasserole",
+                    "price": "4.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/4.jpg",
+                    "title": "King burger",
+                    "price": "11.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/5.jpg",
+                    "title": "Pizza margherita",
+                    "price": "12.00",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/6.jpg",
+                    "title": "Сasserole",
+                    "price": "9.00",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/2.jpg",
+                    "title": "Paella with seafood",
+                    "price": "1.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/1.jpg",
+                    "title": "Boiled crayfish",
+                    "price": "5.50",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                }
+            ]
+        },
+        {
+            "name": "Salads",
+            "slug": "salads",
+            "subtitle": "Menu",
+            "description": "Consectetur numquam poro nemo veniam<br>eligendi rem adipisci quo modi.",
+            "items": [
+                {
+                    "image": "/img/menu/6.jpg",
+                    "title": "King burger",
+                    "price": "16.00",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/4.jpg",
+                    "title": "Berry cocktail",
+                    "price": "3.00",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/5.jpg",
+                    "title": "Сasserole",
+                    "price": "2.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/1.jpg",
+                    "title": "Boiled crayfish",
+                    "price": "9.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/2.jpg",
+                    "title": "Paella with seafood",
+                    "price": "7.50",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/3.jpg",
+                    "title": "King burger",
+                    "price": "8.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/4.jpg",
+                    "title": "Pizza margherita",
+                    "price": "16.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/2.jpg",
+                    "title": "Berry cocktail",
+                    "price": "10.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                }
+            ]
+        },
+        {
+            "name": "Drinks",
+            "slug": "drinks",
+            "subtitle": "Menu",
+            "description": "Consectetur numquam poro nemo veniam<br>eligendi rem adipisci quo modi.",
+            "items": [
+                {
+                    "image": "/img/menu/3.jpg",
+                    "title": "King burger",
+                    "price": "1.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/5.jpg",
+                    "title": "Paella with seafood",
+                    "price": "0.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/4.jpg",
+                    "title": "Boiled crayfish",
+                    "price": "2.50",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/3.jpg",
+                    "title": "Pizza margherita",
+                    "price": "16.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/2.jpg",
+                    "title": "King burger",
+                    "price": "12.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/4.jpg",
+                    "title": "Berry cocktail",
+                    "price": "7.00",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/5.jpg",
+                    "title": "Boiled crayfish",
+                    "price": "4.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/6.jpg",
+                    "title": "Pizza margherita",
+                    "price": "16.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                }
+            ]
+        },
+        {
+            "name": "Desserts",
+            "slug": "desserts",
+            "subtitle": "Menu",
+            "description": "Consectetur numquam poro nemo veniam<br>eligendi rem adipisci quo modi.",
+            "items": [
+                {
+                    "image": "/img/menu/5.jpg",
+                    "title": "Paella with seafood",
+                    "price": "12.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/6.jpg",
+                    "title": "Boiled crayfish",
+                    "price": "14.50",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/3.jpg",
+                    "title": "King burger",
+                    "price": "16.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/2.jpg",
+                    "title": "Pizza margherita",
+                    "price": "1.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/1.jpg",
+                    "title": "Сasserole",
+                    "price": "5.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/5.jpg",
+                    "title": "Paella with seafood",
+                    "price": "4.40",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/4.jpg",
+                    "title": "Boiled crayfish",
+                    "price": "34.99",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                },
+                {
+                    "image": "/img/menu/6.jpg",
+                    "title": "Pizza margherita",
+                    "price": "12.00",
+                    "currency": "$",
+                    "text": "Lorem, ipsum, dolor, amet, consectetur, adipisicing elit."
+                }
+            ]
+        }
+    ]
+}

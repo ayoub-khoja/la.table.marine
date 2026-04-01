@@ -1,0 +1,55 @@
+{
+    "items": [
+        {
+            "title": "Welcome Back <br>to Tastycs",
+            "subtitle": "Hello, new friend!",
+            "image": {
+                "url": "/img/banners/banner-1.jpg",
+                "alt": "cover"
+            },
+            "text": "Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita.",
+            "button1": {
+                "link": "/reservation",
+                "label": "Reservation"
+            },
+            "button2": {
+                "link": "/menu",
+                "label": "Open Menu"
+            }
+        },
+        {
+            "title": "Reserve Your <br>Table Today",
+            "subtitle": "Hello, new friend!",
+            "image": {
+                "url": "/img/banners/banner-2.jpg",
+                "alt": "cover"
+            },
+            "text": "Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita.",
+            "button1": {
+                "link": "/reservation-2",
+                "label": "Table Order"
+            },
+            "button2": {
+                "link": "/shop",
+                "label": "Online shop"
+            }
+        },
+        {
+            "title": "Visit to Our<br>Online Shop",
+            "subtitle": "Hello, new friend!",
+            "image": {
+                "url": "/img/banners/banner-3.jpg",
+                "alt": "cover"
+            },
+            "text": "Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita.",
+            "button1": {
+                "link": "/contact",
+                "label": "Find Us"
+            },
+            "button2": {
+                "link": "/menu-2",
+                "label": "Open Menu"
+            }
+        }
+    ]
+}

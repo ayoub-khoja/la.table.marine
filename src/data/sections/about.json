@@ -1,0 +1,14 @@
+{
+    "image": { 
+        "url": "/img/about.jpg",
+        "alt": "cover"
+    },
+    "video": "https://www.youtube.com/watch?v=SXJqEnauNaY",
+    "button": {
+        "link": "/about",
+        "label": "Read more"
+    },
+    "title": "We invite you to<br> visit our restaurant",
+    "subtitle": "About us",
+    "description": "Assumenda possimus eaque illo iste, autem. Porro eveniet, autem ipsam vitae amet repellat repudiandae tenetur, quod corrupti consectetur cum? Repudiandae dignissimos fugiat sit nam. Tempore aspernatur quae repudiandae dolorem, beatae dolorum, praesentium itaque et quam quaerat. Cumque, consequatur!"
+}

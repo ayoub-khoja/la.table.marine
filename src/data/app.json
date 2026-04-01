@@ -1,0 +1,265 @@
+{
+    "settings": {
+        "siteName": "Tastycs",
+        "siteDescription": "Cafe & Restaurant React Next.JS Template",
+        "bgImage": "/img/bg.jpg",
+        "formspreeURL": "https://formspree.io/f/YOUR_FORM_ID",
+        "mailchimp": {
+            "url": "https://YOUR_MAILCHIMP_COMPANY.us21.list-manage.com/subscribe/post?u=YOUR_MAILCHIMP_FORM_UID&amp;id=YOUR_MAILCHIMP_FORM_ID&amp;f_id=YOUR_MAILCHIMP_FORM_FID",
+            "key": "YOUR_MAILCHIMP_KEY"
+        },
+        "mapbox": {
+            "AccessToken": "YOUR_MAPBOX_ACCESS_TOKEN_KEY",
+            "style": "mapbox://styles/mapbox/dark-v11",
+            "zoom": 15,
+            "long": -79.394900,
+            "lat": 43.643102
+        },
+        "openTable": {
+            "actionUrl": "//www.opentable.com/restaurant-search.aspx",
+            "restaurantID": "YOUR_OPENTABLE_RESTAURANT_ID",
+            "geoID": "15",
+            "lang": "en-US"
+        },
+        "perPage": 6
+    },
+    "header": {
+        "logo": {
+            "image": "/img/logo-sm.png",
+            "alt": "Logo"
+        },
+        "menu": [
+            {
+                "label": "Home",
+                "link": "/",
+                "children": [
+                    {
+                        "label": "Home slider",
+                        "link": "/"
+                    },
+                    {
+                        "label": "Home image",
+                        "link": "/home-2"
+                    },
+                    {
+                        "label": "Home video",
+                        "link": "/home-3"
+                    },
+                    {
+                        "label": "Onepage",
+                        "link": "/onepage",
+                        "blank": 1
+                    }
+                ]
+            },
+            {
+                "label": "About",
+                "link": "/about",
+                "children": [
+                    {
+                        "label": "About Us",
+                        "link": "/about"
+                    },
+                    {
+                        "label": "About employee",
+                        "link": "/about-chef"
+                    },
+                    {
+                        "label": "Services",
+                        "link": "/services"
+                    },
+                    {
+                        "label": "History",
+                        "link": "/history"
+                    }
+                ]
+            },
+            {
+                "label": "Menu",
+                "link": "/menu",
+                "children": [
+                    {
+                        "label": "Menu type 1",
+                        "link": "/menu"
+                    },
+                    {
+                        "label": "Menu type 2",
+                        "link": "/menu-2"
+                    }
+                ]
+            },
+            {
+                "label": "Blog",
+                "link": "/blog",
+                "children": [
+                    {
+                        "label": "Blog list",
+                        "link": "/blog"
+                    },
+                    {
+                        "label": "Blog category",
+                        "link": "/blog/category/recipes"
+                    },
+                    {
+                        "label": "Publication",
+                        "link": "/blog/incredible-vegan-mac-and-cheese"
+                    }
+                ]
+            },
+            {
+                "label": "Reserve",
+                "link": "/reservation",
+                "children": [
+                    {
+                        "label": "Reservation (Form)",
+                        "link": "/reservation"
+                    },
+                    {
+                        "label": "Reservation (OpenTable API)",
+                        "link": "/reservation-2"
+                    }
+                ]
+            },
+            {
+                "label": "Shop",
+                "link": "/shop",
+                "children": [
+                    {
+                        "label": "Shop Page",
+                        "link": "/shop"
+                    },
+                    {
+                        "label": "Products List",
+                        "link": "/products"
+                    },
+                    {
+                        "label": "Product Page",
+                        "link": "/product"
+                    },
+                    {
+                        "label": "Cart Page",
+                        "link": "/cart"
+                    },
+                    {
+                        "label": "Checkout Page",
+                        "link": "/checkout"
+                    }
+                ]
+            },
+            {
+                "label": "Contact",
+                "link": "/contact",
+                "children": 0
+            }
+        ],
+        "onepage": [
+            {
+                "label": "Home",
+                "link": "#home"
+            },
+            {
+                "label": "About",
+                "link": "#about"
+            },
+            {
+                "label": "Menu",
+                "link": "#menu"
+            },
+            {
+                "label": "Blog",
+                "link": "#blog"
+            },
+            {
+                "label": "Contact",
+                "link": "#contact"
+            }
+        ]
+    },
+    "footer": {
+        "logo": {
+            "url": "/img/logo-sm-white.png",
+            "alt": "Tastycs"
+        },
+        "about": {
+            "title": "About us",
+            "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita repudiandae neque illum aspernatur fugiat maiores id magni, modi, quaerat vitae. Consectetur adipisicing elit.",
+            "button": {
+                "link": "/menu",
+                "label": "Our Menu"
+            }
+        },
+        "contact": {
+            "title": "Contact info",
+            "items": [
+                {
+                    "label": "Call",
+                    "value": "+76 (094) 754 43 7I"
+                },
+                {
+                    "label": "Write",
+                    "value": "your.email.inbox@here.com"
+                },
+                {
+                    "label": "Find us",
+                    "value": "Canada, Toronto, North Avenue 31B"
+                }
+            ],
+            "button": {
+                "link": "/contact",
+                "label": "Contact Us"
+            }
+        },
+        "gallery": {
+            "title": "Gallery",
+            "items": [
+                {
+                    "image": "/img/menu/1.jpg",
+                    "alt": "Gallery Image"
+                },
+                {
+                    "image": "/img/menu/2.jpg",
+                    "alt": "Gallery Image"
+                },
+                {
+                    "image": "/img/menu/3.jpg",
+                    "alt": "Gallery Image"
+                },
+                {
+                    "image": "/img/menu/4.jpg",
+                    "alt": "Gallery Image"
+                },
+                {
+                    "image": "/img/menu/5.jpg",
+                    "alt": "Gallery Image"
+                }
+            ],
+            "button": {
+                "link": "/history",
+                "label": "See more"
+            }
+        },
+        "copy": "© 2024 Tastycs. All rights reserved."
+    },
+    "social": [
+        {
+            "link": "https://facebook.com",
+            "title": "Facebook",
+            "icon": "fab fa-facebook-f"
+        },
+        {
+            "link": "https://instagram.com",
+            "title": "Instagram",
+            "icon": "fab fa-instagram"
+        },
+        {
+            "link": "https://twitter.com",
+            "title": "Twitter",
+            "icon": "fab fa-twitter"
+        },
+        {
+            "link": "https://youtube.com",
+            "title": "Youtube",
+            "icon": "fab fa-youtube"
+        }
+    ]
+}

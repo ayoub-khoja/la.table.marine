@@ -1,0 +1,41 @@
+{
+    "image": {
+       "url": "/img/menu/4.jpg",
+       "alt": "cover"
+    },
+    "subtitle": "About us",
+    "title": "Working hours",
+    "description": "Rolorem, beatae dolorum, praesentium itaque et quam quaerat.",
+    "button1": {
+        "link": "/menu",
+        "label": "Reservation"
+    },
+    "button2": {
+        "link": "/contact",
+        "label": "Contact us"
+    },
+    "items": [
+        {
+            "label": "Sunday to Tuesday",
+            "from": {
+                "hours": "09",
+                "minutes": "00"
+            },
+            "to": {
+                "hours": "22",
+                "minutes": "00"
+            }
+        },
+        {
+            "label": "Friday to Saturday",
+            "from": {
+                "hours": "11",
+                "minutes": "00"
+            },
+            "to": {
+                "hours": "19",
+                "minutes": "00"
+            }
+        }
+    ]
+}

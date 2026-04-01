@@ -1,0 +1,19 @@
+{
+    "subtitle": "Mobile application",
+    "title": "Download <br>our application",
+    "description": "Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita.",
+    "image": {
+        "url": "/img/phone.png",
+        "alt": "phone"
+    },
+    "button1": {
+        "icon": "fab fa-app-store",
+        "link": "https://www.apple.com/ua/app-store/",
+        "label": "Appstore"
+    },
+    "button2": {
+        "icon": "fab fa-google-play",
+        "link": "https://play.google.com/store",
+        "label": "Playmarket"
+    }
+}
