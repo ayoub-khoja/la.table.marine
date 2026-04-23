@@ -1,6 +1,6 @@
 {
     "settings": {
-        "siteName": "Tastycs",
+        "siteName": "latablemarine",
         "siteDescription": "Cafe & Restaurant React Next.JS Template",
         "bgImage": "/img/bg.jpg",
         "formspreeURL": "https://formspree.io/f/YOUR_FORM_ID",
@@ -177,8 +177,8 @@
     },
     "footer": {
         "logo": {
-            "url": "/img/logo-sm-white.png",
-            "alt": "Tastycs"
+            "url": "/img/logo-sm-white.svg",
+            "alt": "latablemarine"
         },
         "about": {
             "title": "About us",

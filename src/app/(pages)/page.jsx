@@ -21,7 +21,7 @@ const TestimonialSlider = dynamic( () => import("@components/sliders/Testimonial
 
 export const metadata = {
   title: {
-		default: "Home",
+		default: "Acceuil",
 	},
   description: AppData.settings.siteDescription,
 }
