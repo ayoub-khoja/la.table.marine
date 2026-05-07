@@ -11,7 +11,7 @@ import ProductsGrid from "@components/products/ProductsGrid";
 
 export const metadata = {
   title: {
-		default: "Products",
+		default: "Produits",
 	},
   description: AppData.settings.siteDescription,
 }
@@ -20,7 +20,7 @@ const Products = () => {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-          <PageBanner pageTitle={"Products"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"Shop"} />
+          <PageBanner pageTitle={"Produits"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"Boutique"} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
           <div className="tst-content-frame">
@@ -35,7 +35,7 @@ const Products = () => {
                           {/* title */}
                           <div className="text-center">
                             <div className="tst-suptitle tst-suptitle-center tst-mb-15">Menu</div>
-                            <h3 className="tst-mb-30">Main Dishes</h3>
+                            <h3 className="tst-mb-30">Plats principaux</h3>
                             <p className="tst-text tst-mb-60">Porro eveniet, autem ipsam corrupti consectetur cum. <br/>Repudiandae dignissimos fugiat sit nam.</p>
                           </div>
                           {/* title end */}

@@ -14,7 +14,7 @@ import SubscribeSection from "@components/sections/Subscribe";
 
 export const metadata = {
   title: {
-		default: "History",
+		default: "Histoire",
 	},
   description: AppData.settings.siteDescription,
 }
@@ -23,8 +23,8 @@ async function History() {
   const posts = await getAllPosts();
 
   const Content = {
-    "subtitle": "History",
-    "title": "Delicious traditions <br>since 1996",
+    "subtitle": "Histoire",
+    "title": "De délicieuses traditions <br>depuis 1996",
     "description": "Assumenda possimus eaque illo iste, autem. Porro eveniet, autem ipsam vitae amet repellat repudiandae tenetur, quod corrupti consectetur cum? Repudiandae dignissimos fugiat sit nam. Tempore aspernatur quae repudiandae dolorem, beatae dolorum, praesentium. Cumque, consequatur!"
   }
 
@@ -34,7 +34,7 @@ async function History() {
         "url": "/img/history/1.jpg",
         "alt": "img"
       },
-      "title": "Our first, modest restaurant was founded",
+      "title": "Ouverture de notre premier petit restaurant",
       "year": "1996",
       "text": "Assumenda possimus eaque illo iste, autem. Porro eveniet, autem ipsam vitae amet repellat repudiandae tenetur, quod corrupti consectetur cum? Repudiandae dignissimos fugiat sit nam. Tempore aspernatur."
     },
@@ -43,7 +43,7 @@ async function History() {
         "url": "/img/history/2.jpg",
         "alt": "img"
       },
-      "title": "Oscar Numan has started cooking <br>for you",
+      "title": "Oscar Numan commence à cuisiner <br>pour vous",
       "year": "2001",
       "text": "Assumenda possimus eaque illo iste, autem. Porro eveniet, autem ipsam vitae amet repellat repudiandae tenetur, quod corrupti consectetur cum? Repudiandae dignissimos fugiat sit nam. Tempore aspernatur."
     },
@@ -52,7 +52,7 @@ async function History() {
         "url": "/img/history/3.jpg",
         "alt": "img"
       },
-      "title": "A new restaurant has been established in London",
+      "title": "Ouverture d’un nouveau restaurant à Londres",
       "year": "2004",
       "text": "Assumenda possimus eaque illo iste, autem. Quod corrupti consectetur cum. Repudiandae dignissimos fugiat sit nam. Tempore aspernatur."
     },
@@ -61,7 +61,7 @@ async function History() {
         "url": "/img/history/4.jpg",
         "alt": "img"
       },
-      "title": "A new restaurant was opened in Paris",
+      "title": "Ouverture d’un nouveau restaurant à Paris",
       "year": "2010",
       "text": "Porro eveniet, autem ipsam vitae amet repellat repudiandae tenetur, quod corrupti consectetur cum? Repudiandae dignissimos fugiat sit nam. Tempore aspernatur."
     },
@@ -70,7 +70,7 @@ async function History() {
         "url": "/img/history/5.jpg",
         "alt": "img"
       },
-      "title": "We got a <br>Michelin star",
+      "title": "Obtention d’une <br>étoile Michelin",
       "year": "2012",
       "text": "Assumenda possimus eaque illo iste, autem. Porro eveniet, autem ipsam vitae amet repellat repudiandae tenetur, quod corrupti consectetur cum? Repudiandae dignissimos fugiat sit nam. Tempore aspernatur."
     },
@@ -79,7 +79,7 @@ async function History() {
         "url": "/img/history/6.jpg",
         "alt": "img"
       },
-      "title": "Established own address delivery",
+      "title": "Mise en place de la livraison à domicile",
       "year": "2019",
       "text": "Porro eveniet, autem ipsam vitae amet repellat repudiandae tenetur, quod corrupti consectetur cum? Repudiandae dignissimos fugiat sit nam. Tempore aspernatur."
     }
@@ -88,7 +88,7 @@ async function History() {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <PageBanner pageTitle={"Our History"} pageSubTitle={"Since 1996"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"History"} />
+        <PageBanner pageTitle={"Notre histoire"} pageSubTitle={"Depuis 1996"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"Histoire"} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
         <div className="tst-content-frame">
@@ -142,7 +142,7 @@ async function History() {
         <div className="tst-content-frame">
           <div className="tst-content-box">
             <div className="container tst-p-60-60">
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<div>Chargement...</div>}>
                 <LatestPostsSection posts={posts} />
               </Suspense>
               <Divider onlyBottom={0} />

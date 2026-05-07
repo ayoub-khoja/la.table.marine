@@ -1,8 +1,8 @@
 {
     "items": [
         {
-            "title": "Welcome Back <br>to Tastycs",
-            "subtitle": "Hello, new friend!",
+            "title": "Heureux de vous revoir <br>à La Table Marine",
+            "subtitle": "Bonjour, bienvenue !",
             "image": {
                 "url": "/img/banners/banner-1.jpg",
                 "alt": "cover"
@@ -10,16 +10,16 @@
             "text": "Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita.",
             "button1": {
                 "link": "/reservation",
-                "label": "Reservation"
+                "label": "Réserver"
             },
             "button2": {
                 "link": "/menu",
-                "label": "Open Menu"
+                "label": "Voir le menu"
             }
         },
         {
-            "title": "Reserve Your <br>Table Today",
-            "subtitle": "Hello, new friend!",
+            "title": "Réservez votre <br>table dès aujourd’hui",
+            "subtitle": "Bonjour, bienvenue !",
             "image": {
                 "url": "/img/banners/banner-2.jpg",
                 "alt": "cover"
@@ -27,16 +27,16 @@
             "text": "Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita.",
             "button1": {
                 "link": "/reservation-2",
-                "label": "Table Order"
+                "label": "Réserver une table"
             },
             "button2": {
                 "link": "/shop",
-                "label": "Online shop"
+                "label": "Boutique en ligne"
             }
         },
         {
-            "title": "Visit to Our<br>Online Shop",
-            "subtitle": "Hello, new friend!",
+            "title": "Visitez notre<br>boutique en ligne",
+            "subtitle": "Bonjour, bienvenue !",
             "image": {
                 "url": "/img/banners/banner-3.jpg",
                 "alt": "cover"
@@ -44,11 +44,11 @@
             "text": "Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita.",
             "button1": {
                 "link": "/contact",
-                "label": "Find Us"
+                "label": "Nous trouver"
             },
             "button2": {
                 "link": "/menu-2",
-                "label": "Open Menu"
+                "label": "Voir le menu"
             }
         }
     ]

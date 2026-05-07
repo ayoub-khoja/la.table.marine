@@ -1,6 +1,6 @@
 {
-    "subtitle": "Reservation",
-    "title": "This evening <br>will be great!",
+    "subtitle": "Réservation",
+    "title": "Ce soir <br>sera parfait !",
     "description": "Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita.",
     "image": {
         "url": "/img/reserved.png",
@@ -8,10 +8,10 @@
     },
     "button1": {
         "link": "/menu",
-        "label": "Reservation"
+        "label": "Réserver"
     },
     "button2": {
         "link": "/contact",
-        "label": "Get in touch"
+        "label": "Nous contacter"
     }
 }

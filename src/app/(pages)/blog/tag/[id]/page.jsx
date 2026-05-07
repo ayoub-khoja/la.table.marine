@@ -31,7 +31,7 @@ async function BlogTag( { params } ) {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <PageBanner pageTitle={"Tag: "+tagData.title} description={"Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam."} breadTitle={tagData.title} />
+        <PageBanner pageTitle={"Tag : "+tagData.title} description={"Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam."} breadTitle={tagData.title} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
         <div className="tst-content-frame">
@@ -58,7 +58,7 @@ async function BlogTag( { params } ) {
               </div>
 
               <Divider onlyBottom={0} />
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<div>Chargement...</div>}>
                 <PopularPosts posts={populars} />
               </Suspense>
             </div>

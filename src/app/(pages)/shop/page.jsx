@@ -15,7 +15,7 @@ const ProductsSlider = dynamic( () => import("@components/sliders/Products"), { 
 
 export const metadata = {
   title: {
-		default: "Shop",
+		default: "Boutique",
 	},
   description: AppData.settings.siteDescription,
 }
@@ -24,7 +24,7 @@ const Shop = () => {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-          <PageBanner pageTitle={"Shop"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"Online Store"} />
+          <PageBanner pageTitle={"Boutique"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"Boutique en ligne"} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
           <div className="tst-content-frame">
@@ -36,15 +36,15 @@ const Shop = () => {
                         items={Products.collection['popular']} 
                         heading={
                           { 
-                            "subtitle": "Popular", 
-                            "title": "Most popular dishes", 
+                            "subtitle": "Populaires", 
+                            "title": "Plats les plus populaires", 
                             "description": "Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam." 
                           }
                         }
                         button={
                           {
                             "link": "/products",
-                            "label": "View all"
+                            "label": "Voir tout"
                           }
                         }
                       />
@@ -53,15 +53,15 @@ const Shop = () => {
                         items={Products.collection['bestseller']} 
                         heading={
                           { 
-                            "subtitle": "Bestsellers", 
-                            "title": "Our Bestsellers", 
+                            "subtitle": "Meilleures ventes", 
+                            "title": "Nos best-sellers", 
                             "description": "Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam." 
                           }
                         }
                         button={
                           {
                             "link": "/products",
-                            "label": "View all"
+                            "label": "Voir tout"
                           }
                         }
                       />

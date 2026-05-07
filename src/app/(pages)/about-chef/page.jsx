@@ -12,7 +12,7 @@ const TestimonialSlider = dynamic( () => import("@components/sliders/Testimonial
 
 export const metadata = {
   title: {
-		default: "About Chef",
+		default: "À propos du chef",
 	},
   description: AppData.settings.siteDescription,
 }
@@ -23,8 +23,8 @@ const About2 = () => {
       "url": "/img/faces/c2.jpg",
       "alt": "cover"
     },
-    "subtitle": "About Employee",
-    "title": "Oscar's Story",
+    "subtitle": "À propos du chef",
+    "title": "L’histoire d’Oscar",
     "description": "<p>Assumenda possimus eaque illo iste, autem. Porro eveniet, autem ipsam vitae amet repellat repudiandae tenetur, quod corrupti consectetur cum? Repudiandae dignissimos fugiat sit nam. Tempore aspernatur quae repudiandae dolorem, beatae dolorum, praesentium itaque et quam quaerat. Cumque, consequatur!</p><p>Velit eius illo a commodi veniam beatae.</p>",
     "social": [
       {

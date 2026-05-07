@@ -43,7 +43,7 @@ const Layouts = ({
   children
 }) => {
   return (
-    <html lang="en" className={`${josefin_sans.variable} ${playfair_display.variable}`}>
+    <html lang="fr" className={`${josefin_sans.variable} ${playfair_display.variable}`}>
       <body style={{"backgroundImage": "url("+AppData.settings.bgImage+")"}}>
         <div className="tst-main-overlay"></div>
         

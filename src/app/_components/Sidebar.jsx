@@ -20,15 +20,15 @@ async function Sidebar() {
         {/* sidebar */}
         <div className="tst-sidebar">
             <div className="tst-ib-title-frame tst-mb-30">
-                <h4>Search</h4>
+                <h4>Recherche</h4>
                 <i className="fas fa-arrow-down" />
             </div>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div>Chargement...</div>}>
                 <SearchBarModule />
             </Suspense>
 
             <div className="tst-ib-title-frame tst-mb-30">
-                <h4>Categories</h4>
+                <h4>Catégories</h4>
                 <i className="fas fa-arrow-down" />
             </div>
             <ul className="tst-list tst-mb-30">
@@ -48,7 +48,7 @@ async function Sidebar() {
             </ul>
 
             <div className="tst-ib-title-frame tst-mb-30">
-                <h4>Authors</h4>
+                <h4>Auteurs</h4>
                 <i className="fas fa-arrow-down" />
             </div>
             <ul className="tst-list tst-mb-30">
@@ -58,7 +58,7 @@ async function Sidebar() {
             </ul>
 
             <div className="tst-ib-title-frame tst-mb-30">
-                <h4>Keywords</h4>
+                <h4>Mots-clés</h4>
                 <i className="fas fa-arrow-down" />
             </div>
             <ul className="tst-keywords">

@@ -12,7 +12,7 @@ import { generateJsonPostsData } from "@library/posts";
 
 export const metadata = {
   title: {
-		default: "Search",
+		default: "Recherche",
 	},
   description: AppData.settings.siteDescription,
 }
@@ -27,8 +27,8 @@ async function Search() {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <Suspense fallback={<div>Loading...</div>}>
-          <PageBanner pageTitle={"Search: %s"} description={"Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam."} breadTitle={"Search"} />
+        <Suspense fallback={<div>Chargement...</div>}>
+          <PageBanner pageTitle={"Recherche : %s"} description={"Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam."} breadTitle={"Recherche"} />
         </Suspense>
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
@@ -41,7 +41,7 @@ async function Search() {
 
                 <div className="col-lg-8">
 
-                <Suspense fallback={<div>Loading...</div>}>
+                <Suspense fallback={<div>Chargement...</div>}>
                   <BlogFiltered
                     items={posts}
                     columns={2}

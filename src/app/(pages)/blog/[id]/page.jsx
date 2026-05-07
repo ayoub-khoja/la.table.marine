@@ -55,7 +55,7 @@ async function PostsDetail( { params } ) {
                   <div className="row">
                     <div className="col-lg-6">
                       <div className="tst-categories">
-                        <span>Categories:</span>
+                        <span>Catégories :</span>
                         {postData.categories.map((category, key) => (
                         <Link href={`/blog/category/${category.toLowerCase().replaceAll(' ', '-')}`} key={`post-category-${key}`}>{category}</Link>
                         ))}
@@ -63,7 +63,7 @@ async function PostsDetail( { params } ) {
                     </div>
                     <div className="col-lg-6 text-right">
                       <div className="tst-tags">
-                        <span>Tags:</span>
+                        <span>Tags :</span>
                         {postData.tags.map((tag, key) => (
                         <Link href={`/blog/tag/${tag.toLowerCase().replaceAll(' ', '-')}`} key={`post-tag-${key}`}>{tag}</Link>
                         ))}
@@ -73,7 +73,7 @@ async function PostsDetail( { params } ) {
 
                   <div className="tst-spacer"></div>
 
-                  <h5 className="tst-mb-60">Comments</h5>
+                  <h5 className="tst-mb-60">Commentaires</h5>
 
                   <ul className="tst-comments-list">
                     {CommentsData[postData.id].map((item, key) => (
@@ -112,13 +112,13 @@ async function PostsDetail( { params } ) {
 
                   <div className="tst-spacer"></div>
 
-                  <h5 className="tst-mb-60">Write a comment</h5>
+                  <h5 className="tst-mb-60">Écrire un commentaire</h5>
 
                   <form className="text-center">
                     <textarea rows="5" placeholder="Message"></textarea>
-                    <input type="text" placeholder="Name" />
-                    <input type="text" placeholder="Email" />
-                    <button className="tst-btn" type="submit">Write a comment</button>
+                    <input type="text" placeholder="Nom" />
+                    <input type="text" placeholder="E-mail" />
+                    <button className="tst-btn" type="submit">Publier le commentaire</button>
                   </form>
 
                 </div>
@@ -126,7 +126,7 @@ async function PostsDetail( { params } ) {
               </div>
 
               <Divider onlyBottom={0} />
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<div>Chargement...</div>}>
                 <PopularPosts posts={populars} />
               </Suspense>
 

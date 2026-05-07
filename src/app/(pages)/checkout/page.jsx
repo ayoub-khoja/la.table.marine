@@ -12,7 +12,7 @@ import Link from "next/link";
 
 export const metadata = {
   title: {
-		default: "Order checkout",
+		default: "Commande",
 	},
   description: AppData.settings.siteDescription,
 }
@@ -21,7 +21,7 @@ const Checkout = () => {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-          <PageBanner pageTitle={"Checkout"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"Checkout"} />
+          <PageBanner pageTitle={"Commande"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"Commande"} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
           <div className="tst-content-frame">
@@ -43,7 +43,7 @@ const Checkout = () => {
                                   <div className="tst-cart-table">
                                     <div className="tst-cart-table-header">
                                       <div className="row">
-                                        <div className="col-lg-9">Product</div>
+                                        <div className="col-lg-9">Produit</div>
                                         <div className="col-lg-3 text-right">Total</div>
                                       </div>
                                     </div>
@@ -63,7 +63,7 @@ const Checkout = () => {
                                           </Link>
                                         </div>
                                         <div className="col-lg-3 text-md-right">
-                                          <div className="tst-price-2"><span>Total: </span>{item.currency}{item.price}</div>
+                                          <div className="tst-price-2"><span>Total : </span>{item.currency}{item.price}</div>
                                         </div>
                                       </div>
                                     </div>
@@ -73,7 +73,7 @@ const Checkout = () => {
                                       <div className="tst-sum">
                                         <div className="row">
                                           <div className="col-6">
-                                            <div className="tst-total-title">Subtotal:</div>
+                                            <div className="tst-total-title">Sous-total :</div>
                                           </div>
                                           <div className="col-6">
                                             <div className="tst-price-1 text-right">$32.99</div>
@@ -83,7 +83,7 @@ const Checkout = () => {
                                       <div className="tst-realy-sum">
                                         <div className="row">
                                           <div className="col-6">
-                                            <div className="tst-total-title">Total:</div>
+                                            <div className="tst-total-title">Total :</div>
                                           </div>
                                           <div className="col-6">
                                             <div className="tst-price-2 text-right">$37.99</div>

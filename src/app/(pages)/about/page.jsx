@@ -23,7 +23,7 @@ const TestimonialSlider = dynamic( () => import("@components/sliders/Testimonial
 
 export const metadata = {
   title: {
-		default: "About",
+		default: "À propos",
 	},
   description: AppData.settings.siteDescription,
 }
@@ -32,15 +32,15 @@ async function About() {
   const posts = await getAllPosts();
 
   const Content = {
-    "subtitle": "About us",
-    "title": "We invite you to<br> visit our restaurant",
+    "subtitle": "À propos",
+    "title": "Nous vous invitons à<br>visiter notre restaurant",
     "description": "Assumenda possimus eaque illo iste, autem. Porro eveniet, autem ipsam vitae amet repellat repudiandae tenetur, quod corrupti consectetur cum? Repudiandae dignissimos fugiat sit nam. Tempore aspernatur quae repudiandae dolorem, beatae dolorum, praesentium itaque et quam quaerat. Cumque, consequatur!"
   }
 
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <PageBanner pageTitle={"Story of our restaurant"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"About us"} />
+        <PageBanner pageTitle={"L’histoire de notre restaurant"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"À propos"} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
         <div className="tst-content-frame">
@@ -84,7 +84,7 @@ async function About() {
             <div className="container tst-p-60-60">
               <TestimonialSlider />
               <Divider onlyBottom={0} />
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<div>Chargement...</div>}>
                 <LatestPostsSection posts={posts} />
               </Suspense>
               <Divider onlyBottom={0} />
