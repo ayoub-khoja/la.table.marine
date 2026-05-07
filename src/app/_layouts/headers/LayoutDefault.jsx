@@ -72,23 +72,25 @@ const DefaultHeader = () => {
                             <Link href={item.link} onClick={(item.children.length > 0)  ? (e) => handleSubMenuClick(index, e) : null}>
                                 {item.label}
                             </Link>
+                            {/*
                             {item.children.length > 0 && (
-                            <ul className={openSubMenu === index ? 'tst-active' : ''}>
+                              <ul className={openSubMenu === index ? 'tst-active' : ''}>
                                 {item.children.map((subitem, subIndex) => (
-                                <li key={`header-submenu-item-${subIndex}`} className={isPathActive(subitem.link) ? "tst-active" : ""}>
+                                  <li key={`header-submenu-item-${subIndex}`} className={isPathActive(subitem.link) ? "tst-active" : ""}>
                                     {subitem.link == '/onepage' ? (
-                                    <a href={subitem.link} target="_blank">
+                                      <a href={subitem.link} target="_blank">
                                         {subitem.label}
-                                    </a>
+                                      </a>
                                     ) : (
-                                    <Link href={subitem.link}>
+                                      <Link href={subitem.link}>
                                         {subitem.label}
-                                    </Link>
+                                      </Link>
                                     )}
-                                </li>
+                                  </li>
                                 ))}
-                            </ul>
+                              </ul>
                             )}
+                            */}
                         </li>
                         ))}
                     </ul>

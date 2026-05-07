@@ -25,7 +25,7 @@
     },
     "header": {
         "logo": {
-            "image": "/img/logo-sm.png",
+            "image": "/img/home/logo-latablemarine.png",
             "alt": "Logo"
         },
         "menu": [
@@ -177,7 +177,7 @@
     },
     "footer": {
         "logo": {
-            "url": "/img/logo-sm-white.svg",
+            "url": "/img/home/logo-latablemarine.png",
             "alt": "latablemarine"
         },
         "about": {
