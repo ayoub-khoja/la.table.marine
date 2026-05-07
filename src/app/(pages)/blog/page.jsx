@@ -30,7 +30,7 @@ async function Blog() {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <PageBanner pageTitle={"Our Blog"} description={"Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam."} breadTitle={"Blog"} />
+        <PageBanner pageTitle={"Notre blog"} description={"Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam."} breadTitle={"Blog"} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
         <div className="tst-content-frame">
@@ -45,7 +45,7 @@ async function Blog() {
                   {/* title */}
                   <div className="text-center">
                     <div className="tst-suptitle tst-suptitle-center tst-mb-15">Newsletter</div>
-                    <h3 className="tst-mb-30">Latest publications</h3>
+                    <h3 className="tst-mb-30">Dernières publications</h3>
                     <p className="tst-text tst-mb-60">Porro eveniet, autem ipsam corrupti consectetur cum. <br/>Repudiandae dignissimos fugiat sit nam.</p>
                   </div>
                   {/* title end */}
@@ -63,7 +63,7 @@ async function Blog() {
                 renderPageLink={(page) => `/blog/page/${page}`}
               />
               <Divider onlyBottom={0} />
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<div>Chargement...</div>}>
                 <PopularPosts posts={populars} />
               </Suspense>
               <Divider onlyBottom={0} />

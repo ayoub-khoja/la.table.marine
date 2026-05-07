@@ -29,7 +29,7 @@ const MenuFiltered = dynamic( () => import("@components/menu/MenuFiltered"), { s
 
 export const metadata = {
   title: {
-		default: "Home Onepage",
+		default: "Accueil (One page)",
 	},
   description: AppData.settings.siteDescription,
 }
@@ -67,7 +67,7 @@ async function HomeOnePage() {
                 heading={
                   { 
                     "subtitle": "Menu", 
-                    "title": "Our Menu", 
+                    "title": "Notre menu", 
                     "description": "Porro eveniet, autem ipsam vitae consequatur!" 
                   }
                 } 
@@ -82,7 +82,7 @@ async function HomeOnePage() {
             <div className="container tst-p-60-60">
               <TestimonialSlider />
               <Divider onlyBottom={0} />
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<div>Chargement...</div>}>
                 <LatestPostsSection posts={posts} />
               </Suspense>
               <Divider onlyBottom={0} />

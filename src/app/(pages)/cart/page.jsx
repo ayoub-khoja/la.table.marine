@@ -12,7 +12,7 @@ import Link from "next/link";
 
 export const metadata = {
   title: {
-		default: "Shopping Cart",
+		default: "Panier",
 	},
   description: AppData.settings.siteDescription,
 }
@@ -21,7 +21,7 @@ const Cart = () => {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-          <PageBanner pageTitle={"Your order"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"Cart"} />
+          <PageBanner pageTitle={"Votre commande"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"Panier"} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
           <div className="tst-content-frame">
@@ -35,9 +35,9 @@ const Cart = () => {
                           <div className="tst-cart-table">
                             <div className="tst-cart-table-header">
                               <div className="row">
-                                <div className="col-lg-6">Product</div>
-                                <div className="col-lg-3">Quantity</div>
-                                <div className="col-lg-1">Price</div>
+                                <div className="col-lg-6">Produit</div>
+                                <div className="col-lg-3">Quantité</div>
+                                <div className="col-lg-1">Prix</div>
                                 <div className="col-lg-1">Total</div>
                                 <div className="col-lg-1"></div>
                               </div>
@@ -53,7 +53,7 @@ const Cart = () => {
                                   <div className="tst-sum">
                                     <div className="row">
                                       <div className="col-8">
-                                        <div className="tst-total-title">Subtotal:</div>
+                                        <div className="tst-total-title">Sous-total :</div>
                                       </div>
                                       <div className="col-4">
                                         <div className="tst-price-1 text-right">$32.99</div>
@@ -63,7 +63,7 @@ const Cart = () => {
                                   <div className="tst-sum">
                                     <div className="row">
                                       <div className="col-8">
-                                        <div className="tst-total-title">Estimated shipping:</div>
+                                        <div className="tst-total-title">Livraison estimée :</div>
                                       </div>
                                       <div className="col-4">
                                         <div className="tst-price-1 text-right">$5</div>
@@ -73,7 +73,7 @@ const Cart = () => {
                                   <div className="tst-realy-sum">
                                     <div className="row">
                                       <div className="col-8">
-                                        <div className="tst-total-title">Total:</div>
+                                        <div className="tst-total-title">Total :</div>
                                       </div>
                                       <div className="col-4">
                                         <div className="tst-price-2 text-right">$37.99</div>
@@ -87,7 +87,7 @@ const Cart = () => {
                                     <span className="tst-icon">
                                       <img src="/img/ui/icons/arrow-2.svg" alt="icon" />
                                     </span>
-                                    <span>Continue shopping</span>
+                                    <span>Continuer vos achats</span>
                                   </Link>
                                   {/* button end */}
                                   {/* button */}
@@ -95,7 +95,7 @@ const Cart = () => {
                                     <span className="tst-icon">
                                       <img src="/img/ui/icons/arrow.svg" alt="icon" />
                                     </span>
-                                    <span>Checkout</span>
+                                    <span>Commander</span>
                                   </Link>
                                   {/* button end */}
                                 </div>

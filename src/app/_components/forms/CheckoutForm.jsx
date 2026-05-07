@@ -12,11 +12,11 @@ const CheckoutForm = () => {
         validate = { values => {
             const errors = {};
             if (!values.email) {
-                errors.email = 'Required';
+                errors.email = 'Champ requis';
             } else if (
                 !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
             ) {
-                errors.email = 'Invalid email address';
+                errors.email = 'Adresse e-mail invalide';
             }
             return errors;
         }}
@@ -46,19 +46,19 @@ const CheckoutForm = () => {
                 }
             }).then(response => {
                 if (response.ok) {
-                    status.innerHTML = "<h5>Thanks, your message is sent successfully.</h5>";
+                    status.innerHTML = "<h5>Merci, votre message a bien été envoyé.</h5>";
                     form.reset()
                 } else {
                     response.json().then(data => {
                         if (Object.hasOwn(data, 'errors')) {
                             status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
                         } else {
-                            status.innerHTML = "<h5>Oops! There was a problem submitting your form</h5>"
+                            status.innerHTML = "<h5>Oups ! Un problème est survenu lors de l’envoi du formulaire.</h5>"
                         }
                     })
                 }
             }).catch(error => {
-                status.innerHTML = "<h5>Oops! There was a problem submitting your form</h5>"
+                status.innerHTML = "<h5>Oups ! Un problème est survenu lors de l’envoi du formulaire.</h5>"
             });
 
             setSubmitting(false);
@@ -76,12 +76,12 @@ const CheckoutForm = () => {
         }) => (
         <form onSubmit={handleSubmit} id="checkoutForm" action={AppData.settings.formspreeURL} className="tst-checkout-form">
             <div className="tst-mb-30">
-                <h5>Billing details</h5>
+                <h5>Détails de facturation</h5>
             </div>
             <div className="row">
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>First name</label>
+                    <label>Prénom</label>
                     <input 
                         type="text" 
                         placeholder="Alex"
@@ -95,7 +95,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>Last name</label>
+                    <label>Nom</label>
                     <input 
                         type="text" 
                         placeholder="Adler"
@@ -109,7 +109,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>Company name</label>
+                    <label>Entreprise</label>
                     <input 
                         type="text" 
                         placeholder="Plax ltd"
@@ -122,7 +122,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>Country</label>
+                    <label>Pays</label>
                     <input 
                         type="text" 
                         placeholder="Italy"
@@ -136,7 +136,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>City</label>
+                    <label>Ville</label>
                     <input 
                         type="text" 
                         placeholder="Rome"
@@ -150,7 +150,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>State / Province</label>
+                    <label>Région / Province</label>
                     <input 
                         type="text" 
                         placeholder="Lazio"
@@ -164,7 +164,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>Address</label>
+                    <label>Adresse</label>
                     <input 
                         type="text" 
                         placeholder="Via Savoia 77"
@@ -178,7 +178,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>Postcode</label>
+                    <label>Code postal</label>
                     <input 
                         type="text" 
                         placeholder="00198"
@@ -192,7 +192,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>Phone</label>
+                    <label>Téléphone</label>
                     <input 
                         type="tel" 
                         placeholder="1-877-111-2222"
@@ -206,7 +206,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>Email</label>
+                    <label>E-mail</label>
                     <input 
                         type="email" 
                         placeholder="yourEmail@gmail.com"
@@ -220,12 +220,12 @@ const CheckoutForm = () => {
                 </div>
             </div>
             <div className="tst-mb-30">
-                <h5>Additional information</h5>
+                <h5>Informations complémentaires</h5>
             </div>
             <div className="tst-group-input">
-                <label>Order notes</label>
+                <label>Notes de commande</label>
                 <textarea 
-                    placeholder="Additional Notes"
+                    placeholder="Notes supplémentaires"
                     name="message" 
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -233,21 +233,21 @@ const CheckoutForm = () => {
                 />
             </div>
             <div className="tst-mb-30">
-                <h5 className="tst-mb-30">Payment method</h5>
+                <h5 className="tst-mb-30">Mode de paiement</h5>
                 <ul>
                     <li className="tst-radio">
                         <input type="radio" id="option-1" name="payment_method" defaultChecked value="1" />
-                        <label htmlFor="option-1">Direct bank transfer</label>
+                        <label htmlFor="option-1">Virement bancaire</label>
                         <div className="tst-check"></div>
                     </li>
                     <li className="tst-radio">
                         <input type="radio" id="option-2" name="payment_method" value="2" />
-                        <label htmlFor="option-2">Check payments</label>
+                        <label htmlFor="option-2">Paiement par chèque</label>
                         <div className="tst-check"></div>
                     </li>
                     <li className="tst-radio">
                         <input type="radio" id="option-3" name="payment_method" value="3" />
-                        <label htmlFor="option-3">Cash on delivery</label>
+                        <label htmlFor="option-3">Paiement à la livraison</label>
                         <div className="tst-check"></div>
                     </li>
                 </ul>
@@ -257,7 +257,7 @@ const CheckoutForm = () => {
                 <span className="tst-icon">
                     <img src="/img/ui/icons/arrow.svg" alt="icon" />
                 </span>
-                <span>Place order</span>
+                <span>Passer la commande</span>
             </button>
             {/* button end */}
 

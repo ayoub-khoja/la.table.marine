@@ -100,7 +100,7 @@ const DefaultHeader = () => {
                 {/* top bar right */}
                 <div className="tst-menu-right">
                     {/* reservation button */}
-                    <a href="#." className={`tst-btn tst-res-btn ${reservationPopup ? "tst-active" : "" }`} onClick={(e) => { setReservationPopup(!reservationPopup); e.preventDefault(); }} data-no-swup>Reservation</a>
+                    <a href="#." className={`tst-btn tst-res-btn ${reservationPopup ? "tst-active" : "" }`} onClick={(e) => { setReservationPopup(!reservationPopup); e.preventDefault(); }} data-no-swup>Réserver</a>
                     <div className="tst-minicart">
                     {/* minicart button */}
                     <a href="#." className={`tst-cart ${miniCart ? "tst-active" : ""}`} onClick={(e) => { setMiniCart(!miniCart); e.preventDefault(); }}>
@@ -143,7 +143,7 @@ const DefaultHeader = () => {
                     {/* title */}
                     <div className="text-center">
                         <div className="tst-suptitle tst-suptitle-center"></div>
-                        <h4 className="tst-mb-60">Table Reservation</h4>
+                        <h4 className="tst-mb-60">Réservation de table</h4>
                     </div>
                     {/* title end */}
                     

@@ -31,7 +31,7 @@ async function BlogCategory( { params } ) {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <PageBanner pageTitle={"Category: "+categoryData.title} description={"Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam."} breadTitle={categoryData.title} />
+        <PageBanner pageTitle={"Catégorie : "+categoryData.title} description={"Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam."} breadTitle={categoryData.title} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
         <div className="tst-content-frame">
@@ -58,7 +58,7 @@ async function BlogCategory( { params } ) {
               </div>
 
               <Divider onlyBottom={0} />
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<div>Chargement...</div>}>
                 <PopularPosts posts={populars} />
               </Suspense>
             </div>

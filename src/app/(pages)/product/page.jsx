@@ -17,7 +17,7 @@ const ProductTabs = dynamic( () => import("@components/products/ProductTabs"), {
 
 export const metadata = {
   title: {
-		default: "Product page",
+		default: "Fiche produit",
 	},
   description: AppData.settings.siteDescription,
 }
@@ -115,22 +115,22 @@ const Products = () => {
   const tabs = [
     {
       "slug": "ingredients",
-      "name": "Ingredients"
+      "name": "Ingrédients"
     },
     {
       "slug": "details",
-      "name": "Product details"
+      "name": "Détails du produit"
     },
     {
       "slug": "reviews",
-      "name": "Reviews"
+      "name": "Avis"
     }
   ];
 
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-          <PageBanner pageTitle={"Product Detail"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"Product"} />
+          <PageBanner pageTitle={"Détails du produit"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"Produit"} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
           <div className="tst-content-frame">
@@ -143,7 +143,7 @@ const Products = () => {
                         <div className="container">
                           <div className="row align-items-center">
                             <div className="col-lg-6">
-                              <ProductImage src={"/img/menu/4.jpg"} alt={"Saumon Gravlax"} badge={"<div className='tst-badge tst-vegan'><i className='fas fa-leaf'></i> Vegan</div>"} />
+                              <ProductImage src={"/img/menu/4.jpg"} alt={"Saumon Gravlax"} badge={"<div className='tst-badge tst-vegan'><i className='fas fa-leaf'></i> Végan</div>"} />
                             </div>
                             <div className="col-lg-6">
                               <div className="tst-product-description tst-mb-90">
@@ -157,15 +157,15 @@ const Products = () => {
                                   <li><i className="fas fa-star"></i></li>
                                   <li><i className="fas fa-star"></i></li>
                                   <li><i className="fas fa-star"></i></li>
-                                  <li><span>(4 ratings)</span></li>
+                                  <li><span>(4 avis)</span></li>
                                 </ul>
-                                <p className="tst-text tst-mb-30"><span>tomatoes</span>, <span>nori</span>, <span>feta cheese</span>, <span>mushrooms</span>, <span>rice noodles</span>, <span>corn</span>, <span>shrimp</span>.</p>
+                                <p className="tst-text tst-mb-30"><span>tomates</span>, <span>nori</span>, <span>fromage feta</span>, <span>champignons</span>, <span>nouilles de riz</span>, <span>maïs</span>, <span>crevettes</span>.</p>
                                 <div className="row">
                                   <div className="col-lg-4">
                                     <div className="tst-features-item tst-features-item-sm tst-mb-30">
                                       <div className="tst-number">01</div>
                                       <div className="tst-feature-text">
-                                        <h6 className="tst-mb-15">Add to the cart and place an order</h6>
+                                        <h6 className="tst-mb-15">Ajoutez au panier et passez commande</h6>
                                         <p className="tst-text tst-text-sm">Porro comirton pera nemo veniam</p>
                                       </div>
                                     </div>
@@ -174,7 +174,7 @@ const Products = () => {
                                     <div className="tst-features-item tst-features-item-sm tst-mb-30">
                                       <div className="tst-number">02</div>
                                       <div className="tst-feature-text">
-                                        <h6 className="tst-mb-15">Enter your phone and address</h6>
+                                        <h6 className="tst-mb-15">Renseignez votre téléphone et votre adresse</h6>
                                         <p className="tst-text tst-text-sm">Eligendi adipisci numquam.</p>
                                       </div>
                                     </div>
@@ -183,7 +183,7 @@ const Products = () => {
                                     <div className="tst-features-item tst-features-item-sm tst-mb-30">
                                       <div className="tst-number">03</div>
                                       <div className="tst-feature-text">
-                                        <h6 className="tst-mb-15">Enjoy your favorite food at home!</h6>
+                                        <h6 className="tst-mb-15">Profitez de vos plats préférés à la maison !</h6>
                                         <p className="tst-text tst-text-sm">Nnecessitatibus praesentium</p>
                                       </div>
                                     </div>
@@ -222,15 +222,15 @@ const Products = () => {
                         items={ProductsData.items} 
                         heading={
                           { 
-                            "subtitle": "Related", 
-                            "title": "Similar Products", 
+                            "subtitle": "À découvrir", 
+                            "title": "Produits similaires", 
                             "description": "Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam." 
                           }
                         }
                         button={
                           {
                             "link": "/products",
-                            "label": "View all"
+                            "label": "Voir tout"
                           }
                         }
                       />

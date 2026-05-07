@@ -1,22 +1,22 @@
 {
-    "subtitle": "Have a questions?",
-    "title": "Contact Us",
+    "subtitle": "Une question ?",
+    "title": "Contactez-nous",
     "description": "Quaerat debitis, vel, sapiente dicta sequi labore porro pariatur harum expedita.",
     "items": [
         {
             "icon": "/img/icons/4.svg",
-            "title": "Write Us",
-            "text": "<a href='mailto:info@tastyc.com'>info@tastyc.com</a><br/><a href='mailto:reservation@tastyc.com'>reservation@tastyc.com</a>"
+            "title": "Écrivez-nous",
+            "text": "<a href='mailto:contact@latablemarine.com'>contact@latablemarine.com</a>"
         },
         {
             "icon": "/img/icons/5.svg",
-            "title": "Call Us",
-            "text": "<a href='tel:+76 (094) 754 43 71'>+76 (094) 754 43 71</a><br/><a href='tel:+76 (093) 753 43 72'>+76 (093) 753 43 72</a>"
+            "title": "Appelez-nous",
+            "text": "<a href='tel:0607716979'>0607716979</a>"
         },
         {
             "icon": "/img/icons/6.svg",
-            "title": "Visit Us",
-            "text": "Canada, Toronto, North Avenue 31B"
+            "title": "Rendez-nous visite",
+            "text": "2, rue Pierre Curie, 78370 Plaisir"
         }
     ]
 }

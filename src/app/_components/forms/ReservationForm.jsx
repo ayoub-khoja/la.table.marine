@@ -12,11 +12,11 @@ const ReservationForm = () => {
         validate = { values => {
             const errors = {};
             if (!values.email) {
-                errors.email = 'Required';
+                errors.email = 'Champ requis';
             } else if (
                 !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
             ) {
-                errors.email = 'Invalid email address';
+                errors.email = 'Adresse e-mail invalide';
             }
             return errors;
         }}
@@ -41,19 +41,19 @@ const ReservationForm = () => {
                 }
             }).then(response => {
                 if (response.ok) {
-                    status.innerHTML = "<h5>Thanks for your submission!</h5>"
+                    status.innerHTML = "<h5>Merci, votre demande a bien été envoyée !</h5>"
                     form.reset()
                 } else {
                     response.json().then(data => {
                         if (Object.hasOwn(data, 'errors')) {
                             status.innerHTML = "<h5 style='color:red;'>"+data["errors"].map(error => error["message"]).join(", ")+"</h5>"
                         } else {
-                            status.innerHTML = "<h5 style='color:red;'>Oops! There was a problem submitting your form</h5>"
+                            status.innerHTML = "<h5 style='color:red;'>Oups ! Un problème est survenu lors de l’envoi du formulaire.</h5>"
                         }
                     })
                 }
             }).catch(error => {
-                status.innerHTML = "<h5 style='color:red;'>Oops! There was a problem submitting your form</h5>"
+                status.innerHTML = "<h5 style='color:red;'>Oups ! Un problème est survenu lors de l’envoi du formulaire.</h5>"
             });
 
             setSubmitting(false);
@@ -74,7 +74,7 @@ const ReservationForm = () => {
                 <div className="col-6 col-md-4">
                     <input
                         type="text" 
-                        placeholder="First Name"
+                        placeholder="Prénom"
                         name="first_name" 
                         required="required" 
                         onChange={handleChange}
@@ -85,7 +85,7 @@ const ReservationForm = () => {
                 <div className="col-6 col-md-4">
                     <input
                         type="text" 
-                        placeholder="Last Name"
+                        placeholder="Nom"
                         name="last_name" 
                         required="required" 
                         onChange={handleChange}
@@ -96,7 +96,7 @@ const ReservationForm = () => {
                 <div className="col-6 col-md-4">
                     <input 
                         type="email" 
-                        placeholder="Email"
+                        placeholder="E-mail"
                         name="email"
                         required="required"
                         onChange={handleChange}
@@ -106,13 +106,13 @@ const ReservationForm = () => {
                 </div>
                 <div className="col-6 col-md-4">
                     <select name="person" className="wide">
-                        <option>Person</option>
-                        <option value="1">1 Preson</option>
-                        <option value="2">2 People</option>
-                        <option value="3">3 People</option>
-                        <option value="4">4 People</option>
-                        <option value="3">5 People</option>
-                        <option value="3">6 or more</option>
+                        <option>Personnes</option>
+                        <option value="1">1 personne</option>
+                        <option value="2">2 personnes</option>
+                        <option value="3">3 personnes</option>
+                        <option value="4">4 personnes</option>
+                        <option value="5">5 personnes</option>
+                        <option value="6">6 ou plus</option>
                     </select>
                 </div>
                 <div className="col-6 col-md-4">
@@ -127,7 +127,7 @@ const ReservationForm = () => {
                 </div>
                 <div className="col-6 col-md-4">
                     <select name="time" className="wide">
-                        <option>Time</option>
+                        <option>Heure</option>
                         <option value="10:00am">10:00 am</option>
                         <option value="11:00am">11:00 am</option>
                         <option value="12:00pm">12:00 pm</option>
@@ -155,7 +155,7 @@ const ReservationForm = () => {
                     />
                 </div>
             </div>
-            <button className="tst-btn" type="submit" name="button">Reserve a table</button>
+            <button className="tst-btn" type="submit" name="button">Réserver une table</button>
 
             <div id="reservationFormStatus" className="tst-form-status"></div>
         </form>

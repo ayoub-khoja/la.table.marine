@@ -22,7 +22,7 @@ const TestimonialSlider = dynamic( () => import("@components/sliders/Testimonial
 
 export const metadata = {
   title: {
-		default: "Acceuil",
+		default: "Accueil",
 	},
   description: AppData.settings.siteDescription,
 }
@@ -56,7 +56,7 @@ async function Home() {
             <div className="container tst-p-60-60">
               <TestimonialSlider />
               <Divider onlyBottom={0} />
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<div>Chargement...</div>}>
                 <LatestPostsSection posts={posts} />
               </Suspense>
               <Divider onlyBottom={0} />

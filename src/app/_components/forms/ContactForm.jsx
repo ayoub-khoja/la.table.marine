@@ -12,11 +12,11 @@ const ContactForm = () => {
         validate = { values => {
             const errors = {};
             if (!values.email) {
-                errors.email = 'Required';
+                errors.email = 'Champ requis';
             } else if (
                 !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
             ) {
-                errors.email = 'Invalid email address';
+                errors.email = 'Adresse e-mail invalide';
             }
             return errors;
         }}
@@ -39,19 +39,19 @@ const ContactForm = () => {
                 }
             }).then(response => {
                 if (response.ok) {
-                    status.innerHTML = "<h5>Thanks for your submission!</h5>"
+                    status.innerHTML = "<h5>Merci, votre message a bien été envoyé !</h5>"
                     form.reset()
                 } else {
                     response.json().then(data => {
                         if (Object.hasOwn(data, 'errors')) {
                             status.innerHTML = "<h5 style='color:red;'>"+data["errors"].map(error => error["message"]).join(", ")+"</h5>"
                         } else {
-                            status.innerHTML = "<h5 style='color:red;'>Oops! There was a problem submitting your form</h5>"
+                            status.innerHTML = "<h5 style='color:red;'>Oups ! Un problème est survenu lors de l’envoi du formulaire.</h5>"
                         }
                     })
                 }
             }).catch(error => {
-                status.innerHTML = "<h5 style='color:red;'>Oops! There was a problem submitting your form</h5>"
+                status.innerHTML = "<h5 style='color:red;'>Oups ! Un problème est survenu lors de l’envoi du formulaire.</h5>"
             });
 
             setSubmitting(false);
@@ -72,7 +72,7 @@ const ContactForm = () => {
                 <div className="col-lg-6">
                     <input 
                         type="text" 
-                        placeholder="First Name"
+                        placeholder="Prénom"
                         name="first_name" 
                         required="required" 
                         onChange={handleChange}
@@ -83,7 +83,7 @@ const ContactForm = () => {
                 <div className="col-lg-6">
                     <input 
                         type="text" 
-                        placeholder="Last Name"
+                        placeholder="Nom"
                         name="last_name" 
                         required="required" 
                         onChange={handleChange}
@@ -94,7 +94,7 @@ const ContactForm = () => {
                 <div className="col-lg-6">
                     <input 
                         type="tel" 
-                        placeholder="Phone"
+                        placeholder="Téléphone"
                         name="phone" 
                         required="required" 
                         onChange={handleChange}
@@ -105,7 +105,7 @@ const ContactForm = () => {
                 <div className="col-lg-6">
                     <input 
                         type="email" 
-                        placeholder="Email"
+                        placeholder="E-mail"
                         name="email" 
                         required="required" 
                         onChange={handleChange}
@@ -125,7 +125,7 @@ const ContactForm = () => {
                     />
                 </div>
             </div>
-            <button className="tst-btn" type="submit" name="button">Send a message</button>
+            <button className="tst-btn" type="submit" name="button">Envoyer le message</button>
 
             <div id="contactFormStatus" className="tst-form-status"></div>
         </form>
