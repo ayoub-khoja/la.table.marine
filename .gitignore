@@ -2,6 +2,12 @@ node_modules/
 .next/
 out/
 .env*
+data/orders.json
+data/reservations.json
+data/messages.json
+data/products.json
+data/menu-upload.json
+public/uploads/
 .DS_Store
 npm-debug.log*
 yarn-error.log*

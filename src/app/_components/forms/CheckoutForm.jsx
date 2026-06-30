@@ -2,13 +2,19 @@
 
 import { Formik } from 'formik';
 import AppData from "@data/app.json";
+import { useState } from 'react';
+import Popup from "@components/Popup";
+import CartData from "@data/cart.json";
 
 const CheckoutForm = () => {
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [popupState, setPopupState] = useState({ type: "success", message: "" });
+
   return (
     <>
         {/* contact form */}
         <Formik
-        initialValues = {{ firstname: '', lastname: '', email: '', tel: '', company: '', country: '', city: '', state: '', address: '', postcode: '', message: '', payment_method: 1 }}
+        initialValues = {{ firstname: '', lastname: '', email: '', tel: '', company: '', country: '', city: '', state: '', address: '', postcode: '', message: '', payment_method: '3' }}
         validate = { values => {
             const errors = {};
             if (!values.email) {
@@ -20,48 +26,63 @@ const CheckoutForm = () => {
             }
             return errors;
         }}
-        onSubmit = {( values, { setSubmitting } ) => {
-            const form = document.getElementById("checkoutForm");
-            const status = document.getElementById("checkoutFormStatus");
-            const data = new FormData();
+        onSubmit = {async ( values, { setSubmitting, resetForm } ) => {
+            try {
+                const items = (CartData?.items || []).map((item) => ({
+                    title: item.title,
+                    quantity: Number(item.quantity || 0),
+                    price: Number(item.price || 0),
+                    currency: item.currency || "$",
+                    image: item.image,
+                }));
 
-            data.append('firstname', values.firstname);
-            data.append('lastname', values.lastname);
-            data.append('email', values.email);
-            data.append('tel', values.tel);
-            data.append('company', values.company);
-            data.append('country', values.country);
-            data.append('city', values.city);
-            data.append('state', values.state);
-            data.append('address', values.address);
-            data.append('postcode', values.postcode);
-            data.append('message', values.message);
-            data.append('payment_method', values.payment_method);
+                const res = await fetch("/api/checkout", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        firstname: values.firstname,
+                        lastname: values.lastname,
+                        email: values.email,
+                        tel: values.tel,
+                        company: values.company,
+                        country: values.country,
+                        city: values.city,
+                        state: values.state,
+                        address: values.address,
+                        postcode: values.postcode,
+                        message: values.message,
+                        payment_method: values.payment_method,
+                        items,
+                    }),
+                });
 
-            fetch(form.action, {
-                method: 'POST',
-                body: data,
-                headers: {
-                    'Accept': 'application/json'
+                const data = await res.json().catch(() => ({}));
+
+                if (!res.ok || !data?.success) {
+                    setPopupState({
+                        type: "error",
+                        message: data?.error || "Oups ! Un problème est survenu lors de l’envoi de la commande.",
+                    });
+                    setPopupOpen(true);
+                    setSubmitting(false);
+                    return;
                 }
-            }).then(response => {
-                if (response.ok) {
-                    status.innerHTML = "<h5>Merci, votre message a bien été envoyé.</h5>";
-                    form.reset()
-                } else {
-                    response.json().then(data => {
-                        if (Object.hasOwn(data, 'errors')) {
-                            status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
-                        } else {
-                            status.innerHTML = "<h5>Oups ! Un problème est survenu lors de l’envoi du formulaire.</h5>"
-                        }
-                    })
-                }
-            }).catch(error => {
-                status.innerHTML = "<h5>Oups ! Un problème est survenu lors de l’envoi du formulaire.</h5>"
-            });
 
-            setSubmitting(false);
+                setPopupState({
+                    type: "success",
+                    message: "Merci ! Votre commande a été envoyée. Nous vous contacterons rapidement.",
+                });
+                setPopupOpen(true);
+                resetForm();
+            } catch (e) {
+                setPopupState({
+                    type: "error",
+                    message: "Erreur réseau. Réessayez plus tard.",
+                });
+                setPopupOpen(true);
+            } finally {
+                setSubmitting(false);
+            }
         }}
         >
         {({
@@ -72,9 +93,10 @@ const CheckoutForm = () => {
             handleBlur,
             handleSubmit,
             isSubmitting,
+            setFieldValue,
             /* and other goodies */
         }) => (
-        <form onSubmit={handleSubmit} id="checkoutForm" action={AppData.settings.formspreeURL} className="tst-checkout-form">
+        <form onSubmit={handleSubmit} id="checkoutForm" className="tst-checkout-form">
             <div className="tst-mb-30">
                 <h5>Détails de facturation</h5>
             </div>
@@ -235,18 +257,27 @@ const CheckoutForm = () => {
             <div className="tst-mb-30">
                 <h5 className="tst-mb-30">Mode de paiement</h5>
                 <ul>
-                    <li className="tst-radio">
-                        <input type="radio" id="option-1" name="payment_method" defaultChecked value="1" />
+                    {/*
+                      <li className="tst-radio">
+                        <input type="radio" id="option-1" name="payment_method" value="1" />
                         <label htmlFor="option-1">Virement bancaire</label>
                         <div className="tst-check"></div>
-                    </li>
-                    <li className="tst-radio">
+                      </li>
+                      <li className="tst-radio">
                         <input type="radio" id="option-2" name="payment_method" value="2" />
                         <label htmlFor="option-2">Paiement par chèque</label>
                         <div className="tst-check"></div>
-                    </li>
+                      </li>
+                    */}
                     <li className="tst-radio">
-                        <input type="radio" id="option-3" name="payment_method" value="3" />
+                        <input
+                          type="radio"
+                          id="option-3"
+                          name="payment_method"
+                          value="3"
+                          checked={values.payment_method === '3'}
+                          onChange={() => setFieldValue('payment_method', '3')}
+                        />
                         <label htmlFor="option-3">Paiement à la livraison</label>
                         <div className="tst-check"></div>
                     </li>
@@ -260,12 +291,20 @@ const CheckoutForm = () => {
                 <span>Passer la commande</span>
             </button>
             {/* button end */}
-
-            <div id="checkoutFormStatus" className="form-status"></div>
         </form>
         )}
         </Formik>
         {/* contact form end */}
+
+        <Popup
+          open={popupOpen}
+          onClose={() => setPopupOpen(false)}
+          title={popupState.type === "success" ? "Commande envoyée" : "Commande non envoyée"}
+        >
+          <p className="tst-text" style={{ margin: 0 }}>
+            {popupState.message}
+          </p>
+        </Popup>
     </>
   );
 };

@@ -18,6 +18,7 @@ const DefaultHeader = () => {
   const [miniCart, setMiniCart] = useState(false);
   const [reservationPopup, setReservationPopup] = useState(false);
   const asPath = usePathname();
+  const headerMenuItems = AppData.header.menu.filter((item) => item.visible !== false);
 
   const isPathActive = (path) => {
     return (asPath.endsWith(path) == 1 && path !== '/') || asPath === path;
@@ -67,7 +68,7 @@ const DefaultHeader = () => {
                     </ul>
                     ) : (
                     <ul>
-                        {AppData.header.menu.map((item, index) => (
+                        {headerMenuItems.map((item, index) => (
                         <li className={`${item.children !== 0 ? "menu-item-has-children" : ""} ${isPathActive(item.link) ? "current-menu-item" : ""}`} key={`header-menu-item-${index}`}>
                             <Link href={item.link} onClick={(item.children.length > 0)  ? (e) => handleSubMenuClick(index, e) : null}>
                                 {item.label}
