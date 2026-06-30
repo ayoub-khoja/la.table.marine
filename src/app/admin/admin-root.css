@@ -1,0 +1,23 @@
+/* Page de connexion uniquement */
+body:has([data-admin-layout]):not(:has([data-admin-panel])) {
+  margin: 0;
+  background-image: none !important;
+}
+
+body:has([data-admin-layout]):not(:has([data-admin-panel])) .tst-main-overlay {
+  display: none;
+}
+
+/* Panel admin (sidebar + contenu) */
+body:has([data-admin-panel]) {
+  margin: 0;
+  background-image: none !important;
+}
+
+body:has([data-admin-panel]) .tst-main-overlay {
+  display: none;
+}
+
+body:has([data-admin-panel]) #tst-app {
+  min-height: 100dvh;
+}

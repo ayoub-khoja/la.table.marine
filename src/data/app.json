@@ -53,6 +53,20 @@
                 ]
             },
             {
+                "label": "Carte Menu",
+                "link": "/menu",
+                "children": [
+                    {
+                        "label": "Menu (type 1)",
+                        "link": "/menu"
+                    },
+                    {
+                        "label": "Menu (type 2)",
+                        "link": "/menu-2"
+                    }
+                ]
+            },
+            {
                 "label": "À propos",
                 "link": "/about",
                 "children": [
@@ -90,6 +104,7 @@
             },
             {
                 "label": "Blog",
+                "visible": false,
                 "link": "/blog",
                 "children": [
                     {
@@ -261,5 +276,15 @@
             "title": "Youtube",
             "icon": "fab fa-youtube"
         }
-    ]
+    ],
+    "admin": {
+        "title": "Espace administration",
+        "subtitle": "Connectez-vous pour gérer La Table Marine",
+        "login": {
+            "emailPlaceholder": "Adresse e-mail",
+            "passwordPlaceholder": "Mot de passe",
+            "submitLabel": "Se connecter",
+            "forgotPassword": "Mot de passe oublié ?"
+        }
+    }
 }
