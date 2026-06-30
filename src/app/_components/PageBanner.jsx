@@ -26,11 +26,11 @@ const PageBanner = ({ pageTitle, pageSubTitle = false, description, breadTitle, 
     clearBreadTitle = pageTitle ? pageTitle.replace(regex, "") : "";
   }
 
-  if ( pageTitle == 'Search: %s' ) {
+  if ( pageTitle == 'Search: %s' || pageTitle == 'Recherche : %s' || pageTitle == 'Recherche: %s' ) {
     const searchParams = useSearchParams();
     const query = searchParams.get('key');
     
-    pageTitle = 'Search: '+query;
+    pageTitle = 'Recherche : '+query;
   }
   
   useEffect(() => {
@@ -69,7 +69,7 @@ const PageBanner = ({ pageTitle, pageSubTitle = false, description, breadTitle, 
                 <h1 className="tst-white-2 tst-text-shadow tst-mb-30" dangerouslySetInnerHTML={{__html : pageTitle}} />
                 <div className="tst-text tst-text-shadow tst-text-lg tst-white-2 tst-mb-30" dangerouslySetInnerHTML={{__html : description}} />
                 <ul className="tst-breadcrumbs">
-                    <li><Link href="/" className="tst-anima-link">Home</Link></li>
+                    <li><Link href="/" className="tst-anima-link">Accueil</Link></li>
                     {asPath.indexOf('/blog/') != -1 && asPath.indexOf('/blog/page/') == -1 &&
                     <li>
                       <Link href="/blog">Blog</Link>
@@ -77,12 +77,12 @@ const PageBanner = ({ pageTitle, pageSubTitle = false, description, breadTitle, 
                     }
                     {asPath.indexOf('/products') != -1 || asPath.indexOf('/cart') != -1 || asPath.indexOf('/checkout') != -1 &&
                     <li>
-                      <Link href="/shop">Shop</Link>
+                      <Link href="/shop">Boutique</Link>
                     </li>
                     }
                     {asPath.endsWith('/product') == 1 &&
                     <li>
-                      <Link href="/products">Products</Link>
+                      <Link href="/products">Produits</Link>
                     </li>
                     }
                     <li className="tst-active"><a dangerouslySetInnerHTML={{__html : clearBreadTitle}} /></li>

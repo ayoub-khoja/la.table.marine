@@ -26,7 +26,7 @@ async function Services() {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <PageBanner pageTitle={"Why we are chosen?"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"Services"} />
+        <PageBanner pageTitle={"Pourquoi nous choisir ?"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"Services"} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
         <div className="tst-content-frame">
@@ -38,13 +38,13 @@ async function Services() {
                 content={
                   {
                     "subtitle": "Services",
-                    "title": "A cozy place created <br>by leading designers",
+                    "title": "Un lieu chaleureux créé <br>par des designers reconnus",
                     "description": "Assumenda possimus eaque illo iste, autem. Porro eveniet, autem ipsam vitae amet repellat repudiandae tenetur, quod corrupti consectetur cum? Repudiandae dignissimos fugiat sit nam. Tempore aspernatur quae repudiandae dolorem, beatae dolorum, praesentium itaque et quam quaerat. Cumque, consequatur!"
                   }
                 }
                 button={
                   {
-                    "label": "Read more",
+                    "label": "En savoir plus",
                     "link": "/about"
                   }
                 }
@@ -63,13 +63,13 @@ async function Services() {
                 content={
                   {
                     "subtitle": "Services",
-                    "title": "Fresh ingredients <br>from organic farms",
+                    "title": "Des ingrédients frais <br>issus de fermes bio",
                     "description": "Assumenda possimus eaque illo iste, autem. Porro eveniet, autem ipsam vitae amet repellat repudiandae tenetur, quod corrupti consectetur cum? Repudiandae dignissimos fugiat sit nam. Tempore aspernatur quae repudiandae dolorem, beatae dolorum, praesentium itaque et quam quaerat. Cumque, consequatur!"
                   }
                 }
                 button={
                   {
-                    "label": "Read more",
+                    "label": "En savoir plus",
                     "link": "/about"
                   }
                 }
@@ -87,13 +87,13 @@ async function Services() {
                 content={
                   {
                     "subtitle": "Services",
-                    "title": "12 wonderful years <br>of experience",
+                    "title": "12 belles années <br>d’expérience",
                     "description": "Assumenda possimus eaque illo iste, autem. Porro eveniet, autem ipsam vitae amet repellat repudiandae tenetur, quod corrupti consectetur cum? Repudiandae dignissimos fugiat sit nam. Tempore aspernatur quae repudiandae dolorem, beatae dolorum, praesentium itaque et quam quaerat. Cumque, consequatur!"
                   }
                 }
                 button={
                   {
-                    "label": "Read more",
+                    "label": "En savoir plus",
                     "link": "/about"
                   }
                 }
@@ -113,7 +113,7 @@ async function Services() {
         <div className="tst-content-frame">
           <div className="tst-content-box">
             <div className="container tst-p-60-60">
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<div>Chargement...</div>}>
                 <LatestPostsSection posts={posts} />
               </Suspense>
               <Divider onlyBottom={0} />

@@ -316,17 +316,19 @@ menu
           }
           &.menu-item-has-children {
             & > a:after {
-              display: inline-block;
-              vertical-align: middle;
-              font-family: "Font Awesome 5 Free";
-              font-weight: 900;
-              content: "\f078";
-              margin-left: 0px;
-              left: 5px;
-              position: relative;
-              top: -1px;
-              width: 0px;
-              font-size: .8em;
+              // display: inline-block;
+              // vertical-align: middle;
+              // font-family: "Font Awesome 5 Free";
+              // font-weight: 900;
+              // content: "\f078";
+              // margin-left: 0px;
+              // left: 5px;
+              // position: relative;
+              // top: -1px;
+              // width: 0px;
+              // font-size: .8em;
+              /* caret icon disabled */
+              display: none;
             }
           }
         }

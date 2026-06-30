@@ -18,6 +18,7 @@ const DefaultHeader = () => {
   const [miniCart, setMiniCart] = useState(false);
   const [reservationPopup, setReservationPopup] = useState(false);
   const asPath = usePathname();
+  const headerMenuItems = AppData.header.menu.filter((item) => item.visible !== false);
 
   const isPathActive = (path) => {
     return (asPath.endsWith(path) == 1 && path !== '/') || asPath === path;
@@ -67,28 +68,30 @@ const DefaultHeader = () => {
                     </ul>
                     ) : (
                     <ul>
-                        {AppData.header.menu.map((item, index) => (
+                        {headerMenuItems.map((item, index) => (
                         <li className={`${item.children !== 0 ? "menu-item-has-children" : ""} ${isPathActive(item.link) ? "current-menu-item" : ""}`} key={`header-menu-item-${index}`}>
                             <Link href={item.link} onClick={(item.children.length > 0)  ? (e) => handleSubMenuClick(index, e) : null}>
                                 {item.label}
                             </Link>
+                            {/*
                             {item.children.length > 0 && (
-                            <ul className={openSubMenu === index ? 'tst-active' : ''}>
+                              <ul className={openSubMenu === index ? 'tst-active' : ''}>
                                 {item.children.map((subitem, subIndex) => (
-                                <li key={`header-submenu-item-${subIndex}`} className={isPathActive(subitem.link) ? "tst-active" : ""}>
+                                  <li key={`header-submenu-item-${subIndex}`} className={isPathActive(subitem.link) ? "tst-active" : ""}>
                                     {subitem.link == '/onepage' ? (
-                                    <a href={subitem.link} target="_blank">
+                                      <a href={subitem.link} target="_blank">
                                         {subitem.label}
-                                    </a>
+                                      </a>
                                     ) : (
-                                    <Link href={subitem.link}>
+                                      <Link href={subitem.link}>
                                         {subitem.label}
-                                    </Link>
+                                      </Link>
                                     )}
-                                </li>
+                                  </li>
                                 ))}
-                            </ul>
+                              </ul>
                             )}
+                            */}
                         </li>
                         ))}
                     </ul>
@@ -98,7 +101,7 @@ const DefaultHeader = () => {
                 {/* top bar right */}
                 <div className="tst-menu-right">
                     {/* reservation button */}
-                    <a href="#." className={`tst-btn tst-res-btn ${reservationPopup ? "tst-active" : "" }`} onClick={(e) => { setReservationPopup(!reservationPopup); e.preventDefault(); }} data-no-swup>Reservation</a>
+                    <a href="#." className={`tst-btn tst-res-btn ${reservationPopup ? "tst-active" : "" }`} onClick={(e) => { setReservationPopup(!reservationPopup); e.preventDefault(); }} data-no-swup>Réserver</a>
                     <div className="tst-minicart">
                     {/* minicart button */}
                     <a href="#." className={`tst-cart ${miniCart ? "tst-active" : ""}`} onClick={(e) => { setMiniCart(!miniCart); e.preventDefault(); }}>
@@ -141,7 +144,7 @@ const DefaultHeader = () => {
                     {/* title */}
                     <div className="text-center">
                         <div className="tst-suptitle tst-suptitle-center"></div>
-                        <h4 className="tst-mb-60">Table Reservation</h4>
+                        <h4 className="tst-mb-60">Réservation de table</h4>
                     </div>
                     {/* title end */}
                     

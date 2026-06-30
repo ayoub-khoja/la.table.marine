@@ -1,0 +1,296 @@
+@import 'variables';
+
+.tst-admin-root {
+  min-height: 100dvh;
+}
+
+.tst-admin {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px;
+  background: linear-gradient(135deg, $dl2 0%, $dl1 45%, darken($ac, 8%) 100%);
+  position: relative;
+  box-sizing: border-box;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 80%, rgba($ac, 0.35) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.06) 0%, transparent 40%);
+    pointer-events: none;
+  }
+}
+
+.tst-admin__card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 520px;
+  padding: 28px 32px 24px;
+  background: $card;
+  border-radius: 16px;
+  box-shadow:
+    0 4px 6px rgba(0, 0, 0, 0.05),
+    0 20px 40px rgba(0, 0, 0, 0.16);
+  animation: tst-admin-fade-in 0.5s ease-out;
+  box-sizing: border-box;
+}
+
+@keyframes tst-admin-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tst-admin__logo {
+  display: block;
+  width: auto !important;
+  max-width: 160px !important;
+  max-height: 64px !important;
+  height: auto !important;
+  object-fit: contain;
+  margin: 0 auto 18px;
+}
+
+.tst-admin__title {
+  font-family: $pf;
+  font-size: 22px;
+  font-weight: 600;
+  color: $dl1;
+  text-align: center;
+  margin: 0 0 6px;
+  line-height: 1.25;
+}
+
+.tst-admin__subtitle {
+  font-family: $sf;
+  font-size: 13px;
+  color: $dl1t;
+  text-align: center;
+  margin: 0 0 22px;
+  line-height: 1.4;
+}
+
+.tst-admin__field {
+  margin-bottom: 14px;
+
+  label {
+    display: block;
+    font-family: $sf;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $dl1;
+    margin-bottom: 6px;
+  }
+
+  input {
+    width: 100%;
+    padding: 11px 14px;
+    font-family: $sf;
+    font-size: 15px;
+    color: $dl1;
+    background: $wl1;
+    border: 1px solid rgba($dl1, 0.12);
+    border-radius: 8px;
+    transition: border-color $tr-sm, box-shadow $tr-sm;
+    box-sizing: border-box;
+
+    &::placeholder {
+      color: rgba($dl1, 0.4);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $ac;
+      box-shadow: 0 0 0 3px rgba($ac, 0.15);
+    }
+  }
+
+  .tst-admin__error {
+    display: block;
+    font-family: $sf;
+    font-size: 11px;
+    color: $auxc1;
+    margin-top: 4px;
+  }
+}
+
+.tst-admin__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 12px;
+  margin-bottom: 20px;
+  font-family: $sf;
+  font-size: 12px;
+}
+
+.tst-admin__remember {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: $dl1t;
+  cursor: pointer;
+
+  input {
+    width: 15px;
+    height: 15px;
+    accent-color: $ac;
+    cursor: pointer;
+  }
+}
+
+.tst-admin__forgot {
+  color: $ac;
+  text-decoration: none;
+  font-size: 12px;
+  transition: opacity $tr-sm;
+
+  &:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+  }
+}
+
+.tst-admin__submit {
+  width: 100%;
+  padding: 13px 20px;
+  font-family: $sf;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: $wl1;
+  background: $ac;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background $tr-sm, box-shadow $tr-sm;
+
+  &:hover:not(:disabled) {
+    background: darken($ac, 6%);
+    box-shadow: 0 6px 16px rgba($ac, 0.3);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+}
+
+.tst-admin__status {
+  margin-top: 14px;
+  padding: 10px 12px;
+  font-family: $sf;
+  font-size: 13px;
+  text-align: center;
+  border-radius: 8px;
+  background: rgba($auxc2, 0.12);
+  color: darken($auxc2, 25%);
+
+  &--error {
+    background: rgba($auxc1, 0.1);
+    color: $auxc1;
+  }
+}
+
+.tst-admin__back {
+  display: block;
+  margin-top: 18px;
+  font-family: $sf;
+  font-size: 12px;
+  text-align: center;
+  color: $dl1t;
+  text-decoration: none;
+  transition: color $tr-sm;
+
+  &:hover {
+    color: $ac;
+  }
+}
+
+@media (min-width: 576px) {
+  .tst-admin {
+    padding: 24px 24px;
+  }
+
+  .tst-admin__card {
+    max-width: 560px;
+    padding: 32px 40px 28px;
+  }
+
+  .tst-admin__logo {
+    max-width: 180px !important;
+    max-height: 72px !important;
+    margin-bottom: 20px;
+  }
+
+  .tst-admin__title {
+    font-size: 24px;
+  }
+
+  .tst-admin__subtitle {
+    font-size: 14px;
+    margin-bottom: 24px;
+  }
+}
+
+@media (min-width: 768px) {
+  .tst-admin__card {
+    max-width: 580px;
+    padding: 36px 48px 32px;
+  }
+}
+
+@media (max-width: 400px) {
+  .tst-admin__row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-height: 640px) {
+  .tst-admin {
+    align-items: flex-start;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  .tst-admin__card {
+    padding: 20px 24px 18px;
+  }
+
+  .tst-admin__logo {
+    max-width: 130px !important;
+    max-height: 52px !important;
+    margin-bottom: 12px;
+  }
+
+  .tst-admin__subtitle {
+    margin-bottom: 16px;
+  }
+
+  .tst-admin__field {
+    margin-bottom: 10px;
+  }
+
+  .tst-admin__row {
+    margin-bottom: 14px;
+  }
+
+  .tst-admin__back {
+    margin-top: 14px;
+  }
+}

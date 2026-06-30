@@ -24,7 +24,7 @@ const Menu1 = () => {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <PageBanner pageTitle={"Discover Our menu"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"Menu"} />
+        <PageBanner pageTitle={"Découvrez notre menu"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"Menu"} />
       </div>
       
       <div id="tst-dynamic-content" className="tst-dynamic-content">
@@ -49,7 +49,7 @@ const Menu1 = () => {
                 heading={
                   { 
                     "subtitle": "Menu", 
-                    "title": "Special proposals", 
+                    "title": "Suggestions du moment", 
                     "description": "Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam." 
                   }
                 } 
@@ -57,7 +57,7 @@ const Menu1 = () => {
                 button={
                   {
                     "link": "/shop",
-                    "label": "Go to online store"
+                    "label": "Aller à la boutique en ligne"
                   }
                 }
               />

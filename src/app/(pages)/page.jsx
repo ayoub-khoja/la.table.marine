@@ -16,12 +16,13 @@ import CallToActionSection from "@components/sections/CallToAction";
 import LatestPostsSection from "@components/sections/LatestPosts";
 import SubscribeSection from "@components/sections/Subscribe";
 
-const HeroSlider = dynamic( () => import("@components/sliders/Hero"), { ssr: false } );
+import HeroSection from "@components/sections/Hero";
+
 const TestimonialSlider = dynamic( () => import("@components/sliders/Testimonial"), { ssr: false } );
 
 export const metadata = {
   title: {
-		default: "Home",
+		default: "Accueil",
 	},
   description: AppData.settings.siteDescription,
 }
@@ -32,7 +33,7 @@ async function Home() {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <HeroSlider />
+        <HeroSection bgType={"video"} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
         <div className="tst-content-frame">
@@ -55,7 +56,7 @@ async function Home() {
             <div className="container tst-p-60-60">
               <TestimonialSlider />
               <Divider onlyBottom={0} />
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<div>Chargement...</div>}>
                 <LatestPostsSection posts={posts} />
               </Suspense>
               <Divider onlyBottom={0} />

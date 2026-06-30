@@ -1,7 +1,7 @@
 {
     "settings": {
-        "siteName": "Tastycs",
-        "siteDescription": "Cafe & Restaurant React Next.JS Template",
+        "siteName": "latablemarine",
+        "siteDescription": "Template Next.js pour café & restaurant",
         "bgImage": "/img/bg.jpg",
         "formspreeURL": "https://formspree.io/f/YOUR_FORM_ID",
         "mailchimp": {
@@ -19,49 +19,63 @@
             "actionUrl": "//www.opentable.com/restaurant-search.aspx",
             "restaurantID": "YOUR_OPENTABLE_RESTAURANT_ID",
             "geoID": "15",
-            "lang": "en-US"
+            "lang": "fr-FR"
         },
         "perPage": 6
     },
     "header": {
         "logo": {
-            "image": "/img/logo-sm.png",
+            "image": "/img/home/logo-latablemarine.png",
             "alt": "Logo"
         },
         "menu": [
             {
-                "label": "Home",
+                "label": "Accueil",
                 "link": "/",
                 "children": [
                     {
-                        "label": "Home slider",
+                        "label": "Accueil (slider)",
                         "link": "/"
                     },
                     {
-                        "label": "Home image",
+                        "label": "Accueil (image)",
                         "link": "/home-2"
                     },
                     {
-                        "label": "Home video",
+                        "label": "Accueil (vidéo)",
                         "link": "/home-3"
                     },
                     {
-                        "label": "Onepage",
+                        "label": "One page",
                         "link": "/onepage",
                         "blank": 1
                     }
                 ]
             },
             {
-                "label": "About",
+                "label": "Carte Menu",
+                "link": "/menu",
+                "children": [
+                    {
+                        "label": "Menu (type 1)",
+                        "link": "/menu"
+                    },
+                    {
+                        "label": "Menu (type 2)",
+                        "link": "/menu-2"
+                    }
+                ]
+            },
+            {
+                "label": "À propos",
                 "link": "/about",
                 "children": [
                     {
-                        "label": "About Us",
+                        "label": "À propos de nous",
                         "link": "/about"
                     },
                     {
-                        "label": "About employee",
+                        "label": "À propos du chef",
                         "link": "/about-chef"
                     },
                     {
@@ -69,7 +83,7 @@
                         "link": "/services"
                     },
                     {
-                        "label": "History",
+                        "label": "Histoire",
                         "link": "/history"
                     }
                 ]
@@ -79,69 +93,70 @@
                 "link": "/menu",
                 "children": [
                     {
-                        "label": "Menu type 1",
+                        "label": "Menu (type 1)",
                         "link": "/menu"
                     },
                     {
-                        "label": "Menu type 2",
+                        "label": "Menu (type 2)",
                         "link": "/menu-2"
                     }
                 ]
             },
             {
                 "label": "Blog",
+                "visible": false,
                 "link": "/blog",
                 "children": [
                     {
-                        "label": "Blog list",
+                        "label": "Liste des articles",
                         "link": "/blog"
                     },
                     {
-                        "label": "Blog category",
+                        "label": "Catégorie",
                         "link": "/blog/category/recipes"
                     },
                     {
-                        "label": "Publication",
+                        "label": "Article",
                         "link": "/blog/incredible-vegan-mac-and-cheese"
                     }
                 ]
             },
             {
-                "label": "Reserve",
+                "label": "Réserver",
                 "link": "/reservation",
                 "children": [
                     {
-                        "label": "Reservation (Form)",
+                        "label": "Réservation (formulaire)",
                         "link": "/reservation"
                     },
                     {
-                        "label": "Reservation (OpenTable API)",
+                        "label": "Réservation (OpenTable)",
                         "link": "/reservation-2"
                     }
                 ]
             },
             {
-                "label": "Shop",
+                "label": "Boutique",
                 "link": "/shop",
                 "children": [
                     {
-                        "label": "Shop Page",
+                        "label": "Boutique",
                         "link": "/shop"
                     },
                     {
-                        "label": "Products List",
+                        "label": "Liste des produits",
                         "link": "/products"
                     },
                     {
-                        "label": "Product Page",
+                        "label": "Fiche produit",
                         "link": "/product"
                     },
                     {
-                        "label": "Cart Page",
+                        "label": "Panier",
                         "link": "/cart"
                     },
                     {
-                        "label": "Checkout Page",
+                        "label": "Paiement",
                         "link": "/checkout"
                     }
                 ]
@@ -154,11 +169,11 @@
         ],
         "onepage": [
             {
-                "label": "Home",
+                "label": "Accueil",
                 "link": "#home"
             },
             {
-                "label": "About",
+                "label": "À propos",
                 "link": "#about"
             },
             {
@@ -177,68 +192,68 @@
     },
     "footer": {
         "logo": {
-            "url": "/img/logo-sm-white.png",
-            "alt": "Tastycs"
+            "url": "/img/home/logo-latablemarine.png",
+            "alt": "latablemarine"
         },
         "about": {
-            "title": "About us",
+            "title": "À propos",
             "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita repudiandae neque illum aspernatur fugiat maiores id magni, modi, quaerat vitae. Consectetur adipisicing elit.",
             "button": {
                 "link": "/menu",
-                "label": "Our Menu"
+                "label": "Notre menu"
             }
         },
         "contact": {
-            "title": "Contact info",
+            "title": "Infos contact",
             "items": [
                 {
-                    "label": "Call",
-                    "value": "+76 (094) 754 43 7I"
+                    "label": "Téléphone",
+                    "value": "0607716979"
                 },
                 {
-                    "label": "Write",
-                    "value": "your.email.inbox@here.com"
+                    "label": "Email",
+                    "value": "contact@latablemarine.com"
                 },
                 {
-                    "label": "Find us",
-                    "value": "Canada, Toronto, North Avenue 31B"
+                    "label": "Adresse",
+                    "value": "2, rue Pierre Curie, 78370 Plaisir"
                 }
             ],
             "button": {
                 "link": "/contact",
-                "label": "Contact Us"
+                "label": "Nous contacter"
             }
         },
         "gallery": {
-            "title": "Gallery",
+            "title": "Galerie",
             "items": [
                 {
                     "image": "/img/menu/1.jpg",
-                    "alt": "Gallery Image"
+                    "alt": "Image galerie"
                 },
                 {
                     "image": "/img/menu/2.jpg",
-                    "alt": "Gallery Image"
+                    "alt": "Image galerie"
                 },
                 {
                     "image": "/img/menu/3.jpg",
-                    "alt": "Gallery Image"
+                    "alt": "Image galerie"
                 },
                 {
                     "image": "/img/menu/4.jpg",
-                    "alt": "Gallery Image"
+                    "alt": "Image galerie"
                 },
                 {
                     "image": "/img/menu/5.jpg",
-                    "alt": "Gallery Image"
+                    "alt": "Image galerie"
                 }
             ],
             "button": {
                 "link": "/history",
-                "label": "See more"
+                "label": "Voir plus"
             }
         },
-        "copy": "© 2024 Tastycs. All rights reserved."
+        "copy": "© 2026 La Table Marine. Tous droits réservés."
     },
     "social": [
         {
@@ -261,5 +276,15 @@
             "title": "Youtube",
             "icon": "fab fa-youtube"
         }
-    ]
+    ],
+    "admin": {
+        "title": "Espace administration",
+        "subtitle": "Connectez-vous pour gérer La Table Marine",
+        "login": {
+            "emailPlaceholder": "Adresse e-mail",
+            "passwordPlaceholder": "Mot de passe",
+            "submitLabel": "Se connecter",
+            "forgotPassword": "Mot de passe oublié ?"
+        }
+    }
 }

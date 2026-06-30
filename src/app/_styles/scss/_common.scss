@@ -60,6 +60,18 @@ body {
   outline: inherit;
 }
 
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 a,
 a:hover {
   color: inherit;
@@ -419,6 +431,7 @@ buttons
   position: relative;
   padding: 0 30px;
   background-color: $ac;
+  color: $wl1;
   display: inline-block;
   height: 50px;
   line-height: 54px;
@@ -585,6 +598,13 @@ buttons
     background-color: $auxc2;
   }
 }
+
+a.tst-btn,
+a.tst-btn:hover,
+a.tst-btn:focus,
+a.tst-btn:visited {
+  color: $wl1;
+}
 /*-------------------------
 forms
 -------------------------*/
@@ -744,6 +764,7 @@ spaces
     &.tst-active {
       a {
         background-color: $ac;
+        color: $wl1;
       }
     }
   }
@@ -781,7 +802,7 @@ spaces
     background-color: $ac;
     padding: 2px 5px;
     margin: 2.5px 5px;
-    color: $dl1;
+    color: $wl1;
     transition: 0.3s ease-in-out;
 
     &:hover {

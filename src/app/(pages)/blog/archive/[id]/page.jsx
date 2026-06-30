@@ -19,7 +19,7 @@ export async function generateMetadata({ params }) {
   const archiveData = await getSingleArchiveData(params);
   
   return {
-    title: archiveData.month+', '+archiveData.year + " | Archive | Blog",
+    title: archiveData.month+', '+archiveData.year + " | Archives | Blog",
   }
 }
 
@@ -31,7 +31,7 @@ async function BlogArchive( { params } ) {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <PageBanner pageTitle={"Archive: "+archiveData.month+', '+archiveData.year} description={"Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam."} breadTitle={archiveData.month+', '+archiveData.year} />
+        <PageBanner pageTitle={"Archives : "+archiveData.month+', '+archiveData.year} description={"Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam."} breadTitle={archiveData.month+', '+archiveData.year} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
         <div className="tst-content-frame">
@@ -58,7 +58,7 @@ async function BlogArchive( { params } ) {
               </div>
 
               <Divider onlyBottom={0} />
-              <Suspense fallback={<div>Loading...</div>}>
+              <Suspense fallback={<div>Chargement...</div>}>
                 <PopularPosts posts={populars} />
               </Suspense>
             </div>

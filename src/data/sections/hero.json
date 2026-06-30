@@ -6,15 +6,15 @@
     "video": {
         "url": "https://bslthemes.com/mp4/tastycs/video-banner.mp4"
      },
-    "subtitle": "Hello, new friend!",
-    "title": "Welcome Back <br>to Tastycs",
+    "subtitle": "Bonjour, bienvenue !",
+    "title": "Heureux de vous revoir <br>à La Table Marine",
     "description": "Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita.",
     "button1": {
         "link": "/contact",
-        "label": "Reservation"
+        "label": "Réserver"
     },
     "button2": {
         "link": "/menu",
-        "label": "Open Menu"
+        "label": "Voir le menu"
     }
 }

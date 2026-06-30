@@ -2,66 +2,87 @@
 
 import { Formik } from 'formik';
 import AppData from "@data/app.json";
+import { useState } from 'react';
+import Popup from "@components/Popup";
+import CartData from "@data/cart.json";
 
 const CheckoutForm = () => {
+  const [popupOpen, setPopupOpen] = useState(false);
+  const [popupState, setPopupState] = useState({ type: "success", message: "" });
+
   return (
     <>
         {/* contact form */}
         <Formik
-        initialValues = {{ firstname: '', lastname: '', email: '', tel: '', company: '', country: '', city: '', state: '', address: '', postcode: '', message: '', payment_method: 1 }}
+        initialValues = {{ firstname: '', lastname: '', email: '', tel: '', company: '', country: '', city: '', state: '', address: '', postcode: '', message: '', payment_method: '3' }}
         validate = { values => {
             const errors = {};
             if (!values.email) {
-                errors.email = 'Required';
+                errors.email = 'Champ requis';
             } else if (
                 !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
             ) {
-                errors.email = 'Invalid email address';
+                errors.email = 'Adresse e-mail invalide';
             }
             return errors;
         }}
-        onSubmit = {( values, { setSubmitting } ) => {
-            const form = document.getElementById("checkoutForm");
-            const status = document.getElementById("checkoutFormStatus");
-            const data = new FormData();
+        onSubmit = {async ( values, { setSubmitting, resetForm } ) => {
+            try {
+                const items = (CartData?.items || []).map((item) => ({
+                    title: item.title,
+                    quantity: Number(item.quantity || 0),
+                    price: Number(item.price || 0),
+                    currency: item.currency || "$",
+                    image: item.image,
+                }));
 
-            data.append('firstname', values.firstname);
-            data.append('lastname', values.lastname);
-            data.append('email', values.email);
-            data.append('tel', values.tel);
-            data.append('company', values.company);
-            data.append('country', values.country);
-            data.append('city', values.city);
-            data.append('state', values.state);
-            data.append('address', values.address);
-            data.append('postcode', values.postcode);
-            data.append('message', values.message);
-            data.append('payment_method', values.payment_method);
+                const res = await fetch("/api/checkout", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        firstname: values.firstname,
+                        lastname: values.lastname,
+                        email: values.email,
+                        tel: values.tel,
+                        company: values.company,
+                        country: values.country,
+                        city: values.city,
+                        state: values.state,
+                        address: values.address,
+                        postcode: values.postcode,
+                        message: values.message,
+                        payment_method: values.payment_method,
+                        items,
+                    }),
+                });
 
-            fetch(form.action, {
-                method: 'POST',
-                body: data,
-                headers: {
-                    'Accept': 'application/json'
+                const data = await res.json().catch(() => ({}));
+
+                if (!res.ok || !data?.success) {
+                    setPopupState({
+                        type: "error",
+                        message: data?.error || "Oups ! Un problème est survenu lors de l’envoi de la commande.",
+                    });
+                    setPopupOpen(true);
+                    setSubmitting(false);
+                    return;
                 }
-            }).then(response => {
-                if (response.ok) {
-                    status.innerHTML = "<h5>Thanks, your message is sent successfully.</h5>";
-                    form.reset()
-                } else {
-                    response.json().then(data => {
-                        if (Object.hasOwn(data, 'errors')) {
-                            status.innerHTML = data["errors"].map(error => error["message"]).join(", ")
-                        } else {
-                            status.innerHTML = "<h5>Oops! There was a problem submitting your form</h5>"
-                        }
-                    })
-                }
-            }).catch(error => {
-                status.innerHTML = "<h5>Oops! There was a problem submitting your form</h5>"
-            });
 
-            setSubmitting(false);
+                setPopupState({
+                    type: "success",
+                    message: "Merci ! Votre commande a été envoyée. Nous vous contacterons rapidement.",
+                });
+                setPopupOpen(true);
+                resetForm();
+            } catch (e) {
+                setPopupState({
+                    type: "error",
+                    message: "Erreur réseau. Réessayez plus tard.",
+                });
+                setPopupOpen(true);
+            } finally {
+                setSubmitting(false);
+            }
         }}
         >
         {({
@@ -72,16 +93,17 @@ const CheckoutForm = () => {
             handleBlur,
             handleSubmit,
             isSubmitting,
+            setFieldValue,
             /* and other goodies */
         }) => (
-        <form onSubmit={handleSubmit} id="checkoutForm" action={AppData.settings.formspreeURL} className="tst-checkout-form">
+        <form onSubmit={handleSubmit} id="checkoutForm" className="tst-checkout-form">
             <div className="tst-mb-30">
-                <h5>Billing details</h5>
+                <h5>Détails de facturation</h5>
             </div>
             <div className="row">
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>First name</label>
+                    <label>Prénom</label>
                     <input 
                         type="text" 
                         placeholder="Alex"
@@ -95,7 +117,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>Last name</label>
+                    <label>Nom</label>
                     <input 
                         type="text" 
                         placeholder="Adler"
@@ -109,7 +131,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>Company name</label>
+                    <label>Entreprise</label>
                     <input 
                         type="text" 
                         placeholder="Plax ltd"
@@ -122,7 +144,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>Country</label>
+                    <label>Pays</label>
                     <input 
                         type="text" 
                         placeholder="Italy"
@@ -136,7 +158,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>City</label>
+                    <label>Ville</label>
                     <input 
                         type="text" 
                         placeholder="Rome"
@@ -150,7 +172,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>State / Province</label>
+                    <label>Région / Province</label>
                     <input 
                         type="text" 
                         placeholder="Lazio"
@@ -164,7 +186,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>Address</label>
+                    <label>Adresse</label>
                     <input 
                         type="text" 
                         placeholder="Via Savoia 77"
@@ -178,7 +200,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>Postcode</label>
+                    <label>Code postal</label>
                     <input 
                         type="text" 
                         placeholder="00198"
@@ -192,7 +214,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>Phone</label>
+                    <label>Téléphone</label>
                     <input 
                         type="tel" 
                         placeholder="1-877-111-2222"
@@ -206,7 +228,7 @@ const CheckoutForm = () => {
                 </div>
                 <div className="col-lg-6">
                 <div className="tst-group-input">
-                    <label>Email</label>
+                    <label>E-mail</label>
                     <input 
                         type="email" 
                         placeholder="yourEmail@gmail.com"
@@ -220,12 +242,12 @@ const CheckoutForm = () => {
                 </div>
             </div>
             <div className="tst-mb-30">
-                <h5>Additional information</h5>
+                <h5>Informations complémentaires</h5>
             </div>
             <div className="tst-group-input">
-                <label>Order notes</label>
+                <label>Notes de commande</label>
                 <textarea 
-                    placeholder="Additional Notes"
+                    placeholder="Notes supplémentaires"
                     name="message" 
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -233,21 +255,30 @@ const CheckoutForm = () => {
                 />
             </div>
             <div className="tst-mb-30">
-                <h5 className="tst-mb-30">Payment method</h5>
+                <h5 className="tst-mb-30">Mode de paiement</h5>
                 <ul>
-                    <li className="tst-radio">
-                        <input type="radio" id="option-1" name="payment_method" defaultChecked value="1" />
-                        <label htmlFor="option-1">Direct bank transfer</label>
+                    {/*
+                      <li className="tst-radio">
+                        <input type="radio" id="option-1" name="payment_method" value="1" />
+                        <label htmlFor="option-1">Virement bancaire</label>
                         <div className="tst-check"></div>
-                    </li>
-                    <li className="tst-radio">
+                      </li>
+                      <li className="tst-radio">
                         <input type="radio" id="option-2" name="payment_method" value="2" />
-                        <label htmlFor="option-2">Check payments</label>
+                        <label htmlFor="option-2">Paiement par chèque</label>
                         <div className="tst-check"></div>
-                    </li>
+                      </li>
+                    */}
                     <li className="tst-radio">
-                        <input type="radio" id="option-3" name="payment_method" value="3" />
-                        <label htmlFor="option-3">Cash on delivery</label>
+                        <input
+                          type="radio"
+                          id="option-3"
+                          name="payment_method"
+                          value="3"
+                          checked={values.payment_method === '3'}
+                          onChange={() => setFieldValue('payment_method', '3')}
+                        />
+                        <label htmlFor="option-3">Paiement à la livraison</label>
                         <div className="tst-check"></div>
                     </li>
                 </ul>
@@ -257,15 +288,23 @@ const CheckoutForm = () => {
                 <span className="tst-icon">
                     <img src="/img/ui/icons/arrow.svg" alt="icon" />
                 </span>
-                <span>Place order</span>
+                <span>Passer la commande</span>
             </button>
             {/* button end */}
-
-            <div id="checkoutFormStatus" className="form-status"></div>
         </form>
         )}
         </Formik>
         {/* contact form end */}
+
+        <Popup
+          open={popupOpen}
+          onClose={() => setPopupOpen(false)}
+          title={popupState.type === "success" ? "Commande envoyée" : "Commande non envoyée"}
+        >
+          <p className="tst-text" style={{ margin: 0 }}>
+            {popupState.message}
+          </p>
+        </Popup>
     </>
   );
 };

@@ -3,20 +3,20 @@
        "url": "/img/menu/4.jpg",
        "alt": "cover"
     },
-    "subtitle": "About us",
-    "title": "Working hours",
+    "subtitle": "À propos",
+    "title": "Horaires d’ouverture",
     "description": "Rolorem, beatae dolorum, praesentium itaque et quam quaerat.",
     "button1": {
         "link": "/menu",
-        "label": "Reservation"
+        "label": "Réserver"
     },
     "button2": {
         "link": "/contact",
-        "label": "Contact us"
+        "label": "Nous contacter"
     },
     "items": [
         {
-            "label": "Sunday to Tuesday",
+            "label": "Dimanche à mardi",
             "from": {
                 "hours": "09",
                 "minutes": "00"
@@ -27,7 +27,7 @@
             }
         },
         {
-            "label": "Friday to Saturday",
+            "label": "Vendredi à samedi",
             "from": {
                 "hours": "11",
                 "minutes": "00"
