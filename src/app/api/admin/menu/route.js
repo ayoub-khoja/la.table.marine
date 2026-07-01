@@ -3,6 +3,8 @@ import { requireAdminSession } from "@library/admin/require-session";
 import { createActiveCarteMenu, getActiveCarteMenu } from "@library/menu/store";
 import { saveUploadedMenuPdf } from "@library/uploads/save-file";
 
+export const dynamic = "force-dynamic";
+
 const ERROR_MESSAGES = {
   INVALID_FILE: "Fichier invalide.",
   INVALID_TYPE: "Format non supporté. Utilisez un fichier PDF.",
