@@ -1,33 +1,41 @@
 import { MongoClient } from "mongodb";
 
-const uri = process.env.MONGODB_URI;
-
-function connectClient() {
-  if (!uri) {
-    return null;
-  }
-
-  const client = new MongoClient(uri);
-
-  if (process.env.NODE_ENV === "development") {
-    if (!global._mongoClientPromise || global._mongoUri !== uri) {
-      global._mongoUri = uri;
-      global._mongoClientPromise = client.connect();
-    }
-    return global._mongoClientPromise;
-  }
-
-  return client.connect();
+function normalizeMongoUri(raw) {
+  if (!raw) return null;
+  return raw.trim().replace(/^["']|["']$/g, "");
 }
 
-function clearDevCache() {
-  if (process.env.NODE_ENV === "development") {
-    global._mongoClientPromise = null;
-    global._mongoUri = null;
-  }
+const uri = normalizeMongoUri(process.env.MONGODB_URI);
+
+const clientOptions = {
+  maxPoolSize: 10,
+  serverSelectionTimeoutMS: 15000,
+  connectTimeoutMS: 15000,
+  socketTimeoutMS: 45000,
+};
+
+function createClientPromise() {
+  if (!uri) return null;
+  return new MongoClient(uri, clientOptions).connect();
 }
 
-let clientPromise = connectClient();
+function getCachedClientPromise() {
+  if (!uri) return null;
+
+  if (!global._mongoClientPromise || global._mongoUri !== uri) {
+    global._mongoUri = uri;
+    global._mongoClientPromise = createClientPromise();
+  }
+
+  return global._mongoClientPromise;
+}
+
+function resetClientCache() {
+  global._mongoClientPromise = null;
+  global._mongoUri = null;
+}
+
+let clientPromise = getCachedClientPromise();
 
 export async function getDb() {
   if (!uri) {
@@ -35,22 +43,41 @@ export async function getDb() {
   }
 
   if (!clientPromise) {
-    clientPromise = connectClient();
+    clientPromise = getCachedClientPromise();
   }
 
   try {
     const client = await clientPromise;
     return client.db();
   } catch (error) {
-    clearDevCache();
-    clientPromise = connectClient();
+    resetClientCache();
+    clientPromise = getCachedClientPromise();
 
-    if (error?.message?.includes("authentication failed")) {
-      throw new Error(
-        "MongoDB : authentification échouée. Vérifiez MONGODB_URI dans .env.local puis redémarrez le serveur (npm run dev). Test : node scripts/verify-mongodb.js"
-      );
+    try {
+      const client = await clientPromise;
+      return client.db();
+    } catch (retryError) {
+      resetClientCache();
+      clientPromise = null;
+
+      if (retryError?.message?.includes("authentication failed")) {
+        throw new Error(
+          "MongoDB : authentification échouée. Vérifiez MONGODB_URI (utilisateur, mot de passe encodé, base restaurant_prod)."
+        );
+      }
+
+      if (
+        retryError?.message?.includes("SSL") ||
+        retryError?.message?.includes("TLS") ||
+        retryError?.name === "MongoServerSelectionError"
+      ) {
+        throw new Error(
+          "MongoDB : connexion impossible. Vérifiez MONGODB_URI sur Vercel et Network Access Atlas (0.0.0.0/0)."
+        );
+      }
+
+      throw retryError;
     }
-    throw error;
   }
 }
 
