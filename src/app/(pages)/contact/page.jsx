@@ -7,6 +7,7 @@ import Divider from "@layouts/divider/Index";
 
 import PageBanner from "@components/PageBanner";
 import ContactInfoSection from "@components/sections/ContactInfo";
+import ContactMapSection from "@components/sections/ContactMap";
 import ContactFormSection from "@components/sections/ContactForm";
 
 export const metadata = {
@@ -20,7 +21,13 @@ const Contact = () => {
   return (
     <>
         <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-            <PageBanner pageTitle={"Get in touch"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"Contact"} showMap={1} />
+            <PageBanner
+              pageTitle={"Contactez-nous"}
+              description={"Une question, une réservation ou un renseignement ?<br>Nous sommes à votre écoute."}
+              breadTitle={"Contact"}
+              showMap={1}
+              mapProvider="google"
+            />
         </div>
         <div id="tst-dynamic-content" className="tst-dynamic-content">
             <div className="tst-content-frame">
@@ -29,6 +36,8 @@ const Contact = () => {
                         <ScrollHint />
 
                         <ContactInfoSection />
+                        <Divider />
+                        <ContactMapSection />
                         <Divider />
                         <ContactFormSection />
                     </div>

@@ -1,19 +1,7 @@
-import Header from "@layouts/headers/Index";
-import Footer from "@layouts/footers/Index";
+import PagesShell from "./PagesShell";
 
-const PagesLayouts = ({
-  children
-}) => {
-  return (
-    <>
-      <Header layout={"default"} />
-
-      {/* dynamic content */}
-      {children} 
-      {/* dynamic content end */}
-      
-      <Footer layout={"default"} />
-    </>
-  );
+const PagesLayouts = ({ children }) => {
+  return <PagesShell>{children}</PagesShell>;
 };
+
 export default PagesLayouts;

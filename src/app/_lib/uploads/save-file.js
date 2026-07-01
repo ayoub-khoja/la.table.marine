@@ -65,7 +65,7 @@ export async function saveUploadedMenuPdf(
     throw new Error("INVALID_FILE");
   }
 
-  if (file.type !== "application/pdf") {
+  if (file.type !== "application/pdf" && !file.name?.toLowerCase().endsWith(".pdf")) {
     throw new Error("INVALID_TYPE");
   }
 
@@ -76,13 +76,18 @@ export async function saveUploadedMenuPdf(
   const dir = path.join(process.cwd(), "public", "uploads", "menu");
   await fs.mkdir(dir, { recursive: true });
 
-  const filename = "menu.pdf";
-  const filepath = path.join(dir, filename);
+  const storedName = `menu-${Date.now()}.pdf`;
+  const filepath = path.join(dir, storedName);
   const buffer = Buffer.from(await file.arrayBuffer());
   await fs.writeFile(filepath, buffer);
 
   return {
-    url: `/uploads/menu/${filename}`,
+    fileUrl: `/uploads/menu/${storedName}`,
+    fileName: file.name,
+    fileSize: file.size,
+    mimeType: "application/pdf",
+    // rétrocompatibilité
+    url: `/uploads/menu/${storedName}`,
     filename: file.name,
     size: file.size,
   };
