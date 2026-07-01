@@ -70,9 +70,15 @@ const DefaultHeader = () => {
                     <ul>
                         {headerMenuItems.map((item, index) => (
                         <li className={`${item.children !== 0 ? "menu-item-has-children" : ""} ${isPathActive(item.link) ? "current-menu-item" : ""}`} key={`header-menu-item-${index}`}>
-                            <Link href={item.link} onClick={(item.children.length > 0)  ? (e) => handleSubMenuClick(index, e) : null}>
+                            {item.blank ? (
+                              <a href={item.link} target="_blank" rel="noopener noreferrer">
                                 {item.label}
-                            </Link>
+                              </a>
+                            ) : (
+                              <Link href={item.link} onClick={(item.children?.length > 0)  ? (e) => handleSubMenuClick(index, e) : null}>
+                                {item.label}
+                              </Link>
+                            )}
                             {/*
                             {item.children.length > 0 && (
                               <ul className={openSubMenu === index ? 'tst-active' : ''}>

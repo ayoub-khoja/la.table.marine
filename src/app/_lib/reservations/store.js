@@ -1,45 +1,12 @@
-import { promises as fs } from "fs";
-import path from "path";
 import { randomUUID } from "crypto";
 import {
   formatReservationDate,
   personLabel,
 } from "@library/email/reservation";
+import { getDb } from "@library/mongodb/client";
+import { buildPagination, parsePagination } from "@library/mongodb/pagination";
 
-const DATA_DIR = path.join(process.cwd(), "data");
-const RESERVATIONS_FILE = path.join(DATA_DIR, "reservations.json");
-
-async function ensureStore() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  try {
-    await fs.access(RESERVATIONS_FILE);
-  } catch {
-    await fs.writeFile(RESERVATIONS_FILE, "[]", "utf8");
-  }
-}
-
-async function readAll() {
-  await ensureStore();
-  const raw = await fs.readFile(RESERVATIONS_FILE, "utf8");
-  const parsed = JSON.parse(raw);
-  return Array.isArray(parsed) ? parsed : [];
-}
-
-async function writeAll(reservations) {
-  await ensureStore();
-  const tmp = `${RESERVATIONS_FILE}.${process.pid}.tmp`;
-  await fs.writeFile(tmp, JSON.stringify(reservations, null, 2), "utf8");
-  await fs.rename(tmp, RESERVATIONS_FILE);
-}
-
-function parsePagination(searchParams) {
-  const page = Math.max(1, Number.parseInt(searchParams.get("page") || "1", 10) || 1);
-  const limit = Math.min(
-    50,
-    Math.max(1, Number.parseInt(searchParams.get("limit") || "10", 10) || 10)
-  );
-  return { page, limit };
-}
+const COLLECTION = "reservations";
 
 /**
  * @param {object} payload
@@ -60,9 +27,8 @@ export async function createReservation(payload) {
     message: payload.message || "",
   };
 
-  const all = await readAll();
-  all.unshift(reservation);
-  await writeAll(all);
+  const db = await getDb();
+  await db.collection(COLLECTION).insertOne(reservation);
 
   return reservation;
 }
@@ -72,25 +38,28 @@ export async function createReservation(payload) {
  */
 export async function listReservations(searchParams) {
   const { page, limit } = parsePagination(searchParams);
-  const all = await readAll();
-  const sorted = [...all].sort(
-    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  );
+  const db = await getDb();
+  const collection = db.collection(COLLECTION);
 
-  const total = sorted.length;
-  const totalPages = Math.max(1, Math.ceil(total / limit));
-  const safePage = Math.min(page, totalPages);
-  const start = (safePage - 1) * limit;
+  const total = await collection.countDocuments();
+  const pagination = buildPagination(page, limit, total);
+
+  const reservations = await collection
+    .find({})
+    .sort({ createdAt: -1 })
+    .skip(pagination.skip)
+    .limit(limit)
+    .toArray();
 
   return {
-    reservations: sorted.slice(start, start + limit),
+    reservations,
     pagination: {
-      page: safePage,
-      limit,
-      total,
-      totalPages,
-      hasNext: safePage < totalPages,
-      hasPrev: safePage > 1,
+      page: pagination.page,
+      limit: pagination.limit,
+      total: pagination.total,
+      totalPages: pagination.totalPages,
+      hasNext: pagination.hasNext,
+      hasPrev: pagination.hasPrev,
     },
   };
 }

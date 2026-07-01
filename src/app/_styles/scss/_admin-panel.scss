@@ -1143,9 +1143,10 @@
   cursor: pointer;
   transition: border-color $tr-sm, background $tr-sm;
 
-  &:hover {
-    border-color: rgba($ac, 0.4);
-    background: rgba($ac, 0.04);
+  &:hover,
+  &.is-dragover {
+    border-color: rgba($ac, 0.45);
+    background: rgba($ac, 0.06);
   }
 
   input {
@@ -1163,6 +1164,35 @@
     color: $dl1t;
     line-height: 1.4;
   }
+}
+
+.tst-admin-upload__dropzone-title {
+  font-weight: 600;
+  color: $dl1 !important;
+}
+
+.tst-admin-upload__dropzone-hint {
+  font-size: 13px !important;
+}
+
+.tst-admin-menu__meta {
+  margin-top: 4px !important;
+  font-size: 12px !important;
+  color: $dl1t !important;
+}
+
+.tst-admin-menu__preview {
+  padding: 0 24px 24px;
+  border-bottom: 1px solid rgba($dl1, 0.08);
+}
+
+.tst-admin-menu__preview-frame {
+  width: 100%;
+  min-height: 420px;
+  height: 55vh;
+  border: 1px solid rgba($dl1, 0.08);
+  border-radius: 12px;
+  background: $wl1;
 }
 
 .tst-admin-products__preview {
