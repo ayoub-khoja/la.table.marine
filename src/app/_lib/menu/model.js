@@ -39,6 +39,8 @@ export function formatCarteMenu(doc) {
     fileUrl: doc.fileUrl,
     fileSize: doc.fileSize,
     mimeType: doc.mimeType,
+    storage: doc.storage || (doc.gridFsId ? "gridfs" : "disk"),
+    gridFsId: doc.gridFsId || null,
     active: doc.active,
     createdAt,
     updatedAt,

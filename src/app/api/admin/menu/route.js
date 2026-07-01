@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { requireAdminSession } from "@library/admin/require-session";
 import { createActiveCarteMenu, getActiveCarteMenu } from "@library/menu/store";
-import { saveUploadedMenuPdf } from "@library/uploads/save-file";
+import { saveMenuPdfForStore } from "@library/menu/pdf-storage";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 const ERROR_MESSAGES = {
   INVALID_FILE: "Fichier invalide.",
@@ -40,13 +41,15 @@ export async function POST(request) {
     const file = formData.get("pdf");
     const title = (formData.get("title") || "Carte Menu").toString().trim();
 
-    const saved = await saveUploadedMenuPdf(file);
+    const saved = await saveMenuPdfForStore(file);
     const menu = await createActiveCarteMenu({
       title: title || "Carte Menu",
       fileName: saved.fileName,
       fileUrl: saved.fileUrl,
       fileSize: saved.fileSize,
       mimeType: saved.mimeType,
+      storage: saved.storage,
+      gridFsId: saved.gridFsId,
     });
 
     return NextResponse.json({

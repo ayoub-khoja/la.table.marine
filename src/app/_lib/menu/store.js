@@ -42,6 +42,8 @@ export async function createActiveCarteMenu(payload) {
     fileUrl: payload.fileUrl,
     fileSize: payload.fileSize,
     mimeType: payload.mimeType || CARTE_MENU_MIME,
+    storage: payload.storage || (payload.gridFsId ? "gridfs" : "disk"),
+    gridFsId: payload.gridFsId || null,
     active: true,
     createdAt: now,
     updatedAt: now,
