@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { getSortedPostsData } from "@library/posts";
 
 import AppData from "@data/app.json";
+import AboutData from "@data/sections/about.json";
 
 import ScrollHint from "@layouts/scroll-hint/Index";
 import Divider from "@layouts/divider/Index";
@@ -31,12 +32,6 @@ export const metadata = {
 async function About() {
   const posts = await getAllPosts();
 
-  const Content = {
-    "subtitle": "À propos",
-    "title": "Nous vous invitons à<br>visiter notre restaurant",
-    "description": "Assumenda possimus eaque illo iste, autem. Porro eveniet, autem ipsam vitae amet repellat repudiandae tenetur, quod corrupti consectetur cum? Repudiandae dignissimos fugiat sit nam. Tempore aspernatur quae repudiandae dolorem, beatae dolorum, praesentium itaque et quam quaerat. Cumque, consequatur!"
-  }
-
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
@@ -53,9 +48,9 @@ async function About() {
 
                   {/* about text */}
                   <div className="tst-mb-60 text-center">
-                    <div className="tst-suptitle tst-suptitle-center tst-mb-15" dangerouslySetInnerHTML={{__html : Content.subtitle}} /> 
-                    <h3 className="tst-mb-30" dangerouslySetInnerHTML={{__html : Content.title}} />
-                    <p className="tst-text tst-mb-30" dangerouslySetInnerHTML={{__html : Content.description}} />
+                    <div className="tst-suptitle tst-suptitle-center tst-mb-15" dangerouslySetInnerHTML={{__html : AboutData.subtitle}} /> 
+                    <h3 className="tst-mb-30" dangerouslySetInnerHTML={{__html : AboutData.title}} />
+                    <p className="tst-text tst-mb-30" dangerouslySetInnerHTML={{__html : AboutData.description}} />
 
                     {AppData.social.map((item, key) => (
                     <a href={item.link} target="_blank" title={item.title} className="tst-icon-link" key={`about-social-item-${key}`}><i className={item.icon}></i></a>

@@ -39,14 +39,27 @@ client
     const db = client.db();
     const dbName = db.databaseName;
     const collections = await db.listCollections().toArray();
+    const collectionNames = collections.map((c) => c.name);
+
+    let reviewsInfo = "collection absente";
+    if (collectionNames.includes("reviews")) {
+      const total = await db.collection("reviews").countDocuments();
+      const approved = await db.collection("reviews").countDocuments({
+        status: "approved",
+      });
+      const pending = await db.collection("reviews").countDocuments({
+        status: "pending",
+      });
+      reviewsInfo = `${total} avis (${approved} publiés, ${pending} en attente)`;
+    }
+
     console.log("Connexion réussie.");
     console.log("Base :", dbName);
     console.log(
       "Collections :",
-      collections.length
-        ? collections.map((c) => c.name).join(", ")
-        : "(aucune pour le moment)"
+      collectionNames.length ? collectionNames.join(", ") : "(aucune pour le moment)"
     );
+    console.log("Reviews :", reviewsInfo);
     await client.close();
     process.exit(0);
   })

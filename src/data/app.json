@@ -196,7 +196,7 @@
         },
         "about": {
             "title": "À propos",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita repudiandae neque illum aspernatur fugiat maiores id magni, modi, quaerat vitae. Consectetur adipisicing elit.",
+            "text": "Au cœur de Plaisir, La Table Marine vous accueille dans un cadre chaleureux et raffiné. Notre cuisine célèbre les saveurs de la mer et les produits du terroir, élaborée avec soin par une équipe passionnée.",
             "button": {
                 "link": "/api/menu/file",
                 "label": "Notre menu",
@@ -228,28 +228,32 @@
             "title": "Galerie",
             "items": [
                 {
-                    "image": "/img/menu/1.jpg",
-                    "alt": "Image galerie"
+                    "image": "/img/imageSlider/image00002.png",
+                    "alt": "Salle du restaurant La Table Marine"
                 },
                 {
-                    "image": "/img/menu/2.jpg",
-                    "alt": "Image galerie"
+                    "image": "/img/imageSlider/image00003.png",
+                    "alt": "Plat de fruits de mer servi à La Table Marine"
                 },
                 {
-                    "image": "/img/menu/3.jpg",
-                    "alt": "Image galerie"
+                    "image": "/img/imageSlider/image00007.png",
+                    "alt": "Dressage d'assiette au restaurant"
                 },
                 {
-                    "image": "/img/menu/4.jpg",
-                    "alt": "Image galerie"
+                    "image": "/img/imageSlider/image00009.png",
+                    "alt": "Ambiance conviviale au restaurant"
                 },
                 {
-                    "image": "/img/menu/5.jpg",
-                    "alt": "Image galerie"
+                    "image": "/img/imageSlider/image00012.png",
+                    "alt": "Table dressée à La Table Marine"
+                },
+                {
+                    "image": "/img/imageSlider/image00014.png",
+                    "alt": "Vue du restaurant La Table Marine"
                 }
             ],
             "button": {
-                "link": "/history",
+                "link": "/about",
                 "label": "Voir plus"
             }
         },

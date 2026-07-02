@@ -84,6 +84,39 @@ export const SliderProps = {
       },
     },
   },
+  restaurantGallery: {
+    slidesPerView: 1,
+    spaceBetween: 24,
+    speed: 700,
+    loop: true,
+    centeredSlides: true,
+    autoplay: {
+      delay: 4500,
+      disableOnInteraction: false,
+    },
+    navigation: {
+      prevEl: ".tst-gallery-prev",
+      nextEl: ".tst-gallery-next",
+    },
+    pagination: {
+      el: ".tst-gallery-pagination",
+      clickable: true,
+    },
+    breakpoints: {
+      1200: {
+        slidesPerView: 3,
+        centeredSlides: false,
+      },
+      768: {
+        slidesPerView: 2,
+        centeredSlides: false,
+      },
+      0: {
+        slidesPerView: 1,
+        centeredSlides: true,
+      },
+    },
+  },
   footerGallerySlider: {
     slidesPerView: 4,
     spaceBetween: 15,

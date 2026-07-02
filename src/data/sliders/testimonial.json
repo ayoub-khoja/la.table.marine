@@ -1,67 +1,41 @@
 {
-    "subtitle": "Testimonials",
-    "title": "What Our visitors say",
-    "description": "Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam.",
+    "subtitle": "Témoignages",
+    "title": "Ce que disent nos visiteurs",
+    "description": "Découvrez les expériences de nos clients et partagez<br>la vôtre après votre visite à La Table Marine.",
     "button": {
         "link": "/about",
-        "label": "More about us"
+        "label": "En savoir plus"
     },
+    "addReviewLabel": "Laisser un avis",
+    "sliderNavLabel": "Navigation du carrousel",
     "items": [
         {
-            "title": "It was very delicious!",
+            "title": "C'était délicieux !",
             "name": "Emma Newman",
-            "image": "/img/faces/1.jpg",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, eligendi dolorem? Voluptates rem magnam nesciunt ullam hic error sed, minus, accusantium inventore ex reprehenderit ipsum aperiam libero ut, laudantium delectus deleniti debitis quas dolore quos. Accusamus ea saepe, veniam. Nemo.",
-            "date": "02.02.21"
+            "text": "Une cuisine raffinée et des produits frais. L'équipe est aux petits soins et l'ambiance est parfaite pour un dîner en amoureux. Nous reviendrons sans hésiter !",
+            "date": "02.02.21",
+            "rating": 5
         },
         {
-            "title": "I'm delighted!",
+            "title": "Je suis ravie !",
             "name": "Viktoria Freeman",
-            "image": "/img/faces/2.jpg",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, eligendi dolorem? Voluptates rem magnam nesciunt ullam hic error sed, minus, accusantium inventore ex reprehenderit ipsum aperiam libero ut, laudantium delectus deleniti debitis quas dolore quos. Accusamus ea saepe, veniam. Nemo.",
-            "date": "02.02.21"
+            "text": "Service impeccable, assiettes généreuses et saveurs authentiques. On sent la passion dans chaque plat. Un vrai moment de bonheur gastronomique à Plaisir.",
+            "date": "15.03.21",
+            "rating": 5
         },
         {
-            "title": "I will visit again.",
+            "title": "Je reviendrai.",
             "name": "Paul Trueman",
-            "image": "/img/faces/3.jpg",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, eligendi dolorem? Voluptates rem magnam nesciunt ullam hic error sed, minus, accusantium inventore ex reprehenderit ipsum aperiam libero ut, laudantium delectus deleniti debitis quas dolore quos. Accusamus ea saepe, veniam. Nemo.",
-            "date": "02.02.21"
+            "text": "Cadre chaleureux, carte variée et accueil souriant. Les plats de la mer sont excellents. Une adresse que je recommande à tous mes proches.",
+            "date": "08.04.21",
+            "rating": 5
         },
         {
-            "title": "The best restaurant!",
+            "title": "Le meilleur restaurant !",
             "name": "Oscar Oldman",
-            "image": "/img/faces/4.jpg",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, eligendi dolorem? Voluptates rem magnam nesciunt ullam hic error sed, minus, accusantium inventore ex reprehenderit ipsum aperiam libero ut, laudantium delectus deleniti debitis quas dolore quos. Accusamus ea saepe, veniam. Nemo.",
-            "date": "02.02.21"
-        },
-        {
-            "title": "It was very delicious!",
-            "name": "Emma Newman",
-            "image": "/img/faces/1.jpg",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, eligendi dolorem? Voluptates rem magnam nesciunt ullam hic error sed, minus, accusantium inventore ex reprehenderit ipsum aperiam libero ut, laudantium delectus deleniti debitis quas dolore quos. Accusamus ea saepe, veniam. Nemo.",
-            "date": "02.02.21"
-        },
-        {
-            "title": "I'm delighted!",
-            "name": "Viktoria Freeman",
-            "image": "/img/faces/2.jpg",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, eligendi dolorem? Voluptates rem magnam nesciunt ullam hic error sed, minus, accusantium inventore ex reprehenderit ipsum aperiam libero ut, laudantium delectus deleniti debitis quas dolore quos. Accusamus ea saepe, veniam. Nemo.",
-            "date": "02.02.21"
-        },
-        {
-            "title": "I will visit again.",
-            "name": "Paul Trueman",
-            "image": "/img/faces/3.jpg",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, eligendi dolorem? Voluptates rem magnam nesciunt ullam hic error sed, minus, accusantium inventore ex reprehenderit ipsum aperiam libero ut, laudantium delectus deleniti debitis quas dolore quos. Accusamus ea saepe, veniam. Nemo.",
-            "date": "02.02.21"
-        },
-        {
-            "title": "The best restaurant!",
-            "name": "Oscar Oldman",
-            "image": "/img/faces/4.jpg",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique, eligendi dolorem? Voluptates rem magnam nesciunt ullam hic error sed, minus, accusantium inventore ex reprehenderit ipsum aperiam libero ut, laudantium delectus deleniti debitis quas dolore quos. Accusamus ea saepe, veniam. Nemo.",
-            "date": "02.02.21"
+            "text": "Une expérience mémorable du début à la fin. La qualité des produits et le soin apporté à la présentation font toute la différence. Bravo à toute l'équipe !",
+            "date": "22.05.21",
+            "rating": 5
         }
     ]
 }

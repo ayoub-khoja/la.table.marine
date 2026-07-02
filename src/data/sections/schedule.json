@@ -1,41 +1,31 @@
 {
     "image": {
-       "url": "/img/menu/4.jpg",
-       "alt": "cover"
+        "url": "/img/menu/4.jpg",
+        "alt": "La Table Marine — restaurant"
     },
     "subtitle": "À propos",
-    "title": "Horaires d’ouverture",
-    "description": "Rolorem, beatae dolorum, praesentium itaque et quam quaerat.",
+    "title": "Horaires d'ouverture",
+    "description": "Ouvert le midi et le soir pour vous accueillir autour d'une cuisine aux saveurs de la mer. Réservez votre table ou contactez-nous pour toute question.",
     "button1": {
-        "link": "/menu",
+        "link": "/reservation",
         "label": "Réserver"
     },
     "button2": {
         "link": "/contact",
         "label": "Nous contacter"
     },
-    "items": [
+    "groups": [
         {
-            "label": "Dimanche à mardi",
-            "from": {
-                "hours": "09",
-                "minutes": "00"
-            },
-            "to": {
-                "hours": "22",
-                "minutes": "00"
-            }
+            "id": "week",
+            "label": "Lundi au jeudi & dimanche",
+            "lunch": "12:00 – 15:00",
+            "dinner": "19:00 – 22:30"
         },
         {
-            "label": "Vendredi à samedi",
-            "from": {
-                "hours": "11",
-                "minutes": "00"
-            },
-            "to": {
-                "hours": "19",
-                "minutes": "00"
-            }
+            "id": "weekend",
+            "label": "Vendredi & samedi",
+            "lunch": "12:00 – 15:00",
+            "dinner": "19:00 – 23:00"
         }
     ]
 }

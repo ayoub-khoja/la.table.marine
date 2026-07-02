@@ -8,8 +8,8 @@ const FeaturesOneSection = () => {
 
             <div className="col-lg-12">
                 {/* title */}
-                <div className="text-center">
-                    <div className="tst-suptitle tst-suptitle-center tst-mb-15" dangerouslySetInnerHTML={{__html : Data.subtitle}} />
+                <div>
+                    <div className="tst-suptitle tst-mb-15" dangerouslySetInnerHTML={{__html : Data.subtitle}} />
                     <h3 className="tst-mb-30" dangerouslySetInnerHTML={{__html : Data.title}} />
                     <p className="tst-text tst-mb-60" dangerouslySetInnerHTML={{__html : Data.description}} />
                 </div>
@@ -19,7 +19,7 @@ const FeaturesOneSection = () => {
             {Data.items.map((item, key) => (
             <div className="col-lg-4" key={`features-item-${key}`}>
                 {/* icon box */}
-                <div className="tst-icon-box tst-mb-60">
+                <div className="tst-icon-box tst-icon-box--left tst-mb-60">
                     <img src={item.icon} alt="icon" className="tst-mb-30" />
                     <h5 className="tst-mb-30">{item.title}</h5>
                     <div className="tst-text" dangerouslySetInnerHTML={{__html : item.text}} />
