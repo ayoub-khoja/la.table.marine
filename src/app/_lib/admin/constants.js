@@ -11,6 +11,7 @@ export const ADMIN_PROTECTED_PATHS = [
   "/admin/messages",
   "/admin/produits",
   "/admin/menu",
+  "/admin/avis",
 ];
 
 export const ADMIN_NAV_ITEMS = [
@@ -49,6 +50,12 @@ export const ADMIN_NAV_ITEMS = [
     label: "Menu",
     href: "/admin/menu",
     icon: "fa-utensils",
+  },
+  {
+    id: "avis",
+    label: "Avis clients",
+    href: "/admin/avis",
+    icon: "fa-star",
   },
 ];
 

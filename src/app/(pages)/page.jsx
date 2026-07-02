@@ -1,8 +1,6 @@
 import React, { Suspense } from "react";
 import dynamic from "next/dynamic";
 
-import { getSortedPostsData } from "@library/posts";
-
 import AppData from "@data/app.json";
 
 import ScrollHint from "@layouts/scroll-hint/Index";
@@ -28,8 +26,6 @@ export const metadata = {
 }
 
 async function Home() {
-  const posts = await getAllPosts();
-
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
@@ -57,7 +53,7 @@ async function Home() {
               <TestimonialSlider />
               <Divider onlyBottom={0} />
               <Suspense fallback={<div>Chargement...</div>}>
-                <LatestPostsSection posts={posts} />
+                <LatestPostsSection />
               </Suspense>
               <Divider onlyBottom={0} />
               <SubscribeSection />
@@ -69,8 +65,3 @@ async function Home() {
   );
 };
 export default Home;
-
-async function getAllPosts() {
-  const allPosts = getSortedPostsData();
-  return allPosts;
-}

@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "admin:hash-password": "node scripts/hash-admin-password.js"
+    "admin:hash-password": "node scripts/hash-admin-password.js",
+    "db:verify": "node scripts/verify-mongodb.js",
+    "db:seed-reviews": "node scripts/seed-reviews.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

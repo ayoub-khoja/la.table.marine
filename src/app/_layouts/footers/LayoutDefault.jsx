@@ -41,7 +41,7 @@ const DefaultFooter = () => {
 
                 <div className="row">
                     <div className="col-lg-4">
-                        <div className="tst-mb-60">
+                        <div className="tst-mb-60 tst-footer-about">
                             <h5 className="tst-mb-30 tst-text-shadow" dangerouslySetInnerHTML={{__html : AppData.footer.about.title}} />
                             <div className="tst-text tst-text-shadow tst-mb-30" dangerouslySetInnerHTML={{__html : AppData.footer.about.text}} />
                             {AppData.footer.about.button.blank ? (

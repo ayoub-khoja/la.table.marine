@@ -1,22 +1,22 @@
 {
     "subtitle": "Atouts",
     "title": "Pourquoi nous choisir ?",
-    "description": "Porro eveniet, autem ipsam vitae consequatur!",
+    "description": "Une cuisine généreuse, des produits soigneusement sélectionnés et une équipe à votre écoute pour vous faire vivre un moment inoubliable.",
     "items": [
         {
             "icon": "/img/icons/1.svg",
             "title": "Un menu pour tous les goûts",
-            "text": "Dolor sit amet, consectetur adipisicing elit et molestias possimus"
+            "text": "Fruits de mer, poissons, viandes et suggestions du moment : notre carte évolue au fil des saisons pour satisfaire toutes les envies."
         },
         {
             "icon": "/img/icons/2.svg",
             "title": "Des ingrédients toujours frais",
-            "text": "Assumenda possimus eaque illo iste, autem. Porro eveniet autem"
+            "text": "Nous travaillons des produits frais et de qualité, choisis avec soin auprès de nos fournisseurs pour sublimer chaque assiette."
         },
         {
             "icon": "/img/icons/3.svg",
             "title": "Des chefs expérimentés",
-            "text": "Rolorem, beatae dolorum, praesentium itaque et quam quaerat"
+            "text": "Notre brigade met son savoir-faire au service de votre plaisir, avec une cuisine maison, raffinée et fidèle à l'esprit de la maison."
         }
     ]
 }

@@ -1,10 +1,10 @@
 {
     "video": {
         "title": "Promo video",
-        "link": "https://www.youtube.com/watch?v=SXJqEnauNaY"
+        "url": "https://raw.githubusercontent.com/ayoub-khoja/Media-latablemarine/main/apropos.mp4"
     },
     "image": {
-        "url": "/img/about.jpg",
-        "alt": "video cover"
+        "url": "/img/video-about.png",
+        "alt": "Découvrez La Table Marine — restaurant au goût de la mer"
     }
 }

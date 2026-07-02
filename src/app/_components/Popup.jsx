@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 const Popup = ({
   open,
@@ -9,6 +10,12 @@ const Popup = ({
   onClose,
   closeLabel = "Fermer",
 }) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   useEffect(() => {
     if (!open) return;
 
@@ -16,11 +23,19 @@ const Popup = ({
       if (e.key === "Escape") onClose?.();
     };
 
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
   }, [open, onClose]);
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <div className={`tst-popup-bg ${open ? "tst-active" : ""}`}>
       <div
         style={{ position: "fixed", inset: 0 }}
@@ -50,7 +65,8 @@ const Popup = ({
           {children}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
