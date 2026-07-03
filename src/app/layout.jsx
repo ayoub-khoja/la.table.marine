@@ -22,7 +22,7 @@ import "./globals.css";
 
 import "@styles/css/plugins/bootstrap.min.css";
 import "@styles/css/plugins/swiper.min.css";
-import "@styles/css/plugins/font-awesome.min.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import { register } from "swiper/element/bundle";
 // register Swiper custom elements
 register();
