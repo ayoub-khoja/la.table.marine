@@ -19,6 +19,11 @@
             "name": "La Table Marine",
             "query": "La Table Marine, 2 rue Pierre Curie, 78370 Plaisir, France",
             "address": "2, rue Pierre Curie, 78370 Plaisir",
+            "fullAddress": "2 Rue Pierre Curie, 78370 Plaisir, France",
+            "rating": 5.0,
+            "reviewCount": 6,
+            "lat": 48.82386,
+            "lng": 1.94528,
             "zoom": 16,
             "lang": "fr"
         },

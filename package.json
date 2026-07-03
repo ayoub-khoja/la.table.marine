@@ -12,6 +12,7 @@
     "db:seed-reviews": "node scripts/seed-reviews.js"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.4",
     "bcryptjs": "^3.0.3",
     "date-fns": "^3.6.0",
     "formik": "^2.4.5",

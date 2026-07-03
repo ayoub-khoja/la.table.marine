@@ -35,7 +35,14 @@ async function About() {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <PageBanner pageTitle={"L’histoire de notre restaurant"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"À propos"} />
+        <PageBanner
+          pageTitle={"L’histoire de notre restaurant"}
+          description={"Au cœur de Plaisir, La Table Marine célèbre les saveurs de la mer<br>et l'authenticité du terroir depuis plus de 25 ans."}
+          breadTitle={"À propos"}
+          bannerImage="/img/image00015.png"
+          bannerImageAlt="Façade du restaurant La Table Marine à Plaisir, le soir"
+          bannerLayout="split-photo"
+        />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
         <div className="tst-content-frame">
