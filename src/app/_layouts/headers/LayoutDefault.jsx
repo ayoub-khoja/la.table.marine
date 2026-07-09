@@ -27,21 +27,18 @@ const DefaultHeader = () => {
     return (asPath.endsWith(path) == 1 && path !== '/') || asPath === path;
   };
 
-  const handleSubMenuClick = (index, e) => {
-    if ( window !== undefined ) {
-        if ( window.innerWidth <= 992 ) {
-            e.preventDefault();
-            setOpenSubMenu(openSubMenu === index ? false : index);
-        }
-    }
+  const hasSubmenu = (item) =>
+    Array.isArray(item.children) && item.children.length > 0;
+
+  const closeMobileMenu = () => {
+    setMobileMenu(false);
+    setOpenSubMenu(false);
   };
 
   useEffect(() => {
-    // close mobile menu
-    setMobileMenu(false);
+    closeMobileMenu();
     setMiniCart(false);
     setReservationPopup(false);
-    setOpenSubMenu(false);
   }, [asPath]);
 
   useEffect(() => {
@@ -54,11 +51,19 @@ const DefaultHeader = () => {
     <>
         {/* top bar frame */}
         <div className="tst-menu-frame">
+            {mobileMenu ? (
+              <button
+                type="button"
+                className="tst-menu-backdrop"
+                aria-label="Fermer le menu"
+                onClick={closeMobileMenu}
+              />
+            ) : null}
             {/* top bar */}
             <div className="tst-dynamic-menu" id="tst-dynamic-menu">
                 <div className="tst-menu">
                 {/* logo */}
-                <Link href="/">
+                <Link href="/" onClick={closeMobileMenu}>
                     <img src={AppData.header.logo.image} className="tst-logo" alt={AppData.header.logo.alt} />
                 </Link>
                 {/* menu */}
@@ -66,19 +71,26 @@ const DefaultHeader = () => {
                     {isPathActive("onepage") ? (
                     <ul>
                         {AppData.header.onepage.map((item, index) => (
-                        <li key={`header-menu-onepage-item-${index}`} className={index == 0 ? "current-menu-item": ""}><a data-no-swup href={item.link}>{item.label}</a></li>
+                        <li key={`header-menu-onepage-item-${index}`} className={index == 0 ? "current-menu-item": ""}>
+                          <a data-no-swup href={item.link} onClick={closeMobileMenu}>{item.label}</a>
+                        </li>
                         ))}
                     </ul>
                     ) : (
                     <ul>
                         {headerMenuItems.map((item, index) => (
-                        <li className={`${item.children !== 0 ? "menu-item-has-children" : ""} ${isPathActive(item.link) ? "current-menu-item" : ""}`} key={`header-menu-item-${index}`}>
+                        <li className={`${hasSubmenu(item) ? "menu-item-has-children" : ""} ${isPathActive(item.link) ? "current-menu-item" : ""}`} key={`header-menu-item-${index}`}>
                             {item.blank ? (
-                              <a href={item.link} target="_blank" rel="noopener noreferrer">
+                              <a
+                                href={item.link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={closeMobileMenu}
+                              >
                                 {item.label}
                               </a>
                             ) : (
-                              <Link href={item.link} onClick={(item.children?.length > 0)  ? (e) => handleSubMenuClick(index, e) : null}>
+                              <Link href={item.link} onClick={closeMobileMenu}>
                                 {item.label}
                               </Link>
                             )}

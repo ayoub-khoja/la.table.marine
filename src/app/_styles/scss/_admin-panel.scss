@@ -3,15 +3,22 @@
 /* Layout panel (sidebar + contenu) */
 .tst-admin-panel {
   display: flex;
+  height: 100dvh;
   min-height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
   background: $wl1;
 }
 
 .tst-admin-panel__main {
   flex: 1;
   min-width: 0;
+  min-height: 0;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tst-admin-panel__content {
@@ -525,25 +532,33 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
   background: linear-gradient(180deg, $dl2 0%, $dl1 100%);
   color: $wl1;
-  padding: 24px 0;
+  padding: 20px 0 0;
 }
 
 .tst-admin-sidebar__brand {
-  padding: 0 20px 24px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 16px 14px;
   border-bottom: 1px solid rgba($wl1, 0.1);
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .tst-admin-sidebar__logo {
   display: block;
   width: auto !important;
-  max-width: 130px !important;
-  max-height: 52px !important;
+  max-width: 220px !important;
+  max-height: 88px !important;
   height: auto !important;
   object-fit: contain;
-  margin-bottom: 10px;
+  margin: 0 auto 8px;
 }
 
 .tst-admin-sidebar__badge {
@@ -552,12 +567,32 @@
   text-transform: uppercase;
   letter-spacing: 0.1em;
   color: rgba($wl1, 0.55);
+  text-align: center;
 }
 
 .tst-admin-sidebar__nav {
   flex: 1;
+  min-height: 0;
   padding: 8px 12px;
   overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba($wl1, 0.35) transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba($wl1, 0.28);
+    border-radius: 999px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
 
   ul {
     list-style: none;
@@ -601,9 +636,11 @@
 }
 
 .tst-admin-sidebar__footer {
-  padding: 16px 20px 0;
-  border-top: 1px solid rgba($wl1, 0.1);
+  flex-shrink: 0;
   margin-top: auto;
+  padding: 14px 20px 20px;
+  border-top: 1px solid rgba($wl1, 0.1);
+  background: linear-gradient(180deg, rgba($dl2, 0) 0%, $dl1 28%);
 }
 
 .tst-admin-sidebar__user {
@@ -1018,14 +1055,26 @@
 @media (max-width: 768px) {
   .tst-admin-panel {
     flex-direction: column;
+    height: auto;
+    min-height: 100dvh;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .tst-admin-panel__main {
+    overflow: visible;
   }
 
   .tst-admin-sidebar {
     width: 100%;
+    height: auto;
+    min-height: 0;
+    position: static;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
     padding: 16px;
+    overflow: visible;
   }
 
   .tst-admin-sidebar__brand {
@@ -1039,7 +1088,8 @@
 
   .tst-admin-sidebar__logo {
     margin: 0;
-    max-height: 40px !important;
+    max-width: 150px !important;
+    max-height: 48px !important;
   }
 
   .tst-admin-sidebar__badge {

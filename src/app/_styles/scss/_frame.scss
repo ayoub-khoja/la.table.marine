@@ -136,6 +136,10 @@ menu
   width: 100%;
   padding: 0 15px;
 
+  .tst-menu-backdrop {
+    display: none;
+  }
+
   & .tst-menu {
     transform: translateY(15px);
     position: relative;
@@ -453,6 +457,24 @@ menu
     width: 100%;
     padding: 0;
 
+    .tst-menu-backdrop {
+      display: block;
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      background: rgba(4, 25, 29, 0.45);
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    & .tst-dynamic-menu {
+      position: relative;
+      z-index: 1;
+    }
+
     & .tst-menu-overlay {
       display: none;
     }
@@ -475,11 +497,12 @@ menu
         background-color: $card;
         width: calc(100% - 20px);
         border-radius: 5px;
-        transition: $tr-md;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+        z-index: 2;
 
         &.tst-active {
           opacity: 1;
-          pointer-events: all;
+          pointer-events: auto;
           transform: translateY(0);
         }
 
@@ -505,6 +528,8 @@ menu
             & a {
               padding: 0;
               margin-bottom: 10px;
+              touch-action: manipulation;
+              -webkit-tap-highlight-color: transparent;
             }
 
             &.current-menu-item {

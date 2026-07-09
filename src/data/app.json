@@ -196,8 +196,8 @@
     },
     "footer": {
         "logo": {
-            "url": "/img/home/logo-latablemarine.png",
-            "alt": "latablemarine"
+            "url": "/img/logo-blanc.png",
+            "alt": "La Table Marine"
         },
         "about": {
             "title": "À propos",
@@ -287,6 +287,10 @@
         }
     ],
     "admin": {
+        "logo": {
+            "image": "/img/logo-blanc.png",
+            "alt": "La Table Marine"
+        },
         "title": "Espace administration",
         "subtitle": "Connectez-vous pour gérer La Table Marine",
         "login": {

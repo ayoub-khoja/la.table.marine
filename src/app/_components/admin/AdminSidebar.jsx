@@ -30,10 +30,10 @@ const AdminSidebar = ({ userEmail }) => {
     <aside className="tst-admin-sidebar">
       <div className="tst-admin-sidebar__brand">
         <Image
-          src={AppData.header.logo.image}
-          alt={AppData.header.logo.alt}
-          width={140}
-          height={56}
+          src={AppData.admin.logo.image}
+          alt={AppData.admin.logo.alt}
+          width={260}
+          height={100}
           className="tst-admin-sidebar__logo"
           priority
         />
@@ -76,7 +76,7 @@ const AdminSidebar = ({ userEmail }) => {
           disabled={loggingOut}
         >
           <i className="fas fa-sign-out-alt" aria-hidden="true" />
-          {loggingOut ? "Déconnexion…" : "Logout"}
+          {loggingOut ? "Déconnexion…" : "Déconnexion"}
         </button>
       </div>
     </aside>

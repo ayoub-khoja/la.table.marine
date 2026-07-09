@@ -100,7 +100,21 @@ const TestimonialSlider = () => {
         </div>
 
         <div className="col-lg-12">
-          <div className="tst-slider-navigation">
+          <div className="tst-slider-navigation tst-slider-navigation--testimonials">
+            <div className="tst-slider-navigation__controls">
+              <div className="tst-nav tst-right">
+                <div className="tst-label">
+                  {Data.sliderNavLabel || "Navigation du carrousel"}
+                </div>
+                <div className="tst-slider-btn tst-testi-prev">
+                  <i className="fas fa-arrow-left" aria-hidden="true" />
+                </div>
+                <div className="tst-slider-btn tst-testi-next">
+                  <i className="fas fa-arrow-right" aria-hidden="true" />
+                </div>
+              </div>
+              <div className="tst-slider-pagination tst-testi-pagination"></div>
+            </div>
             <div className="tst-slider-navigation__actions">
               <Link
                 href={Data.button.link}
@@ -116,18 +130,6 @@ const TestimonialSlider = () => {
                 <i className="fas fa-pen" aria-hidden="true" />{" "}
                 {Data.addReviewLabel}
               </button>
-            </div>
-            <div className="tst-slider-pagination tst-testi-pagination"></div>
-            <div className="tst-nav tst-right">
-              <div className="tst-label">
-                {Data.sliderNavLabel || "Navigation du carrousel"}
-              </div>
-              <div className="tst-slider-btn tst-testi-prev">
-                <i className="fas fa-arrow-left" aria-hidden="true" />
-              </div>
-              <div className="tst-slider-btn tst-testi-next">
-                <i className="fas fa-arrow-right" aria-hidden="true" />
-              </div>
             </div>
           </div>
         </div>

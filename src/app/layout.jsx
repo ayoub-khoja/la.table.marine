@@ -30,6 +30,7 @@ register();
 import '@styles/scss/style.scss';
 
 import AppData from "@data/app.json";
+import FloatingCallButtonHost from "@components/FloatingCallButtonHost";
 
 export const metadata = {
   title: {
@@ -46,6 +47,7 @@ const Layouts = ({
     <html lang="fr" className={`${josefin_sans.variable} ${playfair_display.variable}`}>
       <body style={{"backgroundImage": "url("+AppData.settings.bgImage+")"}}>
         <div className="tst-main-overlay"></div>
+        <FloatingCallButtonHost />
         
         {/* app wrapper */}
         <div id="tst-app" className="tst-app">
