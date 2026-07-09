@@ -44,6 +44,7 @@ const ContactForm = () => {
                 email: values.email,
                 phone: values.phone,
                 message: values.message,
+                website: "",
               }),
             });
 
@@ -64,7 +65,9 @@ const ContactForm = () => {
             setPopupState({
               type: "success",
               message:
-                "Merci ! Votre message a bien été envoyé. Un e-mail de confirmation vous a été adressé.",
+                data?.emailSent === false
+                  ? "Merci ! Votre message a bien été envoyé. Nous vous répondrons dans les plus brefs délais."
+                  : "Merci ! Votre message a bien été envoyé. Un e-mail de confirmation vous a été adressé.",
             });
             setPopupOpen(true);
             resetForm();
@@ -88,6 +91,16 @@ const ContactForm = () => {
         }) => (
           <form onSubmit={handleSubmit} id="contactForm">
             <div className="row">
+              <input
+                type="text"
+                name="website"
+                value=""
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+                style={{ display: "none" }}
+                readOnly
+              />
               <div className="col-lg-6">
                 <input
                   type="text"

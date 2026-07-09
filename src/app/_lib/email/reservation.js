@@ -50,11 +50,11 @@ function renderHeaderBlock(variant, reservation) {
     return `
       <div style="text-align:center;">
         <div style="display:inline-block;background:rgba(1,65,150,0.10);color:#014196;border-radius:999px;padding:6px 12px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;">
-          Réservation confirmée
+          Demande reçue
         </div>
         <h2 style="margin:14px 0 6px;font-size:22px;line-height:1.25;color:#0f172a;">Bonjour ${greeting},</h2>
         <p style="margin:0;font-size:14px;line-height:1.55;color:#64748b;max-width:520px;margin-left:auto;margin-right:auto;">
-          Merci pour votre demande de réservation. Nous l'avons bien reçue et nous vous confirmerons votre table très prochainement.
+          Merci pour votre demande de réservation. Nous l’avons bien reçue et nous vous confirmerons votre table très prochainement.
         </p>
       </div>
     `;
@@ -77,6 +77,7 @@ function renderDetailsBlock(reservation) {
     dateFormatted,
     time,
     email,
+    phone,
     variant,
   } = reservation;
 
@@ -85,6 +86,10 @@ function renderDetailsBlock(reservation) {
     `<p style="margin:0 0 8px;"><b>Heure :</b> ${escapeHtml(time)}</p>`,
     `<p style="margin:0 0 8px;"><b>Personnes :</b> ${escapeHtml(persons)}</p>`,
   ];
+
+  if (phone) {
+    lines.push(`<p style="margin:0 0 8px;"><b>Téléphone :</b> ${escapeHtml(phone)}</p>`);
+  }
 
   if (variant === "customer") {
     lines.push(`<p style="margin:0;"><b>E-mail :</b> ${escapeHtml(email)}</p>`);

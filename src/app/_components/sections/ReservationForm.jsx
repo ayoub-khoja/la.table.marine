@@ -1,22 +1,31 @@
 import Data from "@data/sections/reservation-form.json";
 import ReservationForm from "@components/forms/ReservationForm";
 
-const ReservationSection = () => {
+const ReservationSection = ({ showTitle = true }) => {
     return (
         <>
             <div className="row">
 
-              <div className="col-lg-12">
-
-                {/* title */}
-                <div className="text-center">
-                  <div className="tst-suptitle tst-suptitle-center tst-mb-15" dangerouslySetInnerHTML={{__html : Data.subtitle}} />
-                  <h3 className="tst-mb-30" dangerouslySetInnerHTML={{__html : Data.title}} />
-                  <p className="tst-text tst-mb-60" dangerouslySetInnerHTML={{__html : Data.description}} />
+              {showTitle ? (
+                <div className="col-lg-12">
+                  {/* title */}
+                  <div className="text-center">
+                    <div
+                      className="tst-suptitle tst-suptitle-center tst-mb-15"
+                      dangerouslySetInnerHTML={{ __html: Data.subtitle }}
+                    />
+                    <h3
+                      className="tst-mb-30"
+                      dangerouslySetInnerHTML={{ __html: Data.title }}
+                    />
+                    <p
+                      className="tst-text tst-mb-60"
+                      dangerouslySetInnerHTML={{ __html: Data.description }}
+                    />
+                  </div>
+                  {/* title end */}
                 </div>
-                {/* title end */}
-
-              </div>
+              ) : null}
 
               <div className="col-lg-12">
 

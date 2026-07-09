@@ -7,6 +7,7 @@ import {
 
 const ContactMapSection = () => {
   const { googleMaps } = AppData.settings;
+  const phoneHref = Data.phone.replace(/\s+/g, "");
 
   return (
     <section className="tst-contact-map tst-mb-60" aria-labelledby="contact-map-title">
@@ -33,7 +34,7 @@ const ContactMapSection = () => {
             <li>
               <span className="tst-contact-map__label">Téléphone</span>
               <p>
-                <a href={`tel:${Data.phone}`}>{Data.phone}</a>
+                <a href={`tel:${phoneHref}`}>{Data.phone}</a>
               </p>
             </li>
             <li>

@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useState } from 'react';
 
 import VideoModal from "@components/VideoModal";
+import Visit360Section from "@components/sections/Visit360";
 
 const AboutSection = () => {
     const [isOpen, setOpen] = useState(false);
@@ -58,6 +59,8 @@ const AboutSection = () => {
               poster={Data.image.url}
               onClose={() => setOpen(false)}
             />
+
+            <Visit360Section />
         </>
     );
 };

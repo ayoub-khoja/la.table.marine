@@ -496,6 +496,18 @@ about
   margin-right: auto;
 }
 
+.tst-promo-video {
+  .tst-video-cover {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 991px) {
+    .tst-mb-60 {
+      margin-bottom: 30px;
+    }
+  }
+}
+
 .tst-about-cover {
   position: relative;
   overflow: hidden;
@@ -627,6 +639,33 @@ icon box
 
     & img {
       display: block;
+    }
+
+    @media (max-width: 991px) {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-template-rows: auto auto;
+      column-gap: 16px;
+      align-items: center;
+
+      & img {
+        grid-column: 1;
+        grid-row: 1;
+        width: 52px;
+        margin-bottom: 0 !important;
+      }
+
+      & h5 {
+        grid-column: 2;
+        grid-row: 1;
+        margin-bottom: 0 !important;
+      }
+
+      & .tst-text {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        margin-top: 14px;
+      }
     }
   }
 }
