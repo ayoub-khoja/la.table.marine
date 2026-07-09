@@ -180,9 +180,9 @@ const PageBanner = ({ pageTitle, pageSubTitle = false, description, breadTitle, 
                 <div className={`tst-text ${showMap || bannerLayout === "split-photo" ? "" : "tst-text-shadow"} tst-text-lg tst-white-2 tst-mb-30`} dangerouslySetInnerHTML={{__html : description}} />
                 {mapProvider === "google" ? (
                   <div className="tst-banner-split__meta">
-                    <a href="tel:0607716979" className="tst-banner-split__chip">
+                    <a href="tel:0188937672" className="tst-banner-split__chip">
                       <i className="fas fa-phone" aria-hidden="true" />
-                      06 07 71 69 79
+                      01 88 93 76 72
                     </a>
                     <span className="tst-banner-split__chip">
                       <i className="fas fa-map-marker-alt" aria-hidden="true" />

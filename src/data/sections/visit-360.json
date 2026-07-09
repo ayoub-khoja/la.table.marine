@@ -1,0 +1,14 @@
+{
+  "subtitle": "Visite 360°",
+  "title": "Explorez La Table Marine en 360°",
+  "description": "Découvrez l'ambiance du restaurant avant votre venue. La visite interactive se charge uniquement lorsque vous le souhaitez, pour une page rapide et fluide.",
+  "tourUrl": "/visite-360/index.html",
+  "poster": {
+    "url": "/visite-360/tiles/0-photo360/preview.jpg",
+    "alt": "Aperçu de la visite 360° — La Table Marine"
+  },
+  "cta": {
+    "posterLabel": "Lancer la visite 360°",
+    "secondaryLabel": "Ouvrir en plein écran"
+  }
+}

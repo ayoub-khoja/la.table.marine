@@ -10,7 +10,7 @@ import ScrollHint from "@layouts/scroll-hint/Index";
 import Divider from "@layouts/divider/Index";
 
 import PageBanner from "@components/PageBanner";
-import AwardsSection from "@components/sections/Awards";
+import Visit360Section from "@components/sections/Visit360";
 import PromoVideoSection from "@components/sections/PromoVideo";
 import FeaturesSection from "@components/sections/Features";
 import TeamSection from "@components/sections/Team";
@@ -67,7 +67,7 @@ async function About() {
 
                 </div>
               </div>
-              <AwardsSection />
+              <Visit360Section />
               <PromoVideoSection />
               <Divider />
               <FeaturesSection />

@@ -4,10 +4,27 @@ import { buildPagination, parsePagination } from "@library/mongodb/pagination";
 
 const COLLECTION = "messages";
 
+let indexesReady = false;
+
+async function ensureIndexes(db) {
+  if (indexesReady) return;
+  const collection = db.collection(COLLECTION);
+
+  await Promise.all([
+    collection.createIndex({ createdAt: -1 }),
+    collection.createIndex({ email: 1, createdAt: -1 }),
+    collection.createIndex({ status: 1, createdAt: -1 }),
+  ]);
+
+  indexesReady = true;
+}
+
 /**
  * @param {object} payload
  */
 export async function createMessage(payload) {
+  const messageText = (payload.message || "").toString();
+
   const message = {
     id: randomUUID(),
     createdAt: new Date().toISOString(),
@@ -16,14 +33,16 @@ export async function createMessage(payload) {
     fullName: payload.fullName,
     email: payload.email,
     phone: payload.phone || "",
-    message: payload.message,
+    message: messageText,
     preview:
-      payload.message.length > 120
-        ? `${payload.message.slice(0, 120)}…`
-        : payload.message,
+      messageText.length > 120 ? `${messageText.slice(0, 120)}…` : messageText,
+    status: "new",
+    readAt: null,
+    archivedAt: null,
   };
 
   const db = await getDb();
+  await ensureIndexes(db);
   await db.collection(COLLECTION).insertOne(message);
 
   return message;

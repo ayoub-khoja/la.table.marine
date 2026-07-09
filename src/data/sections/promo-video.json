@@ -1,4 +1,7 @@
 {
+    "subtitle": "À propos",
+    "title": "Découvrez<br>La Table Marine",
+    "description": "Plongez dans l'univers de notre restaurant : une cuisine de la mer, un cadre chaleureux et une équipe passionnée. Regardez la vidéo pour découvrir l'ambiance avant votre venue.",
     "video": {
         "title": "Promo video",
         "url": "https://raw.githubusercontent.com/ayoub-khoja/Media-latablemarine/main/apropos.mp4"
