@@ -4,14 +4,14 @@ import AppData from "@data/app.json";
 import AdminLoginForm from "@components/admin/AdminLoginForm";
 
 const AdminLoginPage = () => {
-  const { admin, header } = AppData;
+  const { admin } = AppData;
 
   return (
     <section className="tst-admin">
       <div className="tst-admin__card">
         <Image
-          src={header.logo.image}
-          alt={header.logo.alt}
+          src={admin.logo.image}
+          alt={admin.logo.alt}
           width={180}
           height={72}
           className="tst-admin__logo"
