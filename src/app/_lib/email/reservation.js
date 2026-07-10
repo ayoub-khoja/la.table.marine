@@ -1,5 +1,14 @@
 import { renderEmailFooter } from "@library/email/footer";
+import { wrapEmailHtml } from "@library/email/layout";
+import { normalizeCustomerMessage } from "@library/email/message";
 import { escapeHtml } from "@library/email/order";
+import {
+  EMAIL_CONTENT_BOX,
+  EMAIL_MESSAGE_BOX,
+  EMAIL_PARAGRAPH,
+  EMAIL_PARAGRAPH_LAST,
+  EMAIL_TEXT_WRAP,
+} from "@library/email/styles";
 
 const PERSON_LABELS = {
   "1": "1 personne",
@@ -31,13 +40,21 @@ export function formatReservationDate(dateStr) {
 }
 
 function renderNotesBlock(message) {
-  if (!message) return "";
+  const text = (message || "").trim();
+  if (!text) return "";
+
+  const html = escapeHtml(text).replaceAll("\n", "<br/>");
+
   return `
     <div style="margin-top:18px;text-align:left;">
       <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#64748b;margin-bottom:10px;">Message</div>
-      <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:14px 14px;color:#7c2d12;">
-        ${escapeHtml(message).replaceAll("\n", "<br/>")}
-      </div>
+      <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;width:100%;">
+        <tr>
+          <td style="${EMAIL_MESSAGE_BOX}">
+            ${html}
+          </td>
+        </tr>
+      </table>
     </div>
   `;
 }
@@ -66,7 +83,7 @@ function renderHeaderBlock(variant, reservation) {
         Nouvelle réservation
       </div>
       <h2 style="margin:14px 0 6px;font-size:22px;line-height:1.25;color:#0f172a;">${escapeHtml(fullName)}</h2>
-      <p style="margin:0;font-size:14px;color:#64748b;">${escapeHtml(email)}</p>
+      <p style="margin:0;font-size:14px;color:#64748b;${EMAIL_TEXT_WRAP}">${escapeHtml(email)}</p>
     </div>
   `;
 }
@@ -78,21 +95,44 @@ function renderDetailsBlock(reservation) {
     time,
     email,
     phone,
+    requestTypeLabel,
+    occasionLabel,
+    serviceTypeLabel,
     variant,
   } = reservation;
 
-  const lines = [
-    `<p style="margin:0 0 8px;"><b>Date :</b> ${escapeHtml(dateFormatted)}</p>`,
-    `<p style="margin:0 0 8px;"><b>Heure :</b> ${escapeHtml(time)}</p>`,
-    `<p style="margin:0 0 8px;"><b>Personnes :</b> ${escapeHtml(persons)}</p>`,
-  ];
+  const lines = [];
+
+  if (requestTypeLabel) {
+    lines.push(
+      `<p style="${EMAIL_PARAGRAPH}"><b>Type de demande :</b> ${escapeHtml(requestTypeLabel)}</p>`
+    );
+  }
+
+  if (occasionLabel) {
+    lines.push(
+      `<p style="${EMAIL_PARAGRAPH}"><b>Occasion :</b> ${escapeHtml(occasionLabel)}</p>`
+    );
+  }
+
+  if (serviceTypeLabel) {
+    lines.push(
+      `<p style="${EMAIL_PARAGRAPH}"><b>Service :</b> ${escapeHtml(serviceTypeLabel)}</p>`
+    );
+  }
+
+  lines.push(
+    `<p style="${EMAIL_PARAGRAPH}"><b>Date :</b> ${escapeHtml(dateFormatted)}</p>`,
+    `<p style="${EMAIL_PARAGRAPH}"><b>Heure :</b> ${escapeHtml(time)}</p>`,
+    `<p style="${EMAIL_PARAGRAPH}"><b>Personnes :</b> ${escapeHtml(persons)}</p>`
+  );
 
   if (phone) {
-    lines.push(`<p style="margin:0 0 8px;"><b>Téléphone :</b> ${escapeHtml(phone)}</p>`);
+    lines.push(`<p style="${EMAIL_PARAGRAPH}"><b>Téléphone :</b> ${escapeHtml(phone)}</p>`);
   }
 
   if (variant === "customer") {
-    lines.push(`<p style="margin:0;"><b>E-mail :</b> ${escapeHtml(email)}</p>`);
+    lines.push(`<p style="${EMAIL_PARAGRAPH_LAST}"><b>E-mail :</b> ${escapeHtml(email)}</p>`);
   }
 
   const title =
@@ -101,7 +141,7 @@ function renderDetailsBlock(reservation) {
   return `
     <div style="margin-top:18px;text-align:left;">
       <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#64748b;margin-bottom:10px;">${title}</div>
-      <div style="background:#f8fafc;border:1px solid #e9edf2;border-radius:12px;padding:14px 14px;color:#0f172a;">
+      <div style="${EMAIL_CONTENT_BOX}">
         ${lines.join("")}
       </div>
     </div>
@@ -113,21 +153,24 @@ function renderDetailsBlock(reservation) {
  * @param {object} reservation
  */
 export function renderReservationEmailHtml(variant, reservation) {
-  const { message } = reservation;
+  const message = normalizeCustomerMessage(reservation.message);
+  const contextLine =
+    variant === "customer"
+      ? `Concernant votre réservation du ${reservation.dateFormatted || reservation.date} à ${reservation.time}.`
+      : `Nouvelle demande pour le ${reservation.dateFormatted || reservation.date} à ${reservation.time}.`;
 
-  return `
-    <div style="margin:0;padding:0;background:#f1f5f9;">
-      <div style="max-width:680px;margin:0 auto;padding:22px 14px 34px;">
-        <div style="background:#ffffff;border:1px solid #e9edf2;border-radius:16px;box-shadow:0 10px 30px rgba(2,6,23,0.08);overflow:hidden;">
-          <img src="cid:header-email" alt="La Table Marine" style="display:block;width:100%;height:auto;border:0;outline:none;text-decoration:none;margin:0;" />
-          <div style="padding:22px 18px;">
-            ${renderHeaderBlock(variant, { ...reservation, variant })}
-            ${renderDetailsBlock({ ...reservation, variant })}
-            ${renderNotesBlock(message)}
-          </div>
-          ${renderEmailFooter(escapeHtml)}
-        </div>
-      </div>
-    </div>
-  `;
+  return wrapEmailHtml(
+    `
+      ${renderHeaderBlock(variant, { ...reservation, variant })}
+      ${renderDetailsBlock({ ...reservation, variant })}
+      ${renderNotesBlock(message)}
+      ${renderEmailFooter(escapeHtml, {
+        referenceId: reservation.id,
+        sentAt: reservation.createdAt,
+        contextLine,
+      })}
+    `,
+    "",
+    { referenceId: reservation.id, sentAt: reservation.createdAt }
+  );
 }

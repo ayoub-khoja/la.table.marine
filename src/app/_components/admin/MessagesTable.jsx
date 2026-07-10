@@ -165,25 +165,9 @@ const MessagesTable = () => {
                     >
                       <td colSpan={5}>
                         <div className="tst-admin-orders__detail">
-                          <div className="tst-admin-orders__detail-grid">
-                            <div>
-                              <h3>Message complet</h3>
-                              <p className="tst-admin-reservations__message">
-                                {row.message}
-                              </p>
-                            </div>
-                            <div>
-                              <h3>Informations</h3>
-                              <dl className="tst-admin-orders__meta">
-                                <div>
-                                  <dt>Référence</dt>
-                                  <dd>
-                                    <code>{row.id}</code>
-                                  </dd>
-                                </div>
-                              </dl>
-                            </div>
-                          </div>
+                          <p className="tst-admin-reservations__message">
+                            {row.message}
+                          </p>
                         </div>
                       </td>
                     </tr>

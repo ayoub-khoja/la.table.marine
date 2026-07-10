@@ -1,4 +1,13 @@
 import { renderEmailFooter } from "@library/email/footer";
+import { wrapEmailHtml } from "@library/email/layout";
+import { normalizeCustomerMessage } from "@library/email/message";
+import {
+  EMAIL_CONTENT_BOX,
+  EMAIL_MESSAGE_BOX,
+  EMAIL_PARAGRAPH,
+  EMAIL_PARAGRAPH_LAST,
+  EMAIL_TEXT_WRAP,
+} from "@library/email/styles";
 
 export function escapeHtml(str) {
   return String(str)
@@ -44,7 +53,7 @@ function renderOrderTable(items) {
       return `
         <tr>
           <td style="padding:12px 10px;border-bottom:1px solid #e9edf2;">
-            <div style="font-weight:600;color:#0f172a;">${escapeHtml(it.title)}</div>
+            <div style="font-weight:600;color:#0f172a;${EMAIL_TEXT_WRAP}">${escapeHtml(it.title)}</div>
             <div style="font-size:12px;color:#64748b;margin-top:4px;">x${it.quantity}</div>
           </td>
           <td style="padding:12px 10px;border-bottom:1px solid #e9edf2;text-align:right;font-weight:600;color:#0f172a;white-space:nowrap;">
@@ -60,7 +69,7 @@ function renderOrderTable(items) {
       <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#64748b;margin-bottom:10px;text-align:left;">
         Votre commande
       </div>
-      <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;background:#ffffff;border:1px solid #e9edf2;border-radius:12px;overflow:hidden;">
+      <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;background:#ffffff;border:1px solid #e9edf2;border-radius:12px;overflow:hidden;table-layout:fixed;width:100%;max-width:100%;">
         <thead>
           <tr>
             <th style="padding:12px 10px;text-align:left;background:#f8fafc;border-bottom:1px solid #e9edf2;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:#475569;">Produit</th>
@@ -82,13 +91,21 @@ function renderOrderTable(items) {
 }
 
 function renderNotesBlock(message) {
-  if (!message) return "";
+  const text = (message || "").trim();
+  if (!text) return "";
+
+  const html = escapeHtml(text).replaceAll("\n", "<br/>");
+
   return `
     <div style="margin-top:18px;text-align:left;">
       <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#64748b;margin-bottom:10px;">Notes</div>
-      <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:14px 14px;color:#7c2d12;">
-        ${escapeHtml(message).replaceAll("\n", "<br/>")}
-      </div>
+      <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;width:100%;">
+        <tr>
+          <td style="${EMAIL_MESSAGE_BOX}">
+            ${html}
+          </td>
+        </tr>
+      </table>
     </div>
   `;
 }
@@ -118,7 +135,7 @@ function renderHeaderBlock(variant, order) {
         Nouvelle commande
       </div>
       <h2 style="margin:14px 0 6px;font-size:22px;line-height:1.25;color:#0f172a;">${escapeHtml(fullName)}</h2>
-      <p style="margin:0;font-size:14px;color:#64748b;">${escapeHtml(email)} · ${escapeHtml(tel)}</p>
+      <p style="margin:0;font-size:14px;color:#64748b;${EMAIL_TEXT_WRAP}">${escapeHtml(email)} · ${escapeHtml(tel)}</p>
     </div>
   `;
 }
@@ -128,21 +145,21 @@ function renderDeliveryBlock(order) {
     order;
 
   const lines = [
-    `<p style="margin:0 0 8px;"><b>Adresse :</b> ${escapeHtml(address)}</p>`,
-    `<p style="margin:0 0 8px;"><b>Ville :</b> ${escapeHtml(city)}</p>`,
+    `<p style="${EMAIL_PARAGRAPH}"><b>Adresse :</b> ${escapeHtml(address)}</p>`,
+    `<p style="${EMAIL_PARAGRAPH}"><b>Ville :</b> ${escapeHtml(city)}</p>`,
     state
-      ? `<p style="margin:0 0 8px;"><b>Région/Province :</b> ${escapeHtml(state)}</p>`
+      ? `<p style="${EMAIL_PARAGRAPH}"><b>Région/Province :</b> ${escapeHtml(state)}</p>`
       : "",
     postcode
-      ? `<p style="margin:0 0 8px;"><b>Code postal :</b> ${escapeHtml(postcode)}</p>`
+      ? `<p style="${EMAIL_PARAGRAPH}"><b>Code postal :</b> ${escapeHtml(postcode)}</p>`
       : "",
-    `<p style="margin:0 0 8px;"><b>Paiement :</b> ${escapeHtml(paymentLabel(payment_method))}</p>`,
+    `<p style="${EMAIL_PARAGRAPH}"><b>Paiement :</b> ${escapeHtml(paymentLabel(payment_method))}</p>`,
   ];
 
   if (variant === "customer") {
     lines.push(
-      `<p style="margin:0 0 8px;"><b>Téléphone :</b> ${escapeHtml(tel)}</p>`,
-      `<p style="margin:0;"><b>E-mail :</b> ${escapeHtml(email)}</p>`
+      `<p style="${EMAIL_PARAGRAPH}"><b>Téléphone :</b> ${escapeHtml(tel)}</p>`,
+      `<p style="${EMAIL_PARAGRAPH_LAST}"><b>E-mail :</b> ${escapeHtml(email)}</p>`
     );
   }
 
@@ -152,7 +169,7 @@ function renderDeliveryBlock(order) {
   return `
     <div style="margin-top:18px;text-align:left;">
       <div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#64748b;margin-bottom:10px;">${title}</div>
-      <div style="background:#f8fafc;border:1px solid #e9edf2;border-radius:12px;padding:14px 14px;color:#0f172a;">
+      <div style="${EMAIL_CONTENT_BOX}">
         ${lines.filter(Boolean).join("")}
       </div>
     </div>
@@ -164,24 +181,28 @@ function renderDeliveryBlock(order) {
  * @param {object} order
  */
 export function renderOrderEmailHtml(variant, order) {
-  const { items, message } = order;
+  const { items } = order;
+  const message = normalizeCustomerMessage(order.message);
+  const contextLine =
+    variant === "customer"
+      ? `Concernant votre commande du ${order.createdAt ? new Intl.DateTimeFormat("fr-FR", { dateStyle: "long" }).format(new Date(order.createdAt)) : "jour même"}.`
+      : `Nouvelle commande de ${order.fullName || "un client"}.`;
 
-  return `
-    <div style="margin:0;padding:0;background:#f1f5f9;">
-      <div style="max-width:680px;margin:0 auto;padding:22px 14px 34px;">
-        <div style="background:#ffffff;border:1px solid #e9edf2;border-radius:16px;box-shadow:0 10px 30px rgba(2,6,23,0.08);overflow:hidden;">
-          <img src="cid:header-email" alt="La Table Marine" style="display:block;width:100%;height:auto;border:0;outline:none;text-decoration:none;margin:0;" />
-          <div style="padding:22px 18px;">
-            ${renderHeaderBlock(variant, { ...order, variant })}
-            ${renderDeliveryBlock({ ...order, variant })}
-            ${items.length ? renderOrderTable(items) : ""}
-            ${renderNotesBlock(message)}
-          </div>
-          ${renderEmailFooter(escapeHtml)}
-        </div>
-      </div>
-    </div>
-  `;
+  return wrapEmailHtml(
+    `
+      ${renderHeaderBlock(variant, { ...order, variant })}
+      ${renderDeliveryBlock({ ...order, variant })}
+      ${items.length ? renderOrderTable(items) : ""}
+      ${renderNotesBlock(message)}
+      ${renderEmailFooter(escapeHtml, {
+        referenceId: order.id,
+        sentAt: order.createdAt,
+        contextLine,
+      })}
+    `,
+    "",
+    { referenceId: order.id, sentAt: order.createdAt }
+  );
 }
 
 export function getOrderEmailAttachment(headerImagePath) {

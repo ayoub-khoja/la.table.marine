@@ -18,7 +18,7 @@ const Hero = ( { bgType } ) => {
                 <div className="tst-cover-frame">
                     {bgType == 'video' ? (
                     <video className="tst-cover tst-parallax" muted playsInline autoPlay loop>
-                        <source src={Data.video.url} />
+                        <source src={Data.video.url} type="video/mp4" />
                     </video>
                     ) : (
                     <img src={Data.image.url} alt={Data.image.alt} className="tst-cover tst-parallax" />
