@@ -1,7 +1,7 @@
 {
     "settings": {
-        "siteName": "latablemarine",
-        "siteDescription": "Template Next.js pour café & restaurant",
+        "siteName": "La Table Marine",
+        "siteDescription": "Restaurant de fruits de mer et cuisine du terroir à Plaisir. Réservez votre table et découvrez une expérience gourmande au cœur des Yvelines.",
         "bgImage": "/img/bg.jpg",
         "formspreeURL": "https://formspree.io/f/YOUR_FORM_ID",
         "mailchimp": {
