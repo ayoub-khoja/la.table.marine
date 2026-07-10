@@ -4,16 +4,21 @@ import { Formik, useFormikContext } from "formik";
 import { useEffect, useMemo, useState } from "react";
 import Popup from "@components/Popup";
 
+import {
+  OCCASION_LABELS,
+  SERVICE_TYPE_LABELS,
+} from "@library/reservations/labels";
+
 const OCCASIONS = [
-  { value: "diner-prive", label: "Dîner Privé", icon: "fa-user-friends" },
-  { value: "soiree", label: "Soirée", icon: "fa-glass-cheers" },
-  { value: "anniversaire", label: "Anniversaire", icon: "fa-birthday-cake" },
-  { value: "autre", label: "Autre", icon: "fa-square" },
+  { value: "diner-prive", label: OCCASION_LABELS["diner-prive"], icon: "fa-user-friends" },
+  { value: "soiree", label: OCCASION_LABELS.soiree, icon: "fa-glass-cheers" },
+  { value: "anniversaire", label: OCCASION_LABELS.anniversaire, icon: "fa-birthday-cake" },
+  { value: "autre", label: OCCASION_LABELS.autre, icon: "fa-square" },
 ];
 
 const SERVICE_TYPES = [
-  { value: "dejeuner", label: "Déjeuner", icon: "fa-sun" },
-  { value: "diner", label: "Dîner", icon: "fa-moon" },
+  { value: "dejeuner", label: SERVICE_TYPE_LABELS.dejeuner, icon: "fa-sun" },
+  { value: "diner", label: SERVICE_TYPE_LABELS.diner, icon: "fa-moon" },
 ];
 
 function buildTimeSlots(service) {
@@ -135,28 +140,11 @@ const ReservationForm = () => {
           time: "",
           date: "",
           person: "",
-          message: "",
+          reservation_note: "",
         }}
         validate={(values) => validateStep(values, step)}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
           try {
-            const occasionLabel =
-              OCCASIONS.find((o) => o.value === values.occasion)?.label || "";
-            const serviceLabel =
-              SERVICE_TYPES.find((s) => s.value === values.serviceType)?.label || "";
-
-            const enrichedMessage = [
-              `Type de demande : ${
-                values.requestType === "reservation" ? "Réservation" : "Autre"
-              }`,
-              occasionLabel ? `Occasion : ${occasionLabel}` : null,
-              serviceLabel ? `Service : ${serviceLabel}` : null,
-              "",
-              (values.message || "").trim(),
-            ]
-              .filter(Boolean)
-              .join("\n");
-
             const res = await fetch("/api/reservation", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -168,7 +156,10 @@ const ReservationForm = () => {
                 person: values.person,
                 date: values.date,
                 time: values.time,
-                message: enrichedMessage,
+                requestType: values.requestType,
+                occasion: values.occasion,
+                serviceType: values.serviceType,
+                message: (values.reservation_note || "").trim(),
                 website: "",
               }),
             });
@@ -586,27 +577,29 @@ const ReservationForm = () => {
                 </>
               ) : null}
 
-              {step === 3 ? (
-                <>
-                  <div className="col-12 tst-mb-15">
-                    <h3 className="tst-mb-0">Détails</h3>
-                    <p className="tst-text tst-text-sm" style={{ marginTop: 8 }}>
-                      Indiquez un message (allergies, préférence, demande spéciale…).
-                    </p>
-                  </div>
-                  <div className="col-12">
-                    <textarea
-                      placeholder="Message"
-                      name="message"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.message}
-                      rows="4"
-                      aria-invalid={Boolean(touched.message && errors.message)}
-                    />
-                  </div>
-                </>
-              ) : null}
+              <div className="col-12" style={{ display: step === 3 ? "block" : "none" }}>
+                <div className="tst-mb-15">
+                  <h3 className="tst-mb-0">Message optionnel</h3>
+                  <p className="tst-text tst-text-sm" style={{ marginTop: 8 }}>
+                    Allergies, préférences ou demande spéciale.
+                  </p>
+                </div>
+                <textarea
+                  placeholder="Ex. table près de la fenêtre, allergie aux fruits de mer…"
+                  name="reservation_note"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.reservation_note}
+                  rows="4"
+                  autoComplete="off"
+                  data-lpignore="true"
+                  data-1p-ignore="true"
+                  aria-label="Message optionnel pour votre réservation"
+                  aria-invalid={Boolean(
+                    touched.reservation_note && errors.reservation_note
+                  )}
+                />
+              </div>
             </div>
 
             <div

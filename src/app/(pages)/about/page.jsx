@@ -13,7 +13,7 @@ import PageBanner from "@components/PageBanner";
 import Visit360Section from "@components/sections/Visit360";
 import PromoVideoSection from "@components/sections/PromoVideo";
 import FeaturesSection from "@components/sections/Features";
-import TeamSection from "@components/sections/Team";
+// import TeamSection from "@components/sections/Team";
 import ScheduleSection from "@components/sections/Schedule";
 import CountersSection from "@components/sections/Counters";
 import CallToActionFourSection from "@components/sections/CallToActionFour";
@@ -72,7 +72,7 @@ async function About() {
               <Divider />
               <FeaturesSection />
               <Divider />
-              <TeamSection />
+              {/* <TeamSection /> */}
               <Divider />
               <ScheduleSection />
               <Divider onlyBottom={0} />

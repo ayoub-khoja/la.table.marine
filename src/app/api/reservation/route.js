@@ -3,6 +3,7 @@ import nodemailer from "nodemailer";
 import path from "path";
 import { getOrderEmailAttachment } from "@library/email/order";
 import { renderReservationEmailHtml } from "@library/email/reservation";
+import { normalizeCustomerMessage } from "@library/email/message";
 import { createReservation } from "@library/reservations/store";
 
 const attempts = new Map();
@@ -75,7 +76,12 @@ export async function POST(request) {
     const person = (body?.person || "").toString().trim();
     const date = (body?.date || "").toString().trim();
     const time = (body?.time || "").toString().trim();
-    const message = (body?.message || "").toString().trim();
+    const requestType = (body?.requestType || "").toString().trim();
+    const occasion = (body?.occasion || "").toString().trim();
+    const serviceType = (body?.serviceType || "").toString().trim();
+    const message = normalizeCustomerMessage(
+      (body?.message ?? body?.reservation_note ?? "").toString()
+    );
 
     if (
       !first_name ||
@@ -119,6 +125,9 @@ export async function POST(request) {
       person,
       date,
       time,
+      requestType,
+      occasion,
+      serviceType,
       message,
     };
 
