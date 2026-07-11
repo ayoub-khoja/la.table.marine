@@ -335,25 +335,10 @@ $split-map-height: 380px;
     }
 
     &--pending {
-      background: linear-gradient(160deg, #e8eef0 0%, #d5dee2 100%);
+      background: #dce5e8;
 
       .tst-map-frame {
         pointer-events: none;
-      }
-
-      .tst-map-placeholder img {
-        filter: blur(3px) saturate(1.05);
-        transform: scale(1.04);
-        opacity: 0.95;
-      }
-
-      .tst-map-placeholder__overlay {
-        background: linear-gradient(
-          180deg,
-          rgba($dl2, 0.05) 0%,
-          rgba($dl2, 0.35) 70%,
-          rgba($dl2, 0.55) 100%
-        );
       }
     }
 
@@ -374,42 +359,74 @@ $split-map-height: 380px;
     overflow: hidden;
     background: #dce5e8;
 
+    &__fallback {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 28% 36%, rgba(120, 170, 120, 0.28) 0%, transparent 34%),
+        radial-gradient(circle at 72% 62%, rgba(120, 170, 120, 0.22) 0%, transparent 30%),
+        linear-gradient(135deg, rgba($ac, 0.08) 0%, rgba($dl2, 0.12) 100%),
+        repeating-linear-gradient(
+          90deg,
+          rgba($dl1, 0.05) 0,
+          rgba($dl1, 0.05) 1px,
+          transparent 1px,
+          transparent 28px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          rgba($dl1, 0.05) 0,
+          rgba($dl1, 0.05) 1px,
+          transparent 1px,
+          transparent 28px
+        ),
+        linear-gradient(160deg, #e8eef0 0%, #d5dee2 100%);
+      filter: blur(2px);
+    }
+
     img {
+      position: absolute;
+      inset: 0;
       display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: blur(6px);
+      filter: blur(8px) saturate(1.08);
       transform: scale(1.08);
+      opacity: 0.92;
     }
 
-    &__fallback {
-      width: 100%;
-      height: 100%;
-      background:
-        linear-gradient(135deg, rgba($ac, 0.08) 0%, rgba($dl2, 0.12) 100%),
-        repeating-linear-gradient(
-          90deg,
-          rgba($dl1, 0.04) 0,
-          rgba($dl1, 0.04) 1px,
-          transparent 1px,
-          transparent 24px
-        ),
-        repeating-linear-gradient(
-          0deg,
-          rgba($dl1, 0.04) 0,
-          rgba($dl1, 0.04) 1px,
-          transparent 1px,
-          transparent 24px
-        );
-      filter: blur(2px);
+    &__pin {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: 2;
+      transform: translate(-50%, -72%);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba($card, 0.92);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 24px rgba($dl2, 0.22);
+      color: #e74c3c;
+      font-size: 18px;
+      filter: blur(0.4px);
+      opacity: 0.88;
     }
 
     &__overlay {
       position: absolute;
       inset: 0;
-      background: rgba($dl2, 0.18);
-      backdrop-filter: blur(1px);
+      z-index: 1;
+      background: linear-gradient(
+        180deg,
+        rgba($dl2, 0.08) 0%,
+        rgba($dl2, 0.28) 58%,
+        rgba($dl2, 0.48) 100%
+      );
+      backdrop-filter: blur(1.5px);
     }
   }
 
