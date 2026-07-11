@@ -15,6 +15,14 @@ const SERVICE_FILTERS = [
   { id: "diner", label: "Dîner", icon: "fa-moon" },
 ];
 
+const PERIOD_OPTIONS = [
+  { id: "all", label: "Toutes les périodes" },
+  { id: "today", label: "Aujourd'hui" },
+  { id: "week", label: "Cette semaine" },
+  { id: "month", label: "Ce mois" },
+  { id: "upcoming", label: "À venir" },
+];
+
 const OCCASION_OPTIONS = [
   { id: "all", label: "Toutes les occasions" },
   ...Object.entries(OCCASION_LABELS).map(([id, label]) => ({ id, label })),
@@ -46,52 +54,60 @@ const ReservationsTable = () => {
   const [search, setSearch] = useState("");
   const [searchInput, setSearchInput] = useState("");
   const [serviceFilter, setServiceFilter] = useState("all");
+  const [periodFilter, setPeriodFilter] = useState("all");
   const [occasionFilter, setOccasionFilter] = useState("all");
   const [requestTypeFilter, setRequestTypeFilter] = useState("all");
+
+  const activeFilters = {
+    search,
+    service: serviceFilter,
+    period: periodFilter,
+    occasion: occasionFilter,
+    requestType: requestTypeFilter,
+  };
 
   const hasActiveFilters =
     Boolean(search) ||
     serviceFilter !== "all" ||
+    periodFilter !== "all" ||
     occasionFilter !== "all" ||
     requestTypeFilter !== "all";
 
-  const fetchReservations = useCallback(
-    async (pageNum, filters) => {
-      setLoading(true);
-      setError(null);
+  const fetchReservations = useCallback(async (pageNum, filters) => {
+    setLoading(true);
+    setError(null);
 
-      try {
-        const params = new URLSearchParams({
-          page: String(pageNum),
-          limit: String(PAGE_SIZE),
-          service: filters.service,
-          occasion: filters.occasion,
-          requestType: filters.requestType,
-        });
+    try {
+      const params = new URLSearchParams({
+        page: String(pageNum),
+        limit: String(PAGE_SIZE),
+        service: filters.service,
+        period: filters.period,
+        occasion: filters.occasion,
+        requestType: filters.requestType,
+      });
 
-        if (filters.search) {
-          params.set("q", filters.search);
-        }
-
-        const res = await fetch(`/api/admin/reservations?${params}`);
-        const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data.error || "Erreur lors du chargement.");
-        }
-
-        setReservations(data.reservations || []);
-        setPagination(data.pagination || null);
-      } catch (err) {
-        setError(err.message || "Erreur réseau.");
-        setReservations([]);
-        setPagination(null);
-      } finally {
-        setLoading(false);
+      if (filters.search) {
+        params.set("q", filters.search);
       }
-    },
-    []
-  );
+
+      const res = await fetch(`/api/admin/reservations?${params}`);
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Erreur lors du chargement.");
+      }
+
+      setReservations(data.reservations || []);
+      setPagination(data.pagination || null);
+    } catch (err) {
+      setError(err.message || "Erreur réseau.");
+      setReservations([]);
+      setPagination(null);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -103,16 +119,12 @@ const ReservationsTable = () => {
   }, [searchInput]);
 
   useEffect(() => {
-    fetchReservations(page, {
-      search,
-      service: serviceFilter,
-      occasion: occasionFilter,
-      requestType: requestTypeFilter,
-    });
+    fetchReservations(page, activeFilters);
   }, [
     page,
     search,
     serviceFilter,
+    periodFilter,
     occasionFilter,
     requestTypeFilter,
     fetchReservations,
@@ -133,6 +145,11 @@ const ReservationsTable = () => {
     setPage(1);
   };
 
+  const handlePeriodFilter = (event) => {
+    setPeriodFilter(event.target.value);
+    setPage(1);
+  };
+
   const handleOccasionFilter = (event) => {
     setOccasionFilter(event.target.value);
     setPage(1);
@@ -147,18 +164,14 @@ const ReservationsTable = () => {
     setSearchInput("");
     setSearch("");
     setServiceFilter("all");
+    setPeriodFilter("all");
     setOccasionFilter("all");
     setRequestTypeFilter("all");
     setPage(1);
   };
 
   const reload = () => {
-    fetchReservations(page, {
-      search,
-      service: serviceFilter,
-      occasion: occasionFilter,
-      requestType: requestTypeFilter,
-    });
+    fetchReservations(page, activeFilters);
   };
 
   if (loading && !reservations.length) {
@@ -227,6 +240,17 @@ const ReservationsTable = () => {
           </label>
 
           <div className="tst-admin-reservations__selects">
+            <label className="tst-admin-reservations__select-wrap">
+              <span>Période</span>
+              <select value={periodFilter} onChange={handlePeriodFilter}>
+                {PERIOD_OPTIONS.map((option) => (
+                  <option key={option.id} value={option.id}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+
             <label className="tst-admin-reservations__select-wrap">
               <span>Occasion</span>
               <select value={occasionFilter} onChange={handleOccasionFilter}>
