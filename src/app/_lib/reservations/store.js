@@ -119,6 +119,14 @@ function buildReservationFilter(searchParams) {
     filter.requestType = requestType;
   }
 
+  const period = (searchParams.get("period") || "all").trim();
+  const periodRange = getPeriodDateRange(period);
+  if (periodRange) {
+    filter.date = {};
+    if (periodRange.from) filter.date.$gte = periodRange.from;
+    if (periodRange.to) filter.date.$lte = periodRange.to;
+  }
+
   const q = (searchParams.get("q") || "").trim();
   if (q) {
     const re = new RegExp(escapeRegex(q), "i");
@@ -131,4 +139,47 @@ function buildReservationFilter(searchParams) {
   }
 
   return filter;
+}
+
+function formatDateLocal(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+function getPeriodDateRange(period) {
+  if (!period || period === "all") {
+    return null;
+  }
+
+  const now = new Date();
+  const today = formatDateLocal(now);
+
+  if (period === "today") {
+    return { from: today, to: today };
+  }
+
+  if (period === "week") {
+    const current = new Date(now);
+    const weekday = current.getDay();
+    const diffToMonday = weekday === 0 ? -6 : 1 - weekday;
+    const monday = new Date(current);
+    monday.setDate(current.getDate() + diffToMonday);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    return { from: formatDateLocal(monday), to: formatDateLocal(sunday) };
+  }
+
+  if (period === "month") {
+    const first = new Date(now.getFullYear(), now.getMonth(), 1);
+    const last = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    return { from: formatDateLocal(first), to: formatDateLocal(last) };
+  }
+
+  if (period === "upcoming") {
+    return { from: today, to: null };
+  }
+
+  return null;
 }

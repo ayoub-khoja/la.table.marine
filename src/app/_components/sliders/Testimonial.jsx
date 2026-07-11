@@ -38,7 +38,7 @@ const TestimonialSlider = () => {
     fetchReviews();
   }, [fetchReviews]);
 
-  const items = reviews.length ? reviews : loading ? [] : Data.items || [];
+  const items = loading ? [] : reviews;
 
   return (
     <>

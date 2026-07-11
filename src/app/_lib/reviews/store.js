@@ -65,15 +65,7 @@ async function ensureReviewsSeed() {
   const db = await getDb();
   const collection = db.collection(REVIEWS_COLLECTION);
   const count = await collection.countDocuments();
-
-  if (count > 0) return { inserted: 0, total: count };
-
-  const seed = await loadStaticSeed();
-  if (seed.length) {
-    await collection.insertMany(seed);
-  }
-
-  return { inserted: seed.length, total: seed.length };
+  return { inserted: 0, total: count };
 }
 
 /**
