@@ -1,20 +1,4 @@
-import { promises as fs } from "fs";
-import path from "path";
-
-const DATA_DIR = path.join(process.cwd(), "data");
-const ORDERS_FILE = path.join(DATA_DIR, "orders.json");
-const RESERVATIONS_FILE = path.join(DATA_DIR, "reservations.json");
-const MESSAGES_FILE = path.join(DATA_DIR, "messages.json");
-
-async function readJsonArray(filePath) {
-  try {
-    const raw = await fs.readFile(filePath, "utf8");
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
+import { getDb } from "@library/mongodb/client";
 
 function startOfDay(date) {
   const d = new Date(date);
@@ -127,10 +111,12 @@ function buildRecentActivity(orders, reservations, messages, limit = 6) {
 }
 
 export async function getDashboardStats() {
+  const db = await getDb();
+
   const [orders, reservations, messages] = await Promise.all([
-    readJsonArray(ORDERS_FILE),
-    readJsonArray(RESERVATIONS_FILE),
-    readJsonArray(MESSAGES_FILE),
+    db.collection("orders").find({}).sort({ createdAt: -1 }).toArray(),
+    db.collection("reservations").find({}).sort({ createdAt: -1 }).toArray(),
+    db.collection("messages").find({}).sort({ createdAt: -1 }).toArray(),
   ]);
 
   const now = new Date();

@@ -1,7 +1,7 @@
 {
     "subtitle": "Une question ?",
     "title": "Contactez-nous",
-    "description": "Quaerat debitis, vel, sapiente dicta sequi labore porro pariatur harum expedita.",
+    "description": "Pour une réservation, un événement privé ou toute question sur notre carte, notre équipe vous répond avec plaisir. Écrivez-nous, appelez-nous ou venez nous rencontrer au restaurant.",
     "items": [
         {
             "icon": "/img/icons/4.svg",
@@ -11,7 +11,7 @@
         {
             "icon": "/img/icons/5.svg",
             "title": "Appelez-nous",
-            "text": "<a href='tel:0607716979'>0607716979</a>"
+            "text": "<a href='tel:0188937672'>01 88 93 76 72</a>"
         },
         {
             "icon": "/img/icons/6.svg",

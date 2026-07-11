@@ -1,9 +1,11 @@
 {
     "image": {
         "url": "/img/menu/1.jpg",
-        "alt": "cover"
+        "alt": "Newsletter La Table Marine"
     },
     "title": "Abonnez-vous à notre newsletter",
     "subtitle": "Newsletter",
-    "description": "Rolorem, beatae dolorum, praesentium itaque et quam quaerat."
+    "description": "Recevez nos actualités, les menus du moment et nos offres exclusives directement dans votre boîte mail.",
+    "placeholder": "Votre adresse e-mail",
+    "button": "S'abonner"
 }

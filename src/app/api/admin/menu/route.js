@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { requireAdminSession } from "@library/admin/require-session";
-import { getMenuUpload, saveMenuUpload } from "@library/menu/store";
-import { saveUploadedMenuPdf } from "@library/uploads/save-file";
+import { createActiveCarteMenu, getActiveCarteMenu } from "@library/menu/store";
+import { saveMenuPdfForStore } from "@library/menu/pdf-storage";
+
+export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 const ERROR_MESSAGES = {
   INVALID_FILE: "Fichier invalide.",
@@ -14,7 +17,7 @@ export async function GET(request) {
   if (auth.response) return auth.response;
 
   try {
-    const menu = await getMenuUpload();
+    const menu = await getActiveCarteMenu();
 
     return NextResponse.json({
       success: true,
@@ -36,9 +39,18 @@ export async function POST(request) {
   try {
     const formData = await request.formData();
     const file = formData.get("pdf");
+    const title = (formData.get("title") || "Carte Menu").toString().trim();
 
-    const saved = await saveUploadedMenuPdf(file);
-    const menu = await saveMenuUpload(saved);
+    const saved = await saveMenuPdfForStore(file);
+    const menu = await createActiveCarteMenu({
+      title: title || "Carte Menu",
+      fileName: saved.fileName,
+      fileUrl: saved.fileUrl,
+      fileSize: saved.fileSize,
+      mimeType: saved.mimeType,
+      storage: saved.storage,
+      gridFsId: saved.gridFsId,
+    });
 
     return NextResponse.json({
       success: true,

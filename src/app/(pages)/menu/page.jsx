@@ -1,72 +1,21 @@
-import React from "react";
-import dynamic from "next/dynamic";
+import { redirect } from "next/navigation";
 
-import AppData from "@data/app.json";
-import MenuData from "@data/menu.json";
-import ProductsData from "@data/products.json";
+import { withMenuPdfViewOptions } from "@library/menu/pdf-url";
+import { getActiveCarteMenu } from "@library/menu/store";
 
-import ScrollHint from "@layouts/scroll-hint/Index";
+export const dynamic = "force-dynamic";
 
-import PageBanner from "@components/PageBanner";
-import CallToActionTwoSection from "@components/sections/CallToActionTwo";
+export default async function MenuPage() {
+  try {
+    const menu = await getActiveCarteMenu();
 
-const MenuFiltered = dynamic( () => import("@components/menu/MenuFiltered"), { ssr: false } );
-const ProductsSlider = dynamic( () => import("@components/sliders/Products"), { ssr: false } );
+    if (menu?.fileUrl) {
+      const fileUrl = withMenuPdfViewOptions(menu.fileUrl, process.env.SITE_URL || "http://localhost");
+      redirect(`${fileUrl.pathname}${fileUrl.search}${fileUrl.hash}`);
+    }
+  } catch (error) {
+    console.error("[menu/page]", error);
+  }
 
-export const metadata = {
-  title: {
-		default: "Menu",
-	},
-  description: AppData.settings.siteDescription,
+  redirect("/");
 }
-
-const Menu1 = () => {
-  return (
-    <>
-      <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <PageBanner pageTitle={"Découvrez notre menu"} description={"Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita."} breadTitle={"Menu"} />
-      </div>
-      
-      <div id="tst-dynamic-content" className="tst-dynamic-content">
-        <div className="tst-content-frame">
-          <div className="tst-content-box">
-            <div className="container tst-p-60-0">
-              <ScrollHint />
-
-              <MenuFiltered
-                categories={MenuData.categories} 
-              />
-
-            </div>
-          </div>
-        </div>
-        <CallToActionTwoSection />
-        <div className="tst-content-frame">
-          <div className="tst-content-box">
-            <div className="container tst-p-60-60">
-              
-              <ProductsSlider
-                heading={
-                  { 
-                    "subtitle": "Menu", 
-                    "title": "Suggestions du moment", 
-                    "description": "Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam." 
-                  }
-                } 
-                items={ProductsData.collection.special}
-                button={
-                  {
-                    "link": "/shop",
-                    "label": "Aller à la boutique en ligne"
-                  }
-                }
-              />
-
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
-};
-export default Menu1;

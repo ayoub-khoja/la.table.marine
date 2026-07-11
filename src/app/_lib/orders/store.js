@@ -1,33 +1,9 @@
-import { promises as fs } from "fs";
-import path from "path";
 import { randomUUID } from "crypto";
 import { formatMoney, normalizeItems, paymentLabel } from "@library/email/order";
+import { getDb } from "@library/mongodb/client";
+import { buildPagination, parsePagination } from "@library/mongodb/pagination";
 
-const DATA_DIR = path.join(process.cwd(), "data");
-const ORDERS_FILE = path.join(DATA_DIR, "orders.json");
-
-async function ensureStore() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  try {
-    await fs.access(ORDERS_FILE);
-  } catch {
-    await fs.writeFile(ORDERS_FILE, "[]", "utf8");
-  }
-}
-
-async function readAllOrders() {
-  await ensureStore();
-  const raw = await fs.readFile(ORDERS_FILE, "utf8");
-  const parsed = JSON.parse(raw);
-  return Array.isArray(parsed) ? parsed : [];
-}
-
-async function writeAllOrders(orders) {
-  await ensureStore();
-  const tmp = `${ORDERS_FILE}.${process.pid}.tmp`;
-  await fs.writeFile(tmp, JSON.stringify(orders, null, 2), "utf8");
-  await fs.rename(tmp, ORDERS_FILE);
-}
+const COLLECTION = "orders";
 
 function computeTotal(items) {
   return items.reduce((sum, it) => sum + it.price * it.quantity, 0);
@@ -62,20 +38,10 @@ export async function createOrder(payload) {
     totalFormatted: formatMoney(total, currency),
   };
 
-  const orders = await readAllOrders();
-  orders.unshift(order);
-  await writeAllOrders(orders);
+  const db = await getDb();
+  await db.collection(COLLECTION).insertOne(order);
 
   return order;
-}
-
-function parsePagination(searchParams) {
-  const page = Math.max(1, Number.parseInt(searchParams.get("page") || "1", 10) || 1);
-  const limit = Math.min(
-    50,
-    Math.max(1, Number.parseInt(searchParams.get("limit") || "10", 10) || 10)
-  );
-  return { page, limit };
 }
 
 /**
@@ -83,26 +49,28 @@ function parsePagination(searchParams) {
  */
 export async function listOrders(searchParams) {
   const { page, limit } = parsePagination(searchParams);
-  const all = await readAllOrders();
-  const sorted = [...all].sort(
-    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  );
+  const db = await getDb();
+  const collection = db.collection(COLLECTION);
 
-  const total = sorted.length;
-  const totalPages = Math.max(1, Math.ceil(total / limit));
-  const safePage = Math.min(page, totalPages);
-  const start = (safePage - 1) * limit;
-  const orders = sorted.slice(start, start + limit);
+  const total = await collection.countDocuments();
+  const pagination = buildPagination(page, limit, total);
+
+  const orders = await collection
+    .find({})
+    .sort({ createdAt: -1 })
+    .skip(pagination.skip)
+    .limit(limit)
+    .toArray();
 
   return {
     orders,
     pagination: {
-      page: safePage,
-      limit,
-      total,
-      totalPages,
-      hasNext: safePage < totalPages,
-      hasPrev: safePage > 1,
+      page: pagination.page,
+      limit: pagination.limit,
+      total: pagination.total,
+      totalPages: pagination.totalPages,
+      hasNext: pagination.hasNext,
+      hasPrev: pagination.hasPrev,
     },
   };
 }

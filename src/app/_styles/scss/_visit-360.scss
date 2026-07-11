@@ -1,0 +1,108 @@
+@import "variables";
+
+.tst-visit360 {
+  &__copy {
+    .tst-text {
+      max-width: 520px;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+
+    a.tst-btn.tst-btn-2,
+    a.tst-btn.tst-btn-2:hover,
+    a.tst-btn.tst-btn-2:focus,
+    a.tst-btn.tst-btn-2:visited {
+      background-color: $wl1;
+      color: $dl1;
+      border: 1px solid rgba($dl1, 0.18);
+      box-shadow: 0 8px 20px rgba(2, 6, 23, 0.08);
+    }
+
+    a.tst-btn.tst-btn-2 {
+      i {
+        color: $ac;
+      }
+
+      &:hover {
+        color: $ac;
+        border-color: rgba($ac, 0.35);
+        filter: none;
+      }
+    }
+  }
+
+  &__frame {
+    border-radius: 18px;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba($dl2, 0.92) 0%, rgba($dl2, 0.68) 60%, rgba($dl2, 0.88) 100%);
+    border: 1px solid rgba($wl1, 0.1);
+    box-shadow: 0 22px 60px rgba(2, 6, 23, 0.18);
+    min-height: 380px;
+    position: relative;
+  }
+
+  &__poster {
+    position: relative;
+    height: 100%;
+    min-height: 380px;
+  }
+
+  &__iframe {
+    width: 100%;
+    height: 380px;
+    display: block;
+    border: 0;
+
+    @media (min-width: 992px) {
+      height: 420px;
+    }
+  }
+
+  &__play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 0;
+    cursor: pointer;
+    background: rgba($wl1, 0.92);
+    box-shadow: 0 18px 46px rgba(2, 6, 23, 0.3);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform $tr-sm, background $tr-sm, box-shadow $tr-sm;
+
+    i {
+      color: $ac;
+      font-size: 22px;
+      transform: translateY(1px);
+    }
+
+    &:hover {
+      transform: translate(-50%, -52%);
+      background: $wl1;
+      box-shadow: 0 22px 56px rgba(2, 6, 23, 0.34);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__error {
+    color: $wl1;
+    font-family: $sf;
+    font-size: 14px;
+    padding: 18px;
+  }
+}
+

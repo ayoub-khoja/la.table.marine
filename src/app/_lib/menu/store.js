@@ -1,50 +1,70 @@
-import { promises as fs } from "fs";
-import path from "path";
+import { getDb } from "@library/mongodb/client";
+import {
+  CARTE_MENU_COLLECTION,
+  CARTE_MENU_MIME,
+  formatCarteMenu,
+} from "@library/menu/model";
 
-const DATA_DIR = path.join(process.cwd(), "data");
-const MENU_FILE = path.join(DATA_DIR, "menu-upload.json");
+/**
+ * Retourne le menu PDF actif le plus récent.
+ */
+export async function getActiveCarteMenu() {
+  const db = await getDb();
+  const doc = await db
+    .collection(CARTE_MENU_COLLECTION)
+    .findOne({ active: true }, { sort: { updatedAt: -1 } });
 
-async function ensureStore() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  try {
-    await fs.access(MENU_FILE);
-  } catch {
-    await fs.writeFile(MENU_FILE, "null", "utf8");
-  }
-}
-
-export async function getMenuUpload() {
-  await ensureStore();
-  const raw = await fs.readFile(MENU_FILE, "utf8");
-
-  if (!raw || raw.trim() === "null") {
-    return null;
-  }
-
-  try {
-    const parsed = JSON.parse(raw);
-    return parsed && typeof parsed === "object" ? parsed : null;
-  } catch {
-    return null;
-  }
+  return formatCarteMenu(doc);
 }
 
 /**
+ * Désactive les anciens menus et enregistre le nouveau PDF actif.
  * @param {object} payload
+ * @param {string} payload.title
+ * @param {string} payload.fileName
+ * @param {string} payload.fileUrl
+ * @param {number} payload.fileSize
+ * @param {string} [payload.mimeType]
  */
-export async function saveMenuUpload(payload) {
-  await ensureStore();
+export async function createActiveCarteMenu(payload) {
+  const db = await getDb();
+  const collection = db.collection(CARTE_MENU_COLLECTION);
+  const now = new Date();
 
-  const record = {
-    url: payload.url,
-    filename: payload.filename,
-    size: payload.size,
-    uploadedAt: new Date().toISOString(),
+  await collection.updateMany(
+    { active: true },
+    { $set: { active: false, updatedAt: now } }
+  );
+
+  const doc = {
+    title: (payload.title || "Carte Menu").trim(),
+    fileName: payload.fileName,
+    fileUrl: payload.fileUrl,
+    fileSize: payload.fileSize,
+    mimeType: payload.mimeType || CARTE_MENU_MIME,
+    storage: payload.storage || (payload.gridFsId ? "gridfs" : "disk"),
+    gridFsId: payload.gridFsId || null,
+    active: true,
+    createdAt: now,
+    updatedAt: now,
   };
 
-  const tmp = `${MENU_FILE}.${process.pid}.tmp`;
-  await fs.writeFile(tmp, JSON.stringify(record, null, 2), "utf8");
-  await fs.rename(tmp, MENU_FILE);
+  const result = await collection.insertOne(doc);
+  return formatCarteMenu({ _id: result.insertedId, ...doc });
+}
 
-  return record;
+/** @deprecated Alias admin — utilise getActiveCarteMenu */
+export async function getMenuUpload() {
+  return getActiveCarteMenu();
+}
+
+/** @deprecated Alias admin — utilise createActiveCarteMenu */
+export async function saveMenuUpload(payload) {
+  return createActiveCarteMenu({
+    title: payload.title || "Carte Menu",
+    fileName: payload.fileName || payload.filename,
+    fileUrl: payload.fileUrl || payload.url,
+    fileSize: payload.fileSize ?? payload.size,
+    mimeType: payload.mimeType || CARTE_MENU_MIME,
+  });
 }

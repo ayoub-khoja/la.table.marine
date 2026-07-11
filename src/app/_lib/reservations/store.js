@@ -1,44 +1,32 @@
-import { promises as fs } from "fs";
-import path from "path";
 import { randomUUID } from "crypto";
 import {
   formatReservationDate,
   personLabel,
 } from "@library/email/reservation";
+import {
+  occasionLabel,
+  requestTypeLabel,
+  serviceTypeLabel,
+} from "@library/reservations/labels";
+import { getDb } from "@library/mongodb/client";
+import { buildPagination, parsePagination } from "@library/mongodb/pagination";
 
-const DATA_DIR = path.join(process.cwd(), "data");
-const RESERVATIONS_FILE = path.join(DATA_DIR, "reservations.json");
+const COLLECTION = "reservations";
 
-async function ensureStore() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  try {
-    await fs.access(RESERVATIONS_FILE);
-  } catch {
-    await fs.writeFile(RESERVATIONS_FILE, "[]", "utf8");
-  }
-}
+let indexesReady = false;
 
-async function readAll() {
-  await ensureStore();
-  const raw = await fs.readFile(RESERVATIONS_FILE, "utf8");
-  const parsed = JSON.parse(raw);
-  return Array.isArray(parsed) ? parsed : [];
-}
+async function ensureIndexes(db) {
+  if (indexesReady) return;
+  const collection = db.collection(COLLECTION);
 
-async function writeAll(reservations) {
-  await ensureStore();
-  const tmp = `${RESERVATIONS_FILE}.${process.pid}.tmp`;
-  await fs.writeFile(tmp, JSON.stringify(reservations, null, 2), "utf8");
-  await fs.rename(tmp, RESERVATIONS_FILE);
-}
+  await Promise.all([
+    collection.createIndex({ createdAt: -1 }),
+    collection.createIndex({ email: 1, createdAt: -1 }),
+    collection.createIndex({ status: 1, createdAt: -1 }),
+    collection.createIndex({ date: 1, time: 1 }),
+  ]);
 
-function parsePagination(searchParams) {
-  const page = Math.max(1, Number.parseInt(searchParams.get("page") || "1", 10) || 1);
-  const limit = Math.min(
-    50,
-    Math.max(1, Number.parseInt(searchParams.get("limit") || "10", 10) || 10)
-  );
-  return { page, limit };
+  indexesReady = true;
 }
 
 /**
@@ -52,17 +40,27 @@ export async function createReservation(payload) {
     last_name: payload.last_name,
     fullName: payload.fullName,
     email: payload.email,
+    phone: payload.phone || "",
     person: payload.person,
     personLabel: personLabel(payload.person),
     date: payload.date,
     dateFormatted: formatReservationDate(payload.date),
     time: payload.time,
+    requestType: payload.requestType || "",
+    requestTypeLabel: requestTypeLabel(payload.requestType),
+    occasion: payload.occasion || "",
+    occasionLabel: occasionLabel(payload.occasion),
+    serviceType: payload.serviceType || "",
+    serviceTypeLabel: serviceTypeLabel(payload.serviceType),
     message: payload.message || "",
+    status: "new",
+    readAt: null,
+    archivedAt: null,
   };
 
-  const all = await readAll();
-  all.unshift(reservation);
-  await writeAll(all);
+  const db = await getDb();
+  await ensureIndexes(db);
+  await db.collection(COLLECTION).insertOne(reservation);
 
   return reservation;
 }
@@ -72,25 +70,116 @@ export async function createReservation(payload) {
  */
 export async function listReservations(searchParams) {
   const { page, limit } = parsePagination(searchParams);
-  const all = await readAll();
-  const sorted = [...all].sort(
-    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  );
+  const filter = buildReservationFilter(searchParams);
+  const db = await getDb();
+  const collection = db.collection(COLLECTION);
 
-  const total = sorted.length;
-  const totalPages = Math.max(1, Math.ceil(total / limit));
-  const safePage = Math.min(page, totalPages);
-  const start = (safePage - 1) * limit;
+  const total = await collection.countDocuments(filter);
+  const pagination = buildPagination(page, limit, total);
+
+  const reservations = await collection
+    .find(filter)
+    .sort({ createdAt: -1 })
+    .skip(pagination.skip)
+    .limit(limit)
+    .toArray();
 
   return {
-    reservations: sorted.slice(start, start + limit),
+    reservations,
     pagination: {
-      page: safePage,
-      limit,
-      total,
-      totalPages,
-      hasNext: safePage < totalPages,
-      hasPrev: safePage > 1,
+      page: pagination.page,
+      limit: pagination.limit,
+      total: pagination.total,
+      totalPages: pagination.totalPages,
+      hasNext: pagination.hasNext,
+      hasPrev: pagination.hasPrev,
     },
   };
+}
+
+function escapeRegex(str) {
+  return String(str).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function buildReservationFilter(searchParams) {
+  const filter = {};
+
+  const service = (searchParams.get("service") || "all").trim();
+  if (service && service !== "all") {
+    filter.serviceType = service;
+  }
+
+  const occasion = (searchParams.get("occasion") || "all").trim();
+  if (occasion && occasion !== "all") {
+    filter.occasion = occasion;
+  }
+
+  const requestType = (searchParams.get("requestType") || "all").trim();
+  if (requestType && requestType !== "all") {
+    filter.requestType = requestType;
+  }
+
+  const period = (searchParams.get("period") || "all").trim();
+  const periodRange = getPeriodDateRange(period);
+  if (periodRange) {
+    filter.date = {};
+    if (periodRange.from) filter.date.$gte = periodRange.from;
+    if (periodRange.to) filter.date.$lte = periodRange.to;
+  }
+
+  const q = (searchParams.get("q") || "").trim();
+  if (q) {
+    const re = new RegExp(escapeRegex(q), "i");
+    filter.$or = [
+      { fullName: re },
+      { email: re },
+      { phone: re },
+      { message: re },
+    ];
+  }
+
+  return filter;
+}
+
+function formatDateLocal(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+function getPeriodDateRange(period) {
+  if (!period || period === "all") {
+    return null;
+  }
+
+  const now = new Date();
+  const today = formatDateLocal(now);
+
+  if (period === "today") {
+    return { from: today, to: today };
+  }
+
+  if (period === "week") {
+    const current = new Date(now);
+    const weekday = current.getDay();
+    const diffToMonday = weekday === 0 ? -6 : 1 - weekday;
+    const monday = new Date(current);
+    monday.setDate(current.getDate() + diffToMonday);
+    const sunday = new Date(monday);
+    sunday.setDate(monday.getDate() + 6);
+    return { from: formatDateLocal(monday), to: formatDateLocal(sunday) };
+  }
+
+  if (period === "month") {
+    const first = new Date(now.getFullYear(), now.getMonth(), 1);
+    const last = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    return { from: formatDateLocal(first), to: formatDateLocal(last) };
+  }
+
+  if (period === "upcoming") {
+    return { from: today, to: null };
+  }
+
+  return null;
 }

@@ -1,9 +1,10 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { randomUUID } from "crypto";
+import { getDb } from "@library/mongodb/client";
+import { buildPagination, parsePagination } from "@library/mongodb/pagination";
 
-const DATA_DIR = path.join(process.cwd(), "data");
-const PRODUCTS_FILE = path.join(DATA_DIR, "products.json");
+const COLLECTION = "products";
 const STATIC_PRODUCTS_FILE = path.join(process.cwd(), "src", "data", "products.json");
 
 async function loadStaticSeed() {
@@ -22,43 +23,27 @@ async function loadStaticSeed() {
       price: (item.price || "").toString(),
       currency: (item.currency || "$").toString(),
       short: (item.short || "").toString(),
+      priceFormatted: formatProductPrice({
+        currency: item.currency || "$",
+        price: item.price,
+      }),
     }));
   } catch {
     return [];
   }
 }
 
-async function ensureStore() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  try {
-    await fs.access(PRODUCTS_FILE);
-  } catch {
-    const seed = await loadStaticSeed();
-    await fs.writeFile(PRODUCTS_FILE, JSON.stringify(seed, null, 2), "utf8");
+async function ensureProductsSeed() {
+  const db = await getDb();
+  const collection = db.collection(COLLECTION);
+  const count = await collection.countDocuments();
+
+  if (count > 0) return;
+
+  const seed = await loadStaticSeed();
+  if (seed.length) {
+    await collection.insertMany(seed);
   }
-}
-
-async function readAllProducts() {
-  await ensureStore();
-  const raw = await fs.readFile(PRODUCTS_FILE, "utf8");
-  const parsed = JSON.parse(raw);
-  return Array.isArray(parsed) ? parsed : [];
-}
-
-async function writeAllProducts(products) {
-  await ensureStore();
-  const tmp = `${PRODUCTS_FILE}.${process.pid}.tmp`;
-  await fs.writeFile(tmp, JSON.stringify(products, null, 2), "utf8");
-  await fs.rename(tmp, PRODUCTS_FILE);
-}
-
-function parsePagination(searchParams) {
-  const page = Math.max(1, Number.parseInt(searchParams.get("page") || "1", 10) || 1);
-  const limit = Math.min(
-    50,
-    Math.max(1, Number.parseInt(searchParams.get("limit") || "10", 10) || 10)
-  );
-  return { page, limit };
 }
 
 export function formatProductPrice(product) {
@@ -71,6 +56,8 @@ export function formatProductPrice(product) {
  * @param {object} payload
  */
 export async function createProduct(payload) {
+  await ensureProductsSeed();
+
   const product = {
     id: randomUUID(),
     createdAt: new Date().toISOString(),
@@ -86,9 +73,8 @@ export async function createProduct(payload) {
     }),
   };
 
-  const all = await readAllProducts();
-  all.unshift(product);
-  await writeAllProducts(all);
+  const db = await getDb();
+  await db.collection(COLLECTION).insertOne(product);
 
   return product;
 }
@@ -97,31 +83,37 @@ export async function createProduct(payload) {
  * @param {URLSearchParams} searchParams
  */
 export async function listProducts(searchParams) {
+  await ensureProductsSeed();
+
   const { page, limit } = parsePagination(searchParams);
-  const all = await readAllProducts();
-  const sorted = [...all].sort(
-    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-  );
+  const db = await getDb();
+  const collection = db.collection(COLLECTION);
 
-  const total = sorted.length;
-  const totalPages = Math.max(1, Math.ceil(total / limit));
-  const safePage = Math.min(page, totalPages);
-  const start = (safePage - 1) * limit;
+  const total = await collection.countDocuments();
+  const pagination = buildPagination(page, limit, total);
 
-  const products = sorted.slice(start, start + limit).map((product) => ({
-    ...product,
-    priceFormatted: product.priceFormatted || formatProductPrice(product),
-  }));
+  const products = await collection
+    .find({})
+    .sort({ createdAt: -1 })
+    .skip(pagination.skip)
+    .limit(limit)
+    .toArray()
+    .then((items) =>
+      items.map((product) => ({
+        ...product,
+        priceFormatted: product.priceFormatted || formatProductPrice(product),
+      }))
+    );
 
   return {
     products,
     pagination: {
-      page: safePage,
-      limit,
-      total,
-      totalPages,
-      hasNext: safePage < totalPages,
-      hasPrev: safePage > 1,
+      page: pagination.page,
+      limit: pagination.limit,
+      total: pagination.total,
+      totalPages: pagination.totalPages,
+      hasNext: pagination.hasNext,
+      hasPrev: pagination.hasPrev,
     },
   };
 }

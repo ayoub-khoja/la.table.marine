@@ -4,17 +4,18 @@
        "alt": "cover"
     },
     "video": {
-        "url": "https://bslthemes.com/mp4/tastycs/video-banner.mp4"
+        "url": "/video/banner.mp4"
      },
     "subtitle": "Bonjour, bienvenue !",
     "title": "Heureux de vous revoir <br>à La Table Marine",
-    "description": "Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita.",
+    "description": "Fruits de mer, poissons frais et cuisine du terroir :<br>une expérience gourmande au cœur de Plaisir.",
     "button1": {
-        "link": "/contact",
+        "link": "/reservation",
         "label": "Réserver"
     },
     "button2": {
-        "link": "/menu",
-        "label": "Voir le menu"
+        "link": "/api/menu/file",
+        "label": "Voir le menu",
+        "blank": true
     }
 }

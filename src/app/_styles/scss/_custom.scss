@@ -204,7 +204,7 @@ body .tst-slider-navigation .tst-slider-pagination {
   }
 }
 @media (max-width: 790px) {
-  .tst-slider-navigation {
+  .tst-slider-navigation:not(.tst-slider-navigation--testimonials) {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -224,7 +224,7 @@ body .tst-slider-navigation .tst-slider-pagination {
     }
   }
 
-  .tst-slider-pagination {
+  .tst-slider-navigation:not(.tst-slider-navigation--testimonials) .tst-slider-pagination {
     width: 100%;
     position: static;
     margin-left: auto;

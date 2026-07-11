@@ -20,11 +20,16 @@ function formatSize(bytes) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} Mo`;
 }
 
+function isPdfFile(file) {
+  return file && (file.type === "application/pdf" || file.name?.toLowerCase().endsWith(".pdf"));
+}
+
 const MenuPanel = () => {
   const [menu, setMenu] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [file, setFile] = useState(null);
+  const [dragOver, setDragOver] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(null);
@@ -54,11 +59,47 @@ const MenuPanel = () => {
     fetchMenu();
   }, [fetchMenu]);
 
-  const handleFileChange = (e) => {
-    const selected = e.target.files?.[0] || null;
+  const selectFile = (selected) => {
+    if (!selected) {
+      setFile(null);
+      return;
+    }
+
+    if (!isPdfFile(selected)) {
+      setUploadError("Seuls les fichiers PDF sont acceptés.");
+      setFile(null);
+      return;
+    }
+
+    if (selected.size > 15 * 1024 * 1024) {
+      setUploadError("Fichier trop volumineux (max. 15 Mo).");
+      setFile(null);
+      return;
+    }
+
     setFile(selected);
     setUploadError(null);
     setUploadSuccess(null);
+  };
+
+  const handleFileChange = (e) => {
+    selectFile(e.target.files?.[0] || null);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setDragOver(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setDragOver(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setDragOver(false);
+    selectFile(e.dataTransfer.files?.[0] || null);
   };
 
   const handleUpload = async (e) => {
@@ -76,6 +117,7 @@ const MenuPanel = () => {
     try {
       const formData = new FormData();
       formData.append("pdf", file);
+      formData.append("title", "Carte Menu");
 
       const res = await fetch("/api/admin/menu", {
         method: "POST",
@@ -123,29 +165,44 @@ const MenuPanel = () => {
     );
   }
 
+  const previewUrl = menu?.fileUrl;
+
   return (
     <div className="tst-admin-orders tst-admin-menu">
       {menu ? (
-        <div className="tst-admin-menu__current">
-          <div className="tst-admin-menu__info">
-            <i className="fas fa-file-pdf" aria-hidden="true" />
-            <div>
-              <strong>{menu.filename || "menu.pdf"}</strong>
-              <p>
-                Ajouté le {formatDate(menu.uploadedAt)} · {formatSize(menu.size)}
-              </p>
+        <>
+          <div className="tst-admin-menu__current">
+            <div className="tst-admin-menu__info">
+              <i className="fas fa-file-pdf" aria-hidden="true" />
+              <div>
+                <strong>{menu.title || "Carte Menu"}</strong>
+                <p>{menu.fileName}</p>
+                <p className="tst-admin-menu__meta">
+                  Mis à jour le {formatDate(menu.updatedAt)} · {formatSize(menu.fileSize)}
+                </p>
+              </div>
             </div>
+            <a
+              href={menu.fileUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="tst-admin-products__btn"
+            >
+              <i className="fas fa-external-link-alt" aria-hidden="true" />
+              Ouvrir le PDF
+            </a>
           </div>
-          <a
-            href={menu.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="tst-admin-products__btn"
-          >
-            <i className="fas fa-external-link-alt" aria-hidden="true" />
-            Voir le PDF
-          </a>
-        </div>
+
+          {previewUrl ? (
+            <div className="tst-admin-menu__preview">
+              <iframe
+                src={previewUrl}
+                title="Aperçu de la carte menu"
+                className="tst-admin-menu__preview-frame"
+              />
+            </div>
+          ) : null}
+        </>
       ) : (
         <div className="tst-admin-orders__state">
           <i className="fas fa-file-pdf" aria-hidden="true" />
@@ -157,8 +214,10 @@ const MenuPanel = () => {
       )}
 
       <div className="tst-admin-menu__upload">
-        <h2>Joindre le menu (PDF)</h2>
-        <p>Remplace le menu PDF actuel s&apos;il existe déjà.</p>
+        <h2>Joindre la carte menu (PDF)</h2>
+        <p>
+          Le nouveau fichier remplace automatiquement le menu actif sur le site.
+        </p>
 
         <form className="tst-admin-products__form" onSubmit={handleUpload}>
           {uploadError ? (
@@ -173,7 +232,12 @@ const MenuPanel = () => {
             </p>
           ) : null}
 
-          <label className="tst-admin-upload__dropzone">
+          <label
+            className={`tst-admin-upload__dropzone${dragOver ? " is-dragover" : ""}`}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+          >
             <input
               type="file"
               name="pdf"
@@ -181,10 +245,13 @@ const MenuPanel = () => {
               onChange={handleFileChange}
             />
             <i className="fas fa-cloud-upload-alt" aria-hidden="true" />
-            <span>
+            <span className="tst-admin-upload__dropzone-title">
+              {file ? "Fichier sélectionné" : "Glissez-déposez votre PDF ici"}
+            </span>
+            <span className="tst-admin-upload__dropzone-hint">
               {file
                 ? file.name
-                : "Cliquez ou déposez un fichier PDF ici (max. 15 Mo)"}
+                : "ou cliquez pour parcourir · PDF uniquement · max. 15 Mo"}
             </span>
           </label>
 

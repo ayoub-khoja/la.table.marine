@@ -1,7 +1,7 @@
 {
     "settings": {
-        "siteName": "latablemarine",
-        "siteDescription": "Template Next.js pour café & restaurant",
+        "siteName": "La Table Marine",
+        "siteDescription": "Restaurant de fruits de mer et cuisine du terroir à Plaisir. Réservez votre table et découvrez une expérience gourmande au cœur des Yvelines.",
         "bgImage": "/img/bg.jpg",
         "formspreeURL": "https://formspree.io/f/YOUR_FORM_ID",
         "mailchimp": {
@@ -14,6 +14,18 @@
             "zoom": 15,
             "long": -79.394900,
             "lat": 43.643102
+        },
+        "googleMaps": {
+            "name": "La Table Marine",
+            "query": "La Table Marine, 2 rue Pierre Curie, 78370 Plaisir, France",
+            "address": "2, rue Pierre Curie, 78370 Plaisir",
+            "fullAddress": "2 Rue Pierre Curie, 78370 Plaisir, France",
+            "rating": 5.0,
+            "reviewCount": 6,
+            "lat": 48.82386,
+            "lng": 1.94528,
+            "zoom": 16,
+            "lang": "fr"
         },
         "openTable": {
             "actionUrl": "//www.opentable.com/restaurant-search.aspx",
@@ -54,17 +66,8 @@
             },
             {
                 "label": "Carte Menu",
-                "link": "/menu",
-                "children": [
-                    {
-                        "label": "Menu (type 1)",
-                        "link": "/menu"
-                    },
-                    {
-                        "label": "Menu (type 2)",
-                        "link": "/menu-2"
-                    }
-                ]
+                "link": "/api/menu/file",
+                "blank": 1
             },
             {
                 "label": "À propos",
@@ -90,6 +93,7 @@
             },
             {
                 "label": "Menu",
+                "visible": false,
                 "link": "/menu",
                 "children": [
                     {
@@ -192,15 +196,16 @@
     },
     "footer": {
         "logo": {
-            "url": "/img/home/logo-latablemarine.png",
-            "alt": "latablemarine"
+            "url": "/img/logo-blanc.png",
+            "alt": "La Table Marine"
         },
         "about": {
             "title": "À propos",
-            "text": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita repudiandae neque illum aspernatur fugiat maiores id magni, modi, quaerat vitae. Consectetur adipisicing elit.",
+            "text": "Au cœur de Plaisir, La Table Marine vous accueille dans un cadre chaleureux et raffiné. Notre cuisine célèbre les saveurs de la mer et les produits du terroir, élaborée avec soin par une équipe passionnée.",
             "button": {
-                "link": "/menu",
-                "label": "Notre menu"
+                "link": "/api/menu/file",
+                "label": "Notre menu",
+                "blank": 1
             }
         },
         "contact": {
@@ -208,7 +213,7 @@
             "items": [
                 {
                     "label": "Téléphone",
-                    "value": "0607716979"
+                    "value": "01 88 93 76 72"
                 },
                 {
                     "label": "Email",
@@ -228,28 +233,32 @@
             "title": "Galerie",
             "items": [
                 {
-                    "image": "/img/menu/1.jpg",
-                    "alt": "Image galerie"
+                    "image": "/img/imageSlider/image00002.png",
+                    "alt": "Salle du restaurant La Table Marine"
                 },
                 {
-                    "image": "/img/menu/2.jpg",
-                    "alt": "Image galerie"
+                    "image": "/img/imageSlider/image00003.png",
+                    "alt": "Plat de fruits de mer servi à La Table Marine"
                 },
                 {
-                    "image": "/img/menu/3.jpg",
-                    "alt": "Image galerie"
+                    "image": "/img/imageSlider/image00007.png",
+                    "alt": "Dressage d'assiette au restaurant"
                 },
                 {
-                    "image": "/img/menu/4.jpg",
-                    "alt": "Image galerie"
+                    "image": "/img/imageSlider/image00009.png",
+                    "alt": "Ambiance conviviale au restaurant"
                 },
                 {
-                    "image": "/img/menu/5.jpg",
-                    "alt": "Image galerie"
+                    "image": "/img/imageSlider/image00012.png",
+                    "alt": "Table dressée à La Table Marine"
+                },
+                {
+                    "image": "/img/imageSlider/image00014.png",
+                    "alt": "Vue du restaurant La Table Marine"
                 }
             ],
             "button": {
-                "link": "/history",
+                "link": "/about",
                 "label": "Voir plus"
             }
         },
@@ -278,6 +287,10 @@
         }
     ],
     "admin": {
+        "logo": {
+            "image": "/img/logo-blanc.png",
+            "alt": "La Table Marine"
+        },
         "title": "Espace administration",
         "subtitle": "Connectez-vous pour gérer La Table Marine",
         "login": {

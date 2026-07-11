@@ -11,6 +11,8 @@ body:has([data-admin-layout]):not(:has([data-admin-panel])) .tst-main-overlay {
 /* Panel admin (sidebar + contenu) */
 body:has([data-admin-panel]) {
   margin: 0;
+  height: 100dvh;
+  overflow: hidden;
   background-image: none !important;
 }
 
@@ -19,5 +21,27 @@ body:has([data-admin-panel]) .tst-main-overlay {
 }
 
 body:has([data-admin-panel]) #tst-app {
+  height: 100dvh;
   min-height: 100dvh;
+  overflow: hidden;
+}
+
+body:has([data-admin-panel]) .tst-admin-root {
+  height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  body:has([data-admin-panel]) {
+    height: auto;
+    overflow: auto;
+  }
+
+  body:has([data-admin-panel]) #tst-app,
+  body:has([data-admin-panel]) .tst-admin-root {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
 }

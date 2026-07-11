@@ -1,14 +1,16 @@
 {
     "image": { 
-        "url": "/img/about.jpg",
-        "alt": "cover"
+        "url": "/img/video-about.png",
+        "alt": "Découvrez La Table Marine — restaurant au goût de la mer"
     },
-    "video": "https://www.youtube.com/watch?v=SXJqEnauNaY",
+    "video": {
+        "url": "https://raw.githubusercontent.com/ayoub-khoja/Media-latablemarine/main/apropos.mp4"
+    },
     "button": {
         "link": "/about",
         "label": "En savoir plus"
     },
     "title": "Nous vous invitons à<br>visiter notre restaurant",
     "subtitle": "À propos",
-    "description": "Assumenda possimus eaque illo iste, autem. Porro eveniet, autem ipsam vitae amet repellat repudiandae tenetur, quod corrupti consectetur cum? Repudiandae dignissimos fugiat sit nam. Tempore aspernatur quae repudiandae dolorem, beatae dolorum, praesentium itaque et quam quaerat. Cumque, consequatur!"
+    "description": "Au cœur de Plaisir, La Table Marine vous accueille dans un cadre chaleureux et raffiné. Notre cuisine célèbre les saveurs de la mer et les produits du terroir, élaborée avec soin par une équipe passionnée. Que ce soit pour un déjeuner en famille ou un dîner entre amis, venez vivre une expérience gourmande où qualité, convivialité et authenticité sont au rendez-vous."
 }

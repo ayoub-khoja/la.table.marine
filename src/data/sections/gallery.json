@@ -1,0 +1,48 @@
+{
+  "subtitle": "Galerie",
+  "title": "L'ambiance de<br>La Table Marine",
+  "description": "Découvrez notre salle, nos assiettes et l'atmosphère conviviale<br>qui fait la singularité de notre restaurant à Plaisir.",
+  "button": {
+    "link": "/about",
+    "label": "Découvrir le restaurant"
+  },
+  "sliderNavLabel": "Navigation de la galerie",
+  "items": [
+    {
+      "image": "/img/imageSlider/image00002.png",
+      "alt": "Salle du restaurant La Table Marine",
+      "title": "Notre salle",
+      "caption": "Un cadre élégant et chaleureux pour vos déjeuners et dîners."
+    },
+    {
+      "image": "/img/imageSlider/image00003.png",
+      "alt": "Plat de fruits de mer servi à La Table Marine",
+      "title": "Saveurs de la mer",
+      "caption": "Des produits frais sélectionnés avec soin par notre équipe."
+    },
+    {
+      "image": "/img/imageSlider/image00007.png",
+      "alt": "Dressage d'assiette au restaurant",
+      "title": "Cuisine maison",
+      "caption": "Une cuisine généreuse, raffinée et fidèle aux saisons."
+    },
+    {
+      "image": "/img/imageSlider/image00009.png",
+      "alt": "Ambiance conviviale au restaurant",
+      "title": "Moments partagés",
+      "caption": "L'occasion parfaite pour se retrouver entre amis ou en famille."
+    },
+    {
+      "image": "/img/imageSlider/image00012.png",
+      "alt": "Table dressée à La Table Marine",
+      "title": "Art de recevoir",
+      "caption": "Chaque détail compte pour vous offrir une belle expérience."
+    },
+    {
+      "image": "/img/imageSlider/image00014.png",
+      "alt": "Vue du restaurant La Table Marine",
+      "title": "Notre univers",
+      "caption": "L'alliance du goût, du confort et de l'authenticité."
+    }
+  ]
+}

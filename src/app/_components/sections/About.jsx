@@ -6,8 +6,8 @@ import Link from "next/link";
 
 import { useState } from 'react';
 
-import ModalVideo from 'react-modal-video'
-import 'react-modal-video/css/modal-video.css'
+import VideoModal from "@components/VideoModal";
+import Visit360Section from "@components/sections/Visit360";
 
 const AboutSection = () => {
     const [isOpen, setOpen] = useState(false);
@@ -38,7 +38,7 @@ const AboutSection = () => {
               <div className="col-lg-6">
 
                 {/* about video */}
-                <div className="tst-about-cover tst-mb-60">
+                <div className="tst-about-cover tst-video-cover tst-mb-60">
                   <img src={Data.image.url} alt={Data.image.alt} className="tst-cover" />
                   <div className="tst-overlay"></div>
                   <div className="tst-btn-animation"></div>
@@ -53,7 +53,14 @@ const AboutSection = () => {
             </div>
             {/* about end */}
 
-            <ModalVideo channel='youtube' isOpen={isOpen} videoId={Data.video.replace("https://www.youtube.com/watch?v=", "")} onClose={() => setOpen(false)} />
+            <VideoModal
+              open={isOpen}
+              src={Data.video.url}
+              poster={Data.image.url}
+              onClose={() => setOpen(false)}
+            />
+
+            <Visit360Section />
         </>
     );
 };

@@ -1,13 +1,13 @@
 {
     "subtitle": "Réservation",
     "title": "Ce soir <br>sera parfait !",
-    "description": "Quaerat debitis, vel, sapiente dicta sequi <br>labore porro pariatur harum expedita.",
+    "description": "Réservez votre table et profitez d'un moment chaleureux aux saveurs de la mer.",
     "image": {
-        "url": "/img/reserved.png",
-        "alt": "burger"
+        "url": "/img/partie_seule_la_table_marine.png",
+        "alt": "Plat gastronomique aux saveurs de la mer — La Table Marine"
     },
     "button1": {
-        "link": "/menu",
+        "link": "/reservation",
         "label": "Réserver"
     },
     "button2": {

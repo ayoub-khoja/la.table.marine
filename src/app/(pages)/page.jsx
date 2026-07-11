@@ -1,19 +1,19 @@
 import React, { Suspense } from "react";
 import dynamic from "next/dynamic";
 
-import { getSortedPostsData } from "@library/posts";
-
 import AppData from "@data/app.json";
 
 import ScrollHint from "@layouts/scroll-hint/Index";
 import Divider from "@layouts/divider/Index";
 
+import PromoBannersSection from "@components/sections/PromoBanners";
 import AboutSection from "@components/sections/About";
 import FeaturesSection from "@components/sections/Features";
 import ScheduleSection from "@components/sections/Schedule";
 import CountersSection from "@components/sections/Counters";
 import CallToActionSection from "@components/sections/CallToAction";
 import LatestPostsSection from "@components/sections/LatestPosts";
+import HomeMapInstagramSection from "@components/sections/HomeMapInstagram";
 import SubscribeSection from "@components/sections/Subscribe";
 
 import HeroSection from "@components/sections/Hero";
@@ -28,8 +28,6 @@ export const metadata = {
 }
 
 async function Home() {
-  const posts = await getAllPosts();
-
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
@@ -40,6 +38,10 @@ async function Home() {
           <div className="tst-content-box">
             <div className="container tst-p-60-0">
               <ScrollHint />
+            </div>
+            <PromoBannersSection />
+            <div className="container">
+              <Divider />
               <AboutSection />
               <Divider />
               <FeaturesSection />
@@ -57,8 +59,10 @@ async function Home() {
               <TestimonialSlider />
               <Divider onlyBottom={0} />
               <Suspense fallback={<div>Chargement...</div>}>
-                <LatestPostsSection posts={posts} />
+                <LatestPostsSection />
               </Suspense>
+              <Divider onlyBottom={0} />
+              <HomeMapInstagramSection />
               <Divider onlyBottom={0} />
               <SubscribeSection />
             </div>
@@ -69,8 +73,3 @@ async function Home() {
   );
 };
 export default Home;
-
-async function getAllPosts() {
-  const allPosts = getSortedPostsData();
-  return allPosts;
-}
