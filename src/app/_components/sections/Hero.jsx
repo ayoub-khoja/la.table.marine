@@ -14,10 +14,10 @@ const Hero = ( { bgType } ) => {
     return (
         <>
             {/* banner */}
-            <div className="tst-banner">
+            <div className={`tst-banner${bgType === "video" ? " tst-banner--video" : ""}`}>
                 <div className="tst-cover-frame">
                     {bgType == 'video' ? (
-                    <video className="tst-cover tst-parallax" muted playsInline autoPlay loop>
+                    <video className="tst-cover" muted playsInline autoPlay loop>
                         <source src={Data.video.url} type="video/mp4" />
                     </video>
                     ) : (

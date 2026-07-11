@@ -6,12 +6,14 @@ import AppData from "@data/app.json";
 import ScrollHint from "@layouts/scroll-hint/Index";
 import Divider from "@layouts/divider/Index";
 
+import PromoBannersSection from "@components/sections/PromoBanners";
 import AboutSection from "@components/sections/About";
 import FeaturesSection from "@components/sections/Features";
 import ScheduleSection from "@components/sections/Schedule";
 import CountersSection from "@components/sections/Counters";
 import CallToActionSection from "@components/sections/CallToAction";
 import LatestPostsSection from "@components/sections/LatestPosts";
+import HomeMapInstagramSection from "@components/sections/HomeMapInstagram";
 import SubscribeSection from "@components/sections/Subscribe";
 
 import HeroSection from "@components/sections/Hero";
@@ -36,6 +38,10 @@ async function Home() {
           <div className="tst-content-box">
             <div className="container tst-p-60-0">
               <ScrollHint />
+            </div>
+            <PromoBannersSection />
+            <div className="container">
+              <Divider />
               <AboutSection />
               <Divider />
               <FeaturesSection />
@@ -55,6 +61,8 @@ async function Home() {
               <Suspense fallback={<div>Chargement...</div>}>
                 <LatestPostsSection />
               </Suspense>
+              <Divider onlyBottom={0} />
+              <HomeMapInstagramSection />
               <Divider onlyBottom={0} />
               <SubscribeSection />
             </div>

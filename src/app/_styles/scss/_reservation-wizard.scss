@@ -124,7 +124,7 @@
     margin-bottom: 10px;
 
     @media (max-width: 575px) {
-      grid-template-columns: 1fr;
+      gap: 10px;
     }
   }
 
@@ -153,6 +153,16 @@
     cursor: pointer;
     user-select: none;
 
+    @media (max-width: 575px) {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 88px;
+      padding: 12px 10px;
+      gap: 8px;
+    }
+
     &:focus {
       outline: none;
     }
@@ -179,6 +189,15 @@
         color: $rz-accent;
         transition: color $tr-sm;
       }
+
+      @media (max-width: 575px) {
+        width: 34px;
+        height: 34px;
+
+        i {
+          font-size: 14px;
+        }
+      }
     }
 
     &-label {
@@ -188,6 +207,10 @@
       line-height: 1.35;
       color: $rz-ink;
       transition: color $tr-sm;
+
+      @media (max-width: 575px) {
+        font-size: 13px;
+      }
     }
 
     &:hover {
@@ -338,7 +361,7 @@
   }
 
   &__card {
-    margin-top: -26px;
+    margin-top: 0;
     border-radius: 18px;
     background: rgba(255, 255, 255, 0.94);
     border: 1px solid rgba($dl1, 0.08);

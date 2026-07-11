@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import AppData from "@data/app.json";
 import { getGoogleMapsEmbedUrl } from "@library/maps/google";
 
@@ -9,7 +11,7 @@ function getMapPreviewUrl() {
     return null;
   }
 
-  return `https://staticmap.openstreetmap.de/staticmap.php?center=${lat},${lng}&zoom=${zoom}&size=800x500&markers=${lat},${lng},red`;
+  return `https://staticmap.openstreetmap.de/staticmap.php?center=${lat},${lng}&zoom=${zoom}&size=1200x800&markers=${lat},${lng},red`;
 }
 
 const GoogleMapEmbed = ({
@@ -17,16 +19,26 @@ const GoogleMapEmbed = ({
   className = "",
   title = "Localisation sur Google Maps",
 }) => {
+  const [previewFailed, setPreviewFailed] = useState(false);
+
   if (!isActive) {
     const previewUrl = getMapPreviewUrl();
 
     return (
       <div className={`tst-map-placeholder ${className}`.trim()} aria-hidden="true">
-        {previewUrl ? (
-          <img src={previewUrl} alt="" loading="lazy" decoding="async" />
-        ) : (
-          <div className="tst-map-placeholder__fallback" />
-        )}
+        <div className="tst-map-placeholder__fallback" />
+        {previewUrl && !previewFailed ? (
+          <img
+            src={previewUrl}
+            alt=""
+            loading="lazy"
+            decoding="async"
+            onError={() => setPreviewFailed(true)}
+          />
+        ) : null}
+        <div className="tst-map-placeholder__pin" aria-hidden="true">
+          <i className="fas fa-map-marker-alt" />
+        </div>
         <div className="tst-map-placeholder__overlay" />
       </div>
     );
