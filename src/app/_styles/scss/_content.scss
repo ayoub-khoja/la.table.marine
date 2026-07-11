@@ -1114,26 +1114,42 @@ body .tst-testimonials-slider {
   padding-top: 60px;
   padding-left: 15px;
   padding-right: 15px;
+  padding-bottom: 30px;
   margin-left: -15px;
   margin-right: -15px;
   overflow: hidden;
 
+  & .swiper-wrapper {
+    align-items: stretch;
+  }
+
   & .swiper-slide {
-    height: auto;
+    height: auto !important;
     min-width: 0;
     box-sizing: border-box;
+    display: flex;
+    flex-shrink: 0;
   }
 
   & .tst-testimonial-card {
-    margin-bottom: 24px;
+    margin-bottom: 0;
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+
+    & .tst-testimonial-bottom {
+      margin-top: 16px;
+    }
   }
 
   @media (max-width: 790px) {
     padding-top: 40px;
-
-    & .tst-testimonial-card {
-      margin-bottom: 28px;
-    }
+    padding-bottom: 24px;
   }
 }
 
@@ -1153,6 +1169,9 @@ body .tst-testimonials-slider {
   overflow-wrap: anywhere;
   word-break: break-word;
   hyphens: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 
   & h5,
   & .tst-text,
@@ -1169,6 +1188,8 @@ body .tst-testimonials-slider {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
+    flex-shrink: 0;
+    min-height: 0;
   }
 
   & .tst-text {
@@ -1178,6 +1199,13 @@ body .tst-testimonials-slider {
     -webkit-line-clamp: 8;
     overflow: hidden;
     margin-bottom: 0;
+    flex: 0 0 auto;
+    min-height: 0;
+  }
+
+  & .tst-spacer-sm {
+    flex-shrink: 0;
+    margin-top: 12px;
   }
 
   & .tst-quote {
@@ -1203,8 +1231,9 @@ body .tst-testimonials-slider {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin-top: 20px;
+    margin-top: 0;
     min-width: 0;
+    flex-shrink: 0;
 
     & .tst-visitor {
       display: flex;
@@ -2480,8 +2509,8 @@ reviews & testimonials
   align-items: center;
   gap: 16px;
   width: 100%;
-  margin-top: 0;
-  padding-top: 4px;
+  margin-top: 8px;
+  padding-top: 8px;
 
   .tst-slider-navigation__controls {
     display: flex;

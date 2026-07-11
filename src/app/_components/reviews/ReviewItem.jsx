@@ -1,3 +1,5 @@
+import { formatReviewDisplayYear } from "@library/reviews/model";
+
 const ReviewItem = ({ item, index }) => {
   const stars = [ '', '', '', '', '' ];
     
@@ -17,7 +19,9 @@ const ReviewItem = ({ item, index }) => {
           <div className="tst-visitor">
             <h6>{item.name}</h6>
           </div>
-          <div className="tst-date">{item.date}</div>
+          <div className="tst-date">
+            {formatReviewDisplayYear(item.date || item.createdAt)}
+          </div>
         </div>
       </div>
     </>

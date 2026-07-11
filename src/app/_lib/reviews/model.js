@@ -45,3 +45,26 @@ export function formatReviewDate(iso) {
     return "";
   }
 }
+
+export function formatReviewDisplayYear(dateOrIso) {
+  if (!dateOrIso) return "";
+
+  const str = dateOrIso.toString().trim();
+  const parts = str.split(".");
+
+  if (parts.length === 3 && parts.every((part) => /^\d{2,4}$/.test(part))) {
+    const year = parts[2];
+    return year.length === 2 ? `20${year}` : year;
+  }
+
+  try {
+    const parsed = new Date(str);
+    if (!Number.isNaN(parsed.getTime())) {
+      return String(parsed.getFullYear());
+    }
+  } catch {
+    return "";
+  }
+
+  return str;
+}
