@@ -5,6 +5,7 @@ import { SliderProps } from "@common/sliderProps";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import Data from "@data/sliders/testimonial";
+import { formatReviewDisplayYear } from "@library/reviews/model";
 import ReviewFormPopup from "@components/forms/ReviewFormPopup";
 
 const getTestimonialsSliderConfig = (count) => {
@@ -104,7 +105,9 @@ const TestimonialSlider = () => {
                       <div className="tst-visitor">
                         <h6>{item.name}</h6>
                       </div>
-                      <div className="tst-date">{item.date}</div>
+                      <div className="tst-date">
+                        {formatReviewDisplayYear(item.date || item.createdAt)}
+                      </div>
                     </div>
                   </div>
                 </SwiperSlide>
