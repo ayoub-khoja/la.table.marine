@@ -5,9 +5,28 @@ import { SliderProps } from "@common/sliderProps";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import Data from "@data/sliders/testimonial";
-import Link from "next/link";
-
 import ReviewFormPopup from "@components/forms/ReviewFormPopup";
+
+const getTestimonialsSliderConfig = (count) => {
+  const desktopSlides = Math.min(count, 3);
+  const canLoop = count > desktopSlides;
+
+  return {
+    ...SliderProps.testimonialsSlider,
+    slidesPerView: desktopSlides,
+    loop: canLoop,
+    centeredSlides: count === 1,
+    breakpoints: {
+      992: {
+        slidesPerView: desktopSlides,
+      },
+      0: {
+        slidesPerView: 1,
+        centeredSlides: count === 1,
+      },
+    },
+  };
+};
 
 const TestimonialSlider = () => {
   const [reviews, setReviews] = useState([]);
@@ -68,7 +87,7 @@ const TestimonialSlider = () => {
           ) : items.length ? (
             <Swiper
               key={`testimonials-${items.length}`}
-              {...SliderProps.testimonialsSlider}
+              {...getTestimonialsSliderConfig(items.length)}
               className="swiper-container tst-testimonials-slider tst-cursor-scroll"
             >
               {items.map((item) => (
@@ -116,12 +135,14 @@ const TestimonialSlider = () => {
               <div className="tst-slider-pagination tst-testi-pagination"></div>
             </div>
             <div className="tst-slider-navigation__actions">
-              <Link
+              <a
                 href={Data.button.link}
                 className="tst-btn tst-anima-link"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 {Data.button.label}
-              </Link>
+              </a>
               <button
                 type="button"
                 className="tst-btn tst-btn-outline tst-anima-link"
