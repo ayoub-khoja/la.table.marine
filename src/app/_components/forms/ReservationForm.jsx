@@ -420,18 +420,22 @@ const ReservationForm = () => {
                         </div>
                       ) : null}
 
-                      <div className="col-12 col-md-6">
-                        <input
-                          type="date"
-                          name="date"
-                          className="tst-reservation-wizard__date"
-                          required
-                          min={minReservationDate}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.date}
-                          aria-invalid={Boolean(touched.date && errors.date)}
-                        />
+                      <div className="col-12">
+                        <label className="tst-reservation-wizard__date-field" htmlFor="reservation-date">
+                          <span className="tst-reservation-wizard__date-label">Date</span>
+                          <input
+                            id="reservation-date"
+                            type="date"
+                            name="date"
+                            className="tst-reservation-wizard__date"
+                            required
+                            min={minReservationDate}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.date}
+                            aria-invalid={Boolean(touched.date && errors.date)}
+                          />
+                        </label>
                       </div>
 
                       {touched.date && errors.date ? (
