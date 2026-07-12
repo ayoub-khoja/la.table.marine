@@ -11,3 +11,6 @@ public/uploads/
 .DS_Store
 npm-debug.log*
 yarn-error.log*
+service-account.json
+google-credentials.json
+*.credentials.json
