@@ -3,9 +3,7 @@ import { NextResponse } from "next/server";
 import { requireAdminSession } from "@library/admin/require-session";
 import {
   getGa4Config,
-  getGa4PrivateKey,
-  getGa4ServiceAccountEmail,
-  loadServiceAccountFromFile,
+  getGa4ConfigChecks,
   validateGa4Credentials,
 } from "@library/analytics/ga4-config";
 import { getGa4Client, getGa4PropertyName } from "@library/analytics/ga4-client";
@@ -29,12 +27,7 @@ export async function GET(request) {
       success: false,
       configured: false,
       error: config.message,
-      checks: {
-        GA4_PROPERTY_ID: Boolean(process.env.GA4_PROPERTY_ID?.trim()),
-        GOOGLE_SERVICE_ACCOUNT_EMAIL: Boolean(getGa4ServiceAccountEmail()),
-        GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY: Boolean(getGa4PrivateKey()),
-        service_account_json: Boolean(loadServiceAccountFromFile()),
-      },
+      checks: getGa4ConfigChecks(),
     });
   }
 
