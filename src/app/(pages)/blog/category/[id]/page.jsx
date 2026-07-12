@@ -10,6 +10,7 @@ import Divider from "@layouts/divider/Index";
 
 import { getAllCategoriesIds, getCategoryData } from "@library/categories";
 import { getCategoryPosts, getFeaturedPostsData } from "@library/posts";
+import { buildDynamicPageMetadata } from "@library/seo/page-metadata";
 
 import PopularsPostsData from "@data/sections/popular-posts.json";
 
@@ -18,9 +19,11 @@ const BlogPaginated = dynamic( () => import("@components/blog/BlogPaginated"), {
 export async function generateMetadata({ params }) {
   const categoryData = await getSingleCategoryData(params);
 
-  return {
-    title: categoryData.title + " | Blog",
-  }
+  return buildDynamicPageMetadata({
+    title: `${categoryData.title} | Blog`,
+    description: `Articles de la catégorie ${categoryData.title} sur le blog de La Table Marine.`,
+    path: `/blog/category/${params.id}`,
+  });
 }
 
 async function BlogCategory( { params } ) {
@@ -31,7 +34,7 @@ async function BlogCategory( { params } ) {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <PageBanner pageTitle={"Catégorie : "+categoryData.title} description={"Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam."} breadTitle={categoryData.title} />
+        <PageBanner pageTitle={"Catégorie : "+categoryData.title} description={"Articles de la catégorie « "+categoryData.title+" » sur le blog de La Table Marine."} breadTitle={categoryData.title} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
         <div className="tst-content-frame">

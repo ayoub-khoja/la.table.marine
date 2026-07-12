@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 
 import AppData from "@data/app.json";
+import { getPageMetadata } from "@library/seo/page-metadata";
 
 import ScrollHint from "@layouts/scroll-hint/Index";
 
@@ -9,13 +10,6 @@ import Sidebar from "@components/Sidebar";
 import BlogFiltered from '@components/blog/BlogFiltered';
 
 import { generateJsonPostsData } from "@library/posts";
-
-export const metadata = {
-  title: {
-		default: "Recherche",
-	},
-  description: AppData.settings.siteDescription,
-}
 
 import { promises as fs } from 'fs';
 
@@ -28,7 +22,7 @@ async function Search() {
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
         <Suspense fallback={<div>Chargement...</div>}>
-          <PageBanner pageTitle={"Recherche : %s"} description={"Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam."} breadTitle={"Recherche"} />
+          <PageBanner pageTitle={"Recherche : %s"} description={"Recherchez un article sur le blog de La Table Marine."} breadTitle={"Recherche"} />
         </Suspense>
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">

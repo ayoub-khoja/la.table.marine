@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 function formatDate(iso) {
   try {
@@ -33,6 +33,7 @@ const MenuPanel = () => {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState(null);
   const [uploadSuccess, setUploadSuccess] = useState(null);
+  const formRef = useRef(null);
 
   const fetchMenu = useCallback(async () => {
     setLoading(true);
@@ -132,7 +133,7 @@ const MenuPanel = () => {
       setMenu(data.menu || null);
       setFile(null);
       setUploadSuccess("Menu PDF enregistré avec succès.");
-      e.currentTarget.reset();
+      formRef.current?.reset();
     } catch (err) {
       setUploadError(err.message || "Erreur réseau.");
     } finally {
@@ -219,7 +220,7 @@ const MenuPanel = () => {
           Le nouveau fichier remplace automatiquement le menu actif sur le site.
         </p>
 
-        <form className="tst-admin-products__form" onSubmit={handleUpload}>
+        <form ref={formRef} className="tst-admin-products__form" onSubmit={handleUpload}>
           {uploadError ? (
             <p className="tst-admin-products__form-error" role="alert">
               {uploadError}

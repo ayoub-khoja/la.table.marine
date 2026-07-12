@@ -2,6 +2,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 
 import AppData from "@data/app.json";
+import { getPageMetadata } from "@library/seo/page-metadata";
 import ScrollHint from "@layouts/scroll-hint/Index";
 import Divider from "@layouts/divider/Index";
 
@@ -13,12 +14,7 @@ import TeamSection from "@components/sections/Team";
 
 const ProductsSlider = dynamic( () => import("@components/sliders/Products"), { ssr: false } );
 
-export const metadata = {
-  title: {
-		default: "Boutique",
-	},
-  description: AppData.settings.siteDescription,
-}
+export const metadata = getPageMetadata("shop");
 
 const Shop = () => {
   return (

@@ -10,14 +10,9 @@ import {
   CONSENT_VERSION,
   PRIVACY_POLICY_PATH,
 } from "@library/cookies/consent-config";
+import { getPageMetadata } from "@library/seo/page-metadata";
 
-export const metadata = {
-  title: {
-    default: "Politique de cookies",
-  },
-  description:
-    "Informations sur l'utilisation des cookies et le consentement sur le site La Table Marine.",
-};
+export const metadata = getPageMetadata("cookies");
 
 const LAST_UPDATED = "12 juillet 2026";
 

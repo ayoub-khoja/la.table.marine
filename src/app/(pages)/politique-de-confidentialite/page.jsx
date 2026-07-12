@@ -1,18 +1,12 @@
 import Link from "next/link";
 
-import AppData from "@data/app.json";
 import ScrollHint from "@layouts/scroll-hint/Index";
 import PageBanner from "@components/PageBanner";
 import CookieSettingsButton from "@components/cookies/CookieSettingsButton";
 import { COOKIE_POLICY_PATH } from "@library/cookies/consent-config";
+import { getPageMetadata } from "@library/seo/page-metadata";
 
-export const metadata = {
-  title: {
-    default: "Politique de confidentialité",
-  },
-  description:
-    "Politique de confidentialité et protection des données personnelles — La Table Marine.",
-};
+export const metadata = getPageMetadata("privacy");
 
 const LAST_UPDATED = "12 juillet 2026";
 

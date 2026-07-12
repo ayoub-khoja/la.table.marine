@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { getAllPostsIds, getPostData, getFeaturedPostsData } from "@library/posts";
 import { getAuthorData } from "@library/authors";
+import { buildDynamicPageMetadata } from "@library/seo/page-metadata";
 
 import Link from "next/link";
 import Date from '@library/date';
@@ -16,6 +17,21 @@ import Divider from "@layouts/divider/Index";
 import PopularsPostsData from "@data/sections/popular-posts.json";
 import CommentsData from "@data/comments.json";
 
+export async function generateMetadata({ params }) {
+  const postData = await getPostData(params.id);
+  if (!postData) return {};
+
+  const description =
+    postData.short ||
+    `Article du blog La Table Marine : ${postData.title}.`;
+
+  return buildDynamicPageMetadata({
+    title: postData.title,
+    description,
+    path: `/blog/${params.id}`,
+  });
+}
+
 async function PostsDetail( { params } ) {
   const populars = await getAllPupulars();
   const postData = await getSinglePostData(params);
@@ -24,7 +40,7 @@ async function PostsDetail( { params } ) {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <PageBanner pageTitle={postData.title} description={"Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam."} breadTitle={postData.categories[0]} />
+        <PageBanner pageTitle={postData.title} description={postData.short} breadTitle={postData.categories[0]} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
         <div className="tst-content-frame">

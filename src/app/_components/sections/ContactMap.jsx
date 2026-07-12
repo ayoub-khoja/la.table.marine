@@ -22,13 +22,13 @@ const ContactMapSection = () => {
         </div>
 
         <aside className="tst-contact-map__bar-card">
-          <div className="tst-contact-map__card-header">
+          <address className="tst-contact-map__card-header">
             <i className="fas fa-map-marker-alt" aria-hidden="true" />
             <div>
               <h4>{googleMaps.name}</h4>
               <p>{googleMaps.address}</p>
             </div>
-          </div>
+          </address>
 
           <ul className="tst-contact-map__details tst-contact-map__details--inline">
             <li>

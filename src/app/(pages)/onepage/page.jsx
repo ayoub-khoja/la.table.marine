@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { getSortedPostsData } from "@library/posts";
 
 import AppData from "@data/app.json";
+import { getPageMetadata } from "@library/seo/page-metadata";
 import MenuData from "@data/menu.json";
 
 import ScrollHint from "@layouts/scroll-hint/Index";
@@ -27,12 +28,7 @@ const TestimonialSlider = dynamic( () => import("@components/sliders/Testimonial
 
 const MenuFiltered = dynamic( () => import("@components/menu/MenuFiltered"), { ssr: false } );
 
-export const metadata = {
-  title: {
-		default: "Accueil (One page)",
-	},
-  description: AppData.settings.siteDescription,
-}
+export const metadata = getPageMetadata("onepage");
 
 async function HomeOnePage() {
   const posts = await getAllPosts();

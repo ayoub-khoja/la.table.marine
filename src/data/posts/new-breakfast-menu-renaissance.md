@@ -1,32 +1,30 @@
 ---
 #preview
-title: 'New breakfast menu'
-date: '2022-01-02'
+title: 'Nouvelle carte du midi'
+date: '2025-02-10'
 image: "/img/blog/3.jpg"
 categories:
     - Gastronomy
 tags:
-    - Fast food
-    - Recipes
+    - Menu
+    - Restaurant
 author: Nguta Ithya
 authorAvatar: /img/faces/4.jpg
-short: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius sequi commodi dignissimos.
+short: La Table Marine dévoile une carte du déjeuner revisitée, entre poissons frais, fruits de mer et produits du terroir.
 ---
 
-Gutem temporibus quae facilis totam, dolorem laborum optio laudantium explicabo quia ea. Officia beatae excepturi adipisci? Nobis consequatur ullam officiis adipisci assumenda, voluptas optio, commodi, soluta itaque error consectetur cupiditate vero voluptatem architecto blanditiis quidem amet. Quod ipsam consequuntur distinctio velit sed ipsum quisquam, itaque placeat error non animi quam aut similique nulla ab. Quaerat dicta, dolores veritatis magnam quae aut omnis in porro.
+La Table Marine accueille ses convives le midi avec une **carte du déjeuner** renouvelée, fidèle à l'esprit de la maison : des produits de la mer travaillés avec soin, complétés par des touches de cuisine du terroir.
 
-###### Voluptatem odit ullam veritatis
+###### Des formules adaptées à votre pause
 
-Omnis consectetur in libero! Quo animi minus sunt, excepturi inventore! Recusandae enim fugit saepe mollitia laboriosam minima sapiente laborum aspernatur ut! Voluptatibus tempora cupiditate nulla cum dicta odit unde eius sit molestias corrupti pariatur illum aspernatur blanditiis, dolor earum quidem incidunt eligendi magnam obcaecati iure quis corporis. Perspiciatis rem provident aliquid iusto temporibus, exercitationem voluptatibus accusamus amet ratione atque, dolor vel necessitatibus illo ipsa officia, sunt quia magni saepe velit ipsum sapiente blanditiis minima.
+Que vous disposiez d'une heure ou d'un peu plus de temps, nos formules déjeuner permettent de savourer un plat du jour, une entrée et un dessert, ou un menu complet selon vos envies.
 
-- Voluptate aspernatur
-- Fugiat asperiores
-- Doloremque quidem porro
-- Numquam porro sequi
-- Laudantium quis
+- Poisson du marché grillé ou en sauce
+- Entrées iodées et salades de saison
+- Desserts maison pour finir sur une note douce
 
-Voluptatem odit ullam veritatis corrupti officia non aperiam eius vero amet, sed porro blanditiis, harum, quo fugit cupiditate. Maxime quaerat ratione
+###### Un cadre chaleureux à Plaisir
 
-Tempora quasi nihil eos minus facilis. Modi atque odit mollitia, molestias eum inventore, minima distinctio laborum asperiores odio sit fuga rem, totam error aspernatur ipsa? Officia doloribus, non perspiciatis, aspernatur a numquam pariatur reprehenderit, incidunt fugiat modi nam. **Repudiandae obcaecati** excepturi, autem dicta tempore qui consequatur quisquam architecto dolorem voluptates nihil est ex perferendis eligendi laboriosam maxime placeat doloribus et reprehenderit beatae tempora numquam harum expedita! Amet at odit pariatur eum tenetur ratione
+Situé au cœur de Plaisir, le restaurant offre un cadre convivial pour un déjeuner entre collègues, en famille ou entre amis. La salle est pensée pour que chaque moment à table soit agréable, du premier verre au café.
 
-Modi sint reprehenderit vitae officiis pariatur, ab debitis voluptate ea eius assumenda beatae, tempora, dolores deserunt, ipsam ipsum! Quod ipsam consequuntur distinctio velit sed ipsum quisquam, itaque placeat error non animi quam aut similique nulla ab. Quaerat dicta, dolores veritatis magnam quae aut omnis in porro.
+Consultez notre carte en ligne ou passez nous voir : l'équipe se fera un plaisir de vous accueillir.

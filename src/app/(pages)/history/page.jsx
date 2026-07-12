@@ -1,8 +1,7 @@
 import React, { Suspense } from "react";
 
 import { getSortedPostsData } from "@library/posts";
-
-import AppData from "@data/app.json";
+import { getPageMetadata } from "@library/seo/page-metadata";
 
 import ScrollHint from "@layouts/scroll-hint/Index";
 import Divider from "@layouts/divider/Index";
@@ -12,12 +11,7 @@ import CallToActionSection from "@components/sections/CallToAction";
 import LatestPostsSection from "@components/sections/LatestPosts";
 import SubscribeSection from "@components/sections/Subscribe";
 
-export const metadata = {
-  title: {
-		default: "Histoire",
-	},
-  description: AppData.settings.siteDescription,
-}
+export const metadata = getPageMetadata("history");
 
 async function History() {
   const posts = await getAllPosts();

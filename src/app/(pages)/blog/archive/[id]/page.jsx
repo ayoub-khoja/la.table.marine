@@ -10,6 +10,7 @@ import Divider from "@layouts/divider/Index";
 
 import { getAllArchivesIds, getArchiveData } from "@library/archives";
 import { getArchivePosts, getFeaturedPostsData } from "@library/posts";
+import { buildDynamicPageMetadata } from "@library/seo/page-metadata";
 
 import PopularsPostsData from "@data/sections/popular-posts.json";
 
@@ -17,10 +18,12 @@ const BlogPaginated = dynamic( () => import("@components/blog/BlogPaginated"), {
 
 export async function generateMetadata({ params }) {
   const archiveData = await getSingleArchiveData(params);
-  
-  return {
-    title: archiveData.month+', '+archiveData.year + " | Archives | Blog",
-  }
+
+  return buildDynamicPageMetadata({
+    title: `${archiveData.month}, ${archiveData.year} | Archives | Blog`,
+    description: `Archives du blog La Table Marine pour ${archiveData.month} ${archiveData.year}.`,
+    path: `/blog/archive/${params.id}`,
+  });
 }
 
 async function BlogArchive( { params } ) {
@@ -31,7 +34,7 @@ async function BlogArchive( { params } ) {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <PageBanner pageTitle={"Archives : "+archiveData.month+', '+archiveData.year} description={"Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam."} breadTitle={archiveData.month+', '+archiveData.year} />
+        <PageBanner pageTitle={"Archives : "+archiveData.month+', '+archiveData.year} description={"Articles publiés en "+archiveData.month+" "+archiveData.year+" sur le blog de La Table Marine."} breadTitle={archiveData.month+', '+archiveData.year} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
         <div className="tst-content-frame">
