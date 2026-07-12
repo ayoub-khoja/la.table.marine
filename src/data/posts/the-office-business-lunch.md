@@ -1,32 +1,34 @@
 ---
 #preview
-title: 'The office business lunch'
-date: '2022-01-02'
+title: "Déjeuner d'affaires à Plaisir"
+date: '2025-03-01'
 image: "/img/blog/3.jpg"
 categories:
     - Menu
 tags:
     - Menu
-    - Eat
+    - Restaurant
 author: Nguta Ithya
 authorAvatar: /img/faces/4.jpg
-short: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius sequi commodi dignissimos.
+short: "Organisez un déjeuner professionnel à La Table Marine : cadre calme, service attentif et carte du midi."
 ---
 
-Gutem temporibus quae facilis totam, dolorem laborum optio laudantium explicabo quia ea. Officia beatae excepturi adipisci? Nobis consequatur ullam officiis adipisci assumenda, voluptas optio, commodi, soluta itaque error consectetur cupiditate vero voluptatem architecto blanditiis quidem amet. Quod ipsam consequuntur distinctio velit sed ipsum quisquam, itaque placeat error non animi quam aut similique nulla ab. Quaerat dicta, dolores veritatis magnam quae aut omnis in porro.
+Un **déjeuner d'affaires** réussi repose sur un bon repas, un service fluide et un cadre propice à l'échange. La Table Marine réunit ces trois éléments à Plaisir.
 
-###### Voluptatem odit ullam veritatis
+###### Un cadre adapté
 
-Omnis consectetur in libero! Quo animi minus sunt, excepturi inventore! Recusandae enim fugit saepe mollitia laboriosam minima sapiente laborum aspernatur ut! Voluptatibus tempora cupiditate nulla cum dicta odit unde eius sit molestias corrupti pariatur illum aspernatur blanditiis, dolor earum quidem incidunt eligendi magnam obcaecati iure quis corporis. Perspiciatis rem provident aliquid iusto temporibus, exercitationem voluptatibus accusamus amet ratione atque, dolor vel necessitatibus illo ipsa officia, sunt quia magni saepe velit ipsum sapiente blanditiis minima.
+La salle permet de recevoir vos invités dans une ambiance soignée sans être trop formelle. L'équipe en salle veille au rythme du service pour respecter votre emploi du temps.
 
-- Voluptate aspernatur
-- Fugiat asperiores
-- Doloremque quidem porro
-- Numquam porro sequi
-- Laudantium quis
+###### Formules déjeuner
 
-Voluptatem odit ullam veritatis corrupti officia non aperiam eius vero amet, sed porro blanditiis, harum, quo fugit cupiditate. Maxime quaerat ratione
+Nos formules midi offrent un bon équilibre entre qualité et rapidité :
 
-Tempora quasi nihil eos minus facilis. Modi atque odit mollitia, molestias eum inventore, minima distinctio laborum asperiores odio sit fuga rem, totam error aspernatur ipsa? Officia doloribus, non perspiciatis, aspernatur a numquam pariatur reprehenderit, incidunt fugiat modi nam. **Repudiandae obcaecati** excepturi, autem dicta tempore qui consequatur quisquam architecto dolorem voluptates nihil est ex perferendis eligendi laboriosam maxime placeat doloribus et reprehenderit beatae tempora numquam harum expedita! Amet at odit pariatur eum tenetur ratione
+- Entrée, plat, dessert selon la formule choisie
+- Plats autour du poisson et des produits de la mer quand les arrivages le permettent
+- Alternatives terroir pour diversifier les choix
 
-Modi sint reprehenderit vitae officiis pariatur, ab debitis voluptate ea eius assumenda beatae, tempora, dolores deserunt, ipsam ipsum! Quod ipsam consequuntur distinctio velit sed ipsum quisquam, itaque placeat error non animi quam aut similique nulla ab. Quaerat dicta, dolores veritatis magnam quae aut omnis in porro.
+###### Réserver pour votre équipe
+
+Pour un groupe ou un rendez-vous professionnel, réservez à l'avance en précisant l'horaire souhaité. Nous nous adaptons autant que possible à vos contraintes.
+
+Contactez-nous ou réservez en ligne pour planifier votre prochain déjeuner d'affaires à Plaisir.

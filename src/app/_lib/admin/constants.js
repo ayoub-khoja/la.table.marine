@@ -6,6 +6,7 @@ export const ADMIN_DEFAULT_REDIRECT = "/admin/dashboard";
 
 export const ADMIN_PROTECTED_PATHS = [
   "/admin/dashboard",
+  "/admin/analytics",
   "/admin/commandes",
   "/admin/reservations",
   "/admin/messages",
@@ -20,6 +21,12 @@ export const ADMIN_NAV_ITEMS = [
     label: "Tableau de bord",
     href: "/admin/dashboard",
     icon: "fa-chart-line",
+  },
+  {
+    id: "analytics",
+    label: "Statistiques",
+    href: "/admin/analytics",
+    icon: "fa-chart-bar",
   },
   {
     id: "commandes",

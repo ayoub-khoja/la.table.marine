@@ -1,6 +1,7 @@
 import React from "react";
 
 import AppData from "@data/app.json";
+import { getPageMetadata } from "@library/seo/page-metadata";
 import ScrollHint from "@layouts/scroll-hint/Index";
 import Divider from "@layouts/divider/Index";
 import ProductsData from "@data/products.json";
@@ -8,13 +9,6 @@ import ProductsData from "@data/products.json";
 import PageBanner from "@components/PageBanner";
 import SubscribeSection from "@components/sections/Subscribe";
 import ProductsGrid from "@components/products/ProductsGrid";
-
-export const metadata = {
-  title: {
-		default: "Produits",
-	},
-  description: AppData.settings.siteDescription,
-}
 
 const Products = () => {
   return (

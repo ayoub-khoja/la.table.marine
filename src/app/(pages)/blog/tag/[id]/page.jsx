@@ -10,6 +10,7 @@ import Divider from "@layouts/divider/Index";
 
 import { getAllTagsIds, getTagData } from "@library/tags";
 import { getTagPosts, getFeaturedPostsData } from "@library/posts";
+import { buildDynamicPageMetadata } from "@library/seo/page-metadata";
 
 import PopularsPostsData from "@data/sections/popular-posts.json";
 
@@ -17,10 +18,12 @@ const BlogPaginated = dynamic( () => import("@components/blog/BlogPaginated"), {
 
 export async function generateMetadata({ params }) {
   const tagData = await getSingleTagData(params);
-  
-  return {
-    title: tagData.title + " | Blog",
-  }
+
+  return buildDynamicPageMetadata({
+    title: `${tagData.title} | Blog`,
+    description: `Articles tagués « ${tagData.title} » sur le blog de La Table Marine.`,
+    path: `/blog/tag/${params.id}`,
+  });
 }
 
 async function BlogTag( { params } ) {
@@ -31,7 +34,7 @@ async function BlogTag( { params } ) {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <PageBanner pageTitle={"Tag : "+tagData.title} description={"Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam."} breadTitle={tagData.title} />
+        <PageBanner pageTitle={"Tag : "+tagData.title} description={"Articles associés au tag « "+tagData.title+" » sur le blog de La Table Marine."} breadTitle={tagData.title} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
         <div className="tst-content-frame">

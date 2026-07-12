@@ -1,28 +1,30 @@
 ---
 #preview
-title: 'Join Us For Plant-Powered'
-date: '2022-03-02'
+title: "Suggestions de saison : poissons d'hiver"
+date: '2025-01-18'
 image: "/img/blog/5.jpg"
 categories:
     - Service sector
 tags:
-    - Services
-    - Rest
+    - Restaurant
+    - Menu
 author: Tamzyn French
 authorAvatar: /img/faces/2.jpg
-short: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius sequi commodi dignissimos.
+short: "En hiver, la Table Marine met en avant des poissons de saison et des préparations réconfortantes."
 ---
 
-Gutem temporibus quae facilis totam, dolorem laborum optio laudantium explicabo quia ea. Officia beatae excepturi adipisci? Nobis consequatur ullam officiis adipisci assumenda, voluptas optio, commodi, soluta itaque error consectetur cupiditate vero voluptatem architecto blanditiis quidem amet. Quod ipsam consequuntur distinctio velit sed ipsum quisquam, itaque placeat error non animi quam aut similique nulla ab. Quaerat dicta, dolores veritatis magnam quae aut omnis in porro.
+L'hiver est une belle saison pour la cuisine de la mer. À **La Table Marine**, nous adaptons nos suggestions aux produits disponibles et aux envies de réconfort de nos convives.
 
-###### Voluptatem odit ullam veritatis
+###### Poissons et cuissons plus généreuses
 
-Omnis consectetur in libero! Quo animi minus sunt, excepturi inventore! Recusandae enim fugit saepe mollitia laboriosam minima sapiente laborum aspernatur ut! Voluptatibus tempora cupiditate nulla cum dicta odit unde eius sit molestias corrupti pariatur illum aspernatur blanditiis, dolor earum quidem incidunt eligendi magnam obcaecati iure quis corporis. Perspiciatis rem provident aliquid iusto temporibus, exercitationem voluptatibus accusamus amet ratione atque, dolor vel necessitatibus illo ipsa officia, sunt quia magni saepe velit ipsum sapiente blanditiis minima.
+Cabillaud, lieu, bar ou sole : selon les arrivages, nous proposons des cuissons en sauce, des poêlées ou des grillades qui réchauffent sans alourdir.
 
-- Voluptate aspernatur
-- Fugiat asperiores
-- Doloremque quidem porro
-- Numquam porro sequi
-- Laudantium quis
+- Veloutés de poisson en entrée
+- Plats mijotés ou poêlés pour le plat principal
+- Desserts maison pour clôturer le repas
 
-Voluptatem odit ullam veritatis corrupti officia non aperiam eius vero amet, sed porro blanditiis, harum, quo fugit cupiditate. Maxime quaerat ratione
+###### Produits du terroir en accompagnement
+
+La cuisine du terroir complète naturellement nos assiettes : légumes racines, pommes de terre, herbes aromatiques. Cet équilibre entre mer et terre fait partie de l'identité de la maison.
+
+Venez découvrir nos suggestions de saison à Plaisir — la carte évolue régulièrement.

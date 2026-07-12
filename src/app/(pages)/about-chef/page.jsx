@@ -1,21 +1,16 @@
 import React from "react";
 import dynamic from "next/dynamic";
 
-import AppData from "@data/app.json";
-
 import ScrollHint from "@layouts/scroll-hint/Index";
 import Divider from "@layouts/divider/Index";
-
 import PageBanner from "@components/PageBanner";
+import { getPageMetadata } from "@library/seo/page-metadata";
 
-const TestimonialSlider = dynamic( () => import("@components/sliders/Testimonial"), { ssr: false } );
+const TestimonialSlider = dynamic(() => import("@components/sliders/Testimonial"), {
+  ssr: false,
+});
 
-export const metadata = {
-  title: {
-		default: "À propos du chef",
-	},
-  description: AppData.settings.siteDescription,
-}
+export const metadata = getPageMetadata("aboutChef");
 
 const About2 = () => {
   const Content = {

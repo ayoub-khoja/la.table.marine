@@ -1,32 +1,32 @@
 ---
 #preview
-title: 'Tips for Planning a Menu'
-date: '2022-03-02'
+title: 'Comment bien choisir son menu au restaurant'
+date: '2025-01-20'
 image: "/img/blog/6.jpg"
 categories:
     - Menu
 tags:
     - Menu
-    - Caffe
+    - Restaurant
 author: Charlie Williams
 authorAvatar: /img/faces/3.jpg
-short: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius sequi commodi dignissimos.
+short: "Quelques conseils pour composer un repas harmonieux autour des poissons, fruits de mer et vins à La Table Marine."
 ---
 
-Gutem temporibus quae facilis totam, dolorem laborum optio laudantium explicabo quia ea. Officia beatae excepturi adipisci? Nobis consequatur ullam officiis adipisci assumenda, voluptas optio, commodi, soluta itaque error consectetur cupiditate vero voluptatem architecto blanditiis quidem amet. Quod ipsam consequuntur distinctio velit sed ipsum quisquam, itaque placeat error non animi quam aut similique nulla ab. Quaerat dicta, dolores veritatis magnam quae aut omnis in porro.
+Arriver au restaurant avec l'envie de tout goûter, c'est compréhensible. Voici quelques repères simples pour profiter pleinement de la carte de **La Table Marine**.
 
-###### Voluptatem odit ullam veritatis
+###### Commencez par le produit de la mer
 
-Omnis consectetur in libero! Quo animi minus sunt, excepturi inventore! Recusandae enim fugit saepe mollitia laboriosam minima sapiente laborum aspernatur ut! Voluptatibus tempora cupiditate nulla cum dicta odit unde eius sit molestias corrupti pariatur illum aspernatur blanditiis, dolor earum quidem incidunt eligendi magnam obcaecati iure quis corporis. Perspiciatis rem provident aliquid iusto temporibus, exercitationem voluptatibus accusamus amet ratione atque, dolor vel necessitatibus illo ipsa officia, sunt quia magni saepe velit ipsum sapiente blanditiis minima.
+Si vous aimez les saveurs iodées, privilégiez une entrée de coquillages ou de poisson cru, puis un plat de poisson grillé ou en sauce. Les accords restent légers et mettent en valeur la fraîcheur du produit.
 
-- Voluptate aspernatur
-- Fugiat asperiores
-- Doloremque quidem porro
-- Numquam porro sequi
-- Laudantium quis
+###### Pensez aux accords mets et vins
 
-Voluptatem odit ullam veritatis corrupti officia non aperiam eius vero amet, sed porro blanditiis, harum, quo fugit cupiditate. Maxime quaerat ratione
+Un vin blanc sec ou un rosé structuré accompagne naturellement les fruits de mer. Pour un plat plus riche, demandez conseil à l'équipe : nous connaissons chaque suggestion du jour.
 
-Tempora quasi nihil eos minus facilis. Modi atque odit mollitia, molestias eum inventore, minima distinctio laborum asperiores odio sit fuga rem, totam error aspernatur ipsa? Officia doloribus, non perspiciatis, aspernatur a numquam pariatur reprehenderit, incidunt fugiat modi nam. **Repudiandae obcaecati** excepturi, autem dicta tempore qui consequatur quisquam architecto dolorem voluptates nihil est ex perferendis eligendi laboriosam maxime placeat doloribus et reprehenderit beatae tempora numquam harum expedita! Amet at odit pariatur eum tenetur ratione
+- Huîtres et coquillages : blanc vif et minéral
+- Poisson en sauce : blanc plus rond ou rouge léger
+- Plateau à partager : bouteille à partager, idéal en groupe
 
-Modi sint reprehenderit vitae officiis pariatur, ab debitis voluptate ea eius assumenda beatae, tempora, dolores deserunt, ipsam ipsum! Quod ipsam consequuntur distinctio velit sed ipsum quisquam, itaque placeat error non animi quam aut similique nulla ab. Quaerat dicta, dolores veritatis magnam quae aut omnis in porro.
+###### N'hésitez pas à demander
+
+Allergies, préférences, occasion spéciale : dites-le nous lors de la réservation ou à l'arrivée. La cuisine s'adapte autant que possible pour que votre repas soit serein et savoureux.

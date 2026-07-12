@@ -13,15 +13,11 @@ import PopularPosts from "@components/sections/PopularPosts";
 import SubscribeSection from "@components/sections/Subscribe";
 
 import { getPaginatedPostsData, getFeaturedPostsData } from "@library/posts";
+import { getPageMetadata } from "@library/seo/page-metadata";
 
 const BlogPaginated = dynamic( () => import("@components/blog/BlogPaginated"), { ssr: false } );
 
-export const metadata = {
-  title: {
-		default: "Blog",
-	},
-  description: AppData.settings.siteDescription,
-}
+export const metadata = getPageMetadata("blog");
 
 async function Blog() {
   const populars = await getAllPupulars();
@@ -30,7 +26,7 @@ async function Blog() {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <PageBanner pageTitle={"Notre blog"} description={"Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam."} breadTitle={"Blog"} />
+        <PageBanner pageTitle={"Notre blog"} description={"Actualités, recettes et coulisses de La Table Marine, restaurant de fruits de mer à Plaisir."} breadTitle={"Blog"} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
         <div className="tst-content-frame">
@@ -46,7 +42,7 @@ async function Blog() {
                   <div className="text-center">
                     <div className="tst-suptitle tst-suptitle-center tst-mb-15">Newsletter</div>
                     <h3 className="tst-mb-30">Dernières publications</h3>
-                    <p className="tst-text tst-mb-60">Porro eveniet, autem ipsam corrupti consectetur cum. <br/>Repudiandae dignissimos fugiat sit nam.</p>
+                    <p className="tst-text tst-mb-60">Découvrez nos dernières actualités, suggestions de saison et conseils autour de la cuisine de la mer.</p>
                   </div>
                   {/* title end */}
 

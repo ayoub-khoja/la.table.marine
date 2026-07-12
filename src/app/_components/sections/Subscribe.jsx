@@ -1,7 +1,17 @@
+"use client";
+
 import Data from "@data/sections/subscribe.json";
 import AppData from "@data/app.json";
 
+import { trackNewsletterSubscribed } from "@library/cookies/track-analytics-events";
+
 const SubscribeSection = () => {
+  const handleSubmit = () => {
+    trackNewsletterSubscribed({
+      page_path: typeof window !== "undefined" ? window.location.pathname : "unknown",
+    });
+  };
+
   return (
     <>
         {/* subscribe */}
@@ -16,7 +26,7 @@ const SubscribeSection = () => {
                         <div className="tst-suptitle tst-suptitle-mobile-center tst-suptitle-center tst-text-shadow tst-white-2 tst-mb-15" dangerouslySetInnerHTML={{__html : Data.subtitle}} />
                         <h2 className="tst-white-2 tst-text-shadow tst-mb-30" dangerouslySetInnerHTML={{__html : Data.title}} />
                         <p className="tst-text tst-white-2 tst-text-shadow tst-mb-30" dangerouslySetInnerHTML={{__html : Data.description}} />
-                        <form action={AppData.settings.mailchimp.url} method="post" target="_blank">
+                        <form action={AppData.settings.mailchimp.url} method="post" target="_blank" onSubmit={handleSubmit}>
                             <input type="email" placeholder={Data.placeholder} name="EMAIL" required />
                             <button className="tst-btn" type="submit">{Data.button}</button>
                         </form>

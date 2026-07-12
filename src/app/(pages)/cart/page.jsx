@@ -1,6 +1,7 @@
 import React from "react";
 
 import AppData from "@data/app.json";
+import { getPageMetadata } from "@library/seo/page-metadata";
 import CartData from "@data/cart.json";
 
 import PageBanner from "@components/PageBanner";
@@ -9,13 +10,6 @@ import ScrollHint from "@layouts/scroll-hint/Index";
 import Divider from "@layouts/divider/Index";
 
 import Link from "next/link";
-
-export const metadata = {
-  title: {
-		default: "Panier",
-	},
-  description: AppData.settings.siteDescription,
-}
 
 const Cart = () => {
   return (

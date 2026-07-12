@@ -2,6 +2,7 @@ import React from "react";
 import dynamic from "next/dynamic";
 
 import AppData from "@data/app.json";
+import { getPageMetadata } from "@library/seo/page-metadata";
 import MenuData from "@data/menu.json";
 import ProductsData from "@data/products.json";
 
@@ -13,12 +14,7 @@ import CallToActionTwoSection from "@components/sections/CallToActionTwo";
 const MenuGrid = dynamic( () => import("@components/menu/MenuGrid"), { ssr: false } );
 const ProductsSlider = dynamic( () => import("@components/sliders/Products"), { ssr: false } );
 
-export const metadata = {
-  title: {
-		default: "Menu 2",
-	},
-  description: AppData.settings.siteDescription,
-}
+export const metadata = getPageMetadata("menu2");
 
 const Menu2 = () => {
   return (

@@ -1,6 +1,7 @@
 import React from "react";
 
 import AppData from "@data/app.json";
+import { getPageMetadata } from "@library/seo/page-metadata";
 
 import ScrollHint from "@layouts/scroll-hint/Index";
 import Divider from "@layouts/divider/Index";
@@ -8,13 +9,6 @@ import Divider from "@layouts/divider/Index";
 import PageBanner from "@components/PageBanner";
 import ContactInfoSection from "@components/sections/ContactInfo";
 import ReservationOpenTableSection from "@components/sections/ReservationOpenTable";
-
-export const metadata = {
-    title: {
-        default: "Reservation OpenTable",
-    },
-    description: AppData.settings.siteDescription,
-}
 
 const Reservation2 = () => {
   return (

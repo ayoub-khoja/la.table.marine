@@ -1,7 +1,7 @@
 ---
 #preview
-title: 'Incredible Vegan Cheese'
-date: '2022-04-02'
+title: 'Notre plateau de fruits de mer à partager'
+date: '2025-03-15'
 image: "/img/blog/1.jpg"
 categories:
     - Recipes
@@ -11,23 +11,23 @@ tags:
     - Food
 author: Charlie Williams
 authorAvatar: /img/faces/3.jpg
-short: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius sequi commodi dignissimos.
+short: "Découvrez notre plateau de fruits de mer, une sélection de produits frais à déguster entre amis à La Table Marine."
 ---
 
-Are you passionate about design and interested in pursuing a career as a graphic designer? Graphic design is a dynamic field that combines creativity, technical skills, and a keen eye for aesthetics. Whether you're a beginner or someone looking to enhance their skills, this article will guide you through 10 simple steps to become a graphic designer.
+Le plateau de fruits de mer est l'une des signatures de **La Table Marine**, à Plaisir. Huîtres, crevettes, bulots, langoustines et poissons du jour s'accordent sur un même dressage, pensé pour être partagé autour de la table.
 
-##### Understand the Field
+##### Des produits sélectionnés avec exigence
 
-Start by gaining a comprehensive understanding of what graphic design entails. Research the different types of graphic design, such as branding, web design, print design, and illustration. Explore the work of successful graphic designers and analyze their portfolios to learn about various design styles and techniques.
+Nous travaillons avec des fournisseurs de confiance pour proposer des produits de la mer arrivés frais en cuisine. La composition du plateau évolue selon les arrivages et la saison : c'est ce qui fait son charme et sa fraîcheur.
 
-##### Get a Design Education
+##### Comment le déguster
 
-While formal education is not always a requirement, it can provide you with a solid foundation and enhance your credibility as a graphic designer. Consider pursuing a degree or diploma in graphic design or a related field. Look for reputable design schools or online courses that offer comprehensive programs to learn both theory and practical skills.
+- Commencez par les huîtres et coquillages, servis bien frais
+- Accompagnez d'un beurre citronné maison ou d'une sauce cocktail légère
+- Ajoutez une coupe de vin blanc sec ou un muscadet pour sublimer les saveurs iodées
 
-##### Build Your Portfolio
+##### Une expérience conviviale
 
-Your portfolio is your calling card as a graphic designer. Compile a collection of your best design projects to showcase your abilities and style. Include a variety of work, such as logos, brochures, websites, or illustrations, to demonstrate your versatility. Constantly update your portfolio as you complete new projects or improve existing ones.
+Le plateau se partage idéalement à deux ou plus, en entrée ou en plat principal selon votre appétit. Nos équipes peuvent vous conseiller sur la taille adaptée à votre table.
 
-##### Gain Practical Experience
-
-To become a successful graphic designer, practical experience is crucial. Seek internships, freelance opportunities, or entry-level positions to gain hands-on experience in the field. This will allow you to apply your skills in real-world scenarios, understand client requirements, work with deadlines, and collaborate with others in a professional environment.
+Réservez votre table pour découvrir notre carte complète et laissez-vous guider par l'équipe en salle.

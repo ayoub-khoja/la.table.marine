@@ -1,8 +1,13 @@
 "use client";
 
 import { Formik, useFormikContext } from "formik";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Popup from "@components/Popup";
+
+import {
+  trackReservationCompleted,
+  trackReservationStarted,
+} from "@library/cookies/track-analytics-events";
 
 import {
   OCCASION_LABELS,
@@ -89,6 +94,15 @@ const ReservationForm = () => {
   const [popupState, setPopupState] = useState({ type: "success", message: "" });
   const [step, setStep] = useState(1);
   const [autoPauseUntil, setAutoPauseUntil] = useState(0);
+  const hasTrackedStart = useRef(false);
+
+  useEffect(() => {
+    if (hasTrackedStart.current) return;
+    hasTrackedStart.current = true;
+    trackReservationStarted({
+      page_path: typeof window !== "undefined" ? window.location.pathname : "/reservation",
+    });
+  }, []);
 
   const validateAll = (values) => {
     const errors = {};
@@ -184,6 +198,11 @@ const ReservationForm = () => {
                 data?.emailSent === false
                   ? "Merci ! Votre demande de réservation a bien été envoyée. Nous vous confirmerons rapidement."
                   : "Merci ! Votre demande de réservation a bien été envoyée. Un e-mail de confirmation vous a été adressé.",
+            });
+            trackReservationCompleted({
+              request_type: values.requestType,
+              service_type: values.serviceType,
+              occasion: values.occasion,
             });
             setPopupOpen(true);
             resetForm();
