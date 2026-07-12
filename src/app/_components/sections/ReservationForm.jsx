@@ -29,9 +29,7 @@ const ReservationSection = ({ showTitle = true }) => {
 
               <div className="col-lg-12">
 
-                <div className="text-center">
-                  <ReservationForm />
-                </div>
+                <ReservationForm />
 
               </div>
             </div>

@@ -66,6 +66,21 @@ function todayLocalISO() {
   return `${y}-${m}-${day}`;
 }
 
+function formatDateLabel(isoDate) {
+  if (!isoDate) return "";
+  try {
+    const [y, m, d] = isoDate.split("-").map(Number);
+    return new Intl.DateTimeFormat("fr-FR", {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(new Date(y, m - 1, d));
+  } catch {
+    return isoDate;
+  }
+}
+
 const STEP_REQUIRED = {
   1: ["requestType", "occasion", "serviceType", "date", "time"],
   2: ["first_name", "last_name", "email", "phone", "person"],
@@ -238,7 +253,7 @@ const ReservationForm = () => {
           setFieldValue,
           isSubmitting,
         }) => (
-          <form onSubmit={handleSubmit} id="reservationForm">
+          <form onSubmit={handleSubmit} id="reservationForm" className="tst-reservation-wizard">
             <AutoAdvance
               step={step}
               setStep={setStep}
@@ -423,18 +438,33 @@ const ReservationForm = () => {
                       <div className="col-12">
                         <label className="tst-reservation-wizard__date-field" htmlFor="reservation-date">
                           <span className="tst-reservation-wizard__date-label">Date</span>
-                          <input
-                            id="reservation-date"
-                            type="date"
-                            name="date"
-                            className="tst-reservation-wizard__date"
-                            required
-                            min={minReservationDate}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.date}
-                            aria-invalid={Boolean(touched.date && errors.date)}
-                          />
+                          <div className="tst-reservation-wizard__date-trigger">
+                            <span
+                              className={`tst-reservation-wizard__date-value${
+                                values.date ? "" : " is-placeholder"
+                              }`}
+                            >
+                              {values.date
+                                ? formatDateLabel(values.date)
+                                : "Choisir une date"}
+                            </span>
+                            <i
+                              className="fas fa-calendar-alt tst-reservation-wizard__date-icon"
+                              aria-hidden="true"
+                            />
+                            <input
+                              id="reservation-date"
+                              type="date"
+                              name="date"
+                              className="tst-reservation-wizard__date-input"
+                              required
+                              min={minReservationDate}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.date}
+                              aria-invalid={Boolean(touched.date && errors.date)}
+                            />
+                          </div>
                         </label>
                       </div>
 
