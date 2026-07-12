@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import path from "path";
-import { getOrderEmailAttachment } from "@library/email/order";
+import { getEmailHeaderAttachments } from "@library/email/order";
 import { renderReservationEmailHtml } from "@library/email/reservation";
 import {
   createMailTransporter,
@@ -124,19 +123,16 @@ export async function POST(request) {
 
     const mailConfig = getMailConfig();
     if (!mailConfig) {
-      return NextResponse.json({ success: true, emailSent: false });
+      console.error("[api/reservation] SMTP not configured");
+      return NextResponse.json({
+        success: true,
+        emailSent: false,
+        emailReason: "not_configured",
+      });
     }
 
     const transporter = createMailTransporter(mailConfig);
-
-    const headerImagePath = path.join(
-      process.cwd(),
-      "public",
-      "img",
-      "header-email.png"
-    );
-
-    const attachments = [getOrderEmailAttachment(headerImagePath)];
+    const attachments = getEmailHeaderAttachments();
     const emailData = { ...stored };
 
     try {
@@ -165,10 +161,18 @@ export async function POST(request) {
         console.error("[api/reservation] partial email failure", results);
       }
 
-      return NextResponse.json({ success: true, emailSent: sent > 0 });
+      return NextResponse.json({
+        success: true,
+        emailSent: sent > 0,
+        emailReason: sent > 0 ? undefined : "send_failed",
+      });
     } catch (mailError) {
       console.error("[api/reservation] email failed", mailError);
-      return NextResponse.json({ success: true, emailSent: false });
+      return NextResponse.json({
+        success: true,
+        emailSent: false,
+        emailReason: "send_failed",
+      });
     }
   } catch (error) {
     console.error("[api/reservation]", error);

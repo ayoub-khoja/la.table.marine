@@ -1,6 +1,5 @@
 import { NextResponse } from "next/server";
-import path from "path";
-import { getOrderEmailAttachment } from "@library/email/order";
+import { getEmailHeaderAttachments } from "@library/email/order";
 import { renderContactEmailHtml } from "@library/email/contact";
 import {
   createMailTransporter,
@@ -115,15 +114,7 @@ export async function POST(request) {
     }
 
     const transporter = createMailTransporter(mailConfig);
-
-    const headerImagePath = path.join(
-      process.cwd(),
-      "public",
-      "img",
-      "header-email.png"
-    );
-
-    const attachments = [getOrderEmailAttachment(headerImagePath)];
+    const attachments = getEmailHeaderAttachments();
     const emailData = { ...stored };
 
     try {
