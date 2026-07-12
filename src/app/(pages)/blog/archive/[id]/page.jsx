@@ -73,7 +73,7 @@ async function BlogArchive( { params } ) {
 };
 export default BlogArchive;
 
-export async function _generateStaticParams() {
+export async function generateStaticParams() {
     const paths = getAllArchivesIds()
     return paths
 }

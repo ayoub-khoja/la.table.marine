@@ -10,7 +10,7 @@ tags:
     - Food
 author: Anya Taylor
 authorAvatar: /img/faces/1.jpg
-short: Le tartare de saumon, une entrée fraîche et élégante pour commencer votre repas à La Table Marine.
+short: "Le tartare de saumon, une entrée fraîche et élégante pour commencer votre repas à La Table Marine."
 ---
 
 Le **tartare de saumon** est l'une des entrées les plus appréciées à La Table Marine. Préparé à la commande, il offre une texture fondante et une fraîcheur immédiate, idéale pour ouvrir un repas autour des produits de la mer.

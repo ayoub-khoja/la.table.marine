@@ -11,7 +11,7 @@ tags:
     - Food
 author: Charlie Williams
 authorAvatar: /img/faces/3.jpg
-short: Découvrez notre plateau de fruits de mer, une sélection de produits frais à déguster entre amis à La Table Marine.
+short: "Découvrez notre plateau de fruits de mer, une sélection de produits frais à déguster entre amis à La Table Marine."
 ---
 
 Le plateau de fruits de mer est l'une des signatures de **La Table Marine**, à Plaisir. Huîtres, crevettes, bulots, langoustines et poissons du jour s'accordent sur un même dressage, pensé pour être partagé autour de la table.

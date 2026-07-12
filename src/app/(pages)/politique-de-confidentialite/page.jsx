@@ -1,3 +1,4 @@
+import AppData from "@data/app.json";
 import Link from "next/link";
 
 import ScrollHint from "@layouts/scroll-hint/Index";
