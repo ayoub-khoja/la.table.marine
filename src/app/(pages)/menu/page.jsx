@@ -18,7 +18,11 @@ export default async function MenuPage() {
     } else if (menu.fileUrl) {
       const fileUrl = withMenuPdfViewOptions(
         menu.fileUrl,
-        process.env.SITE_URL || "http://localhost"
+        process.env.SITE_URL || "http://localhost",
+        {
+          updatedAt: menu.updatedAt,
+          gridFsId: menu.gridFsId,
+        }
       );
       redirectUrl = `${fileUrl.pathname}${fileUrl.search}${fileUrl.hash}`;
     }

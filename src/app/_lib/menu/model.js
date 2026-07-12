@@ -1,3 +1,5 @@
+import { withMenuCacheBuster } from "@library/menu/pdf-url";
+
 /** Collection MongoDB pour la carte menu PDF */
 export const CARTE_MENU_COLLECTION = "carte-menu";
 
@@ -36,7 +38,10 @@ export function formatCarteMenu(doc) {
     id: doc._id.toString(),
     title: doc.title,
     fileName: doc.fileName,
-    fileUrl: doc.fileUrl,
+    fileUrl: withMenuCacheBuster(doc.fileUrl, {
+      updatedAt,
+      gridFsId: doc.gridFsId || null,
+    }),
     fileSize: doc.fileSize,
     mimeType: doc.mimeType,
     storage: doc.storage || (doc.gridFsId ? "gridfs" : "disk"),
