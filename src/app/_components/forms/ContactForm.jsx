@@ -4,6 +4,8 @@ import { Formik } from "formik";
 import { useState } from "react";
 import Popup from "@components/Popup";
 
+import { trackContactFormSubmitted } from "@library/cookies/track-analytics-events";
+
 const ContactForm = () => {
   const [popupOpen, setPopupOpen] = useState(false);
   const [popupState, setPopupState] = useState({ type: "success", message: "" });
@@ -68,6 +70,9 @@ const ContactForm = () => {
                 data?.emailSent === false
                   ? "Merci ! Votre message a bien été envoyé. Nous vous répondrons dans les plus brefs délais."
                   : "Merci ! Votre message a bien été envoyé. Un e-mail de confirmation vous a été adressé.",
+            });
+            trackContactFormSubmitted({
+              page_path: typeof window !== "undefined" ? window.location.pathname : "/contact",
             });
             setPopupOpen(true);
             resetForm();

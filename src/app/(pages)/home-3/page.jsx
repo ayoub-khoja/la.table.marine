@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { getSortedPostsData } from "@library/posts";
 
 import AppData from "@data/app.json";
+import { getPageMetadata } from "@library/seo/page-metadata";
 
 import ScrollHint from "@layouts/scroll-hint/Index";
 import Divider from "@layouts/divider/Index";
@@ -19,12 +20,7 @@ import SubscribeSection from "@components/sections/Subscribe";
 
 const TestimonialSlider = dynamic( () => import("@components/sliders/Testimonial"), { ssr: false } );
 
-export const metadata = {
-  title: {
-		default: "Accueil 3",
-	},
-  description: AppData.settings.siteDescription,
-}
+export const metadata = getPageMetadata("home3");
 
 async function Home3() {
   const posts = await getAllPosts();

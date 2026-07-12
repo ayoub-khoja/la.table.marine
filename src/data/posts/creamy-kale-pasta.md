@@ -1,28 +1,28 @@
 ---
 #preview
-title: 'Creamy Kale Pasta'
-date: '2022-04-02'
+title: 'Bienvenue à La Table Marine'
+date: '2025-01-05'
 image: "/img/blog/3.jpg"
 categories:
     - News of the restaurant
 tags:
     - Restaurant
-    - Caffe
 author: Nguta Ithya
 authorAvatar: /img/faces/4.jpg
-short: Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius sequi commodi dignissimos.
+short: Actualités du restaurant : notre équipe vous accueille à Plaisir pour une cuisine de la mer raffinée et conviviale.
 ---
 
-Gutem temporibus quae facilis totam, dolorem laborum optio laudantium explicabo quia ea. Officia beatae excepturi adipisci? Nobis consequatur ullam officiis adipisci assumenda, voluptas optio, commodi, soluta itaque error consectetur cupiditate vero voluptatem architecto blanditiis quidem amet. Quod ipsam consequuntur distinctio velit sed ipsum quisquam, itaque placeat error non animi quam aut similique nulla ab. Quaerat dicta, dolores veritatis magnam quae aut omnis in porro.
+**La Table Marine** poursuit sa mission : offrir à Plaisir et aux Yvelines une table où les produits de la mer sont à l'honneur, dans un cadre chaleureux et soigné.
 
-###### Voluptatem odit ullam veritatis
+###### Une équipe passionnée
 
-Omnis consectetur in libero! Quo animi minus sunt, excepturi inventore! Recusandae enim fugit saepe mollitia laboriosam minima sapiente laborum aspernatur ut! Voluptatibus tempora cupiditate nulla cum dicta odit unde eius sit molestias corrupti pariatur illum aspernatur blanditiis, dolor earum quidem incidunt eligendi magnam obcaecati iure quis corporis. Perspiciatis rem provident aliquid iusto temporibus, exercitationem voluptatibus accusamus amet ratione atque, dolor vel necessitatibus illo ipsa officia, sunt quia magni saepe velit ipsum sapiente blanditiis minima.
+En cuisine comme en salle, nous attachons de l'importance à l'accueil, au conseil et à la régularité du service. Chaque service est l'occasion de faire découvrir notre carte et nos suggestions du moment.
 
-- Voluptate aspernatur
-- Fugiat asperiores
-- Doloremque quidem porro
-- Numquam porro sequi
-- Laudantium quis
+###### Horaires et réservations
 
-Voluptatem odit ullam veritatis corrupti officia non aperiam eius vero amet, sed porro blanditiis, harum, quo fugit cupiditate. Maxime quaerat ratione
+Nous vous accueillons le midi et le soir, du lundi au dimanche. Le vendredi et samedi soir, la cuisine reste ouverte un peu plus tard pour prolonger les dîners.
+
+- Réservez en ligne via notre formulaire
+- Ou contactez-nous par téléphone pour les groupes et occasions spéciales
+
+Merci à tous nos clients de leur fidélité. Au plaisir de vous recevoir bientôt à Plaisir.

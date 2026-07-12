@@ -10,6 +10,7 @@ import Divider from "@layouts/divider/Index";
 
 import { getAllAuthorsIds, getAuthorData } from "@library/authors";
 import { getAuthorPosts, getFeaturedPostsData } from "@library/posts";
+import { buildDynamicPageMetadata } from "@library/seo/page-metadata";
 
 import PopularsPostsData from "@data/sections/popular-posts.json";
 
@@ -17,10 +18,12 @@ const BlogPaginated = dynamic( () => import("@components/blog/BlogPaginated"), {
 
 export async function generateMetadata({ params }) {
   const authorData = await getSingleAuthorData(params);
-  
-  return {
-    title: authorData.title + " | Auteur | Blog",
-  }
+
+  return buildDynamicPageMetadata({
+    title: `${authorData.title} | Auteur | Blog`,
+    description: `Articles publiés par ${authorData.title} sur le blog de La Table Marine.`,
+    path: `/blog/author/${params.id}`,
+  });
 }
 
 async function BlogAuthor( { params } ) {
@@ -31,7 +34,7 @@ async function BlogAuthor( { params } ) {
   return (
     <>
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
-        <PageBanner pageTitle={"Auteur : "+authorData.title} description={"Porro eveniet, autem ipsam corrupti consectetur cum. <br>Repudiandae dignissimos fugiat sit nam."} breadTitle={authorData.title} />
+        <PageBanner pageTitle={"Auteur : "+authorData.title} description={"Articles publiés par "+authorData.title+" sur le blog de La Table Marine."} breadTitle={authorData.title} />
       </div>
       <div id="tst-dynamic-content" className="tst-dynamic-content">
         <div className="tst-content-frame">

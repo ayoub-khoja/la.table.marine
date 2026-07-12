@@ -1,8 +1,6 @@
 import React, { Suspense } from "react";
 import dynamic from "next/dynamic";
 
-import AppData from "@data/app.json";
-
 import ScrollHint from "@layouts/scroll-hint/Index";
 import Divider from "@layouts/divider/Index";
 
@@ -15,21 +13,19 @@ import CallToActionSection from "@components/sections/CallToAction";
 import LatestPostsSection from "@components/sections/LatestPosts";
 import HomeMapInstagramSection from "@components/sections/HomeMapInstagram";
 import SubscribeSection from "@components/sections/Subscribe";
-
+import JsonLd from "@components/seo/JsonLd";
 import HeroSection from "@components/sections/Hero";
+import { buildHomeSchemas } from "@library/seo/json-ld";
+import { getPageMetadata } from "@library/seo/page-metadata";
 
 const TestimonialSlider = dynamic( () => import("@components/sliders/Testimonial"), { ssr: false } );
 
-export const metadata = {
-  title: {
-		default: "Accueil",
-	},
-  description: AppData.settings.siteDescription,
-}
+export const metadata = getPageMetadata("home");
 
 async function Home() {
   return (
     <>
+      <JsonLd data={buildHomeSchemas()} />
       <div id="tst-dynamic-banner" className="tst-dynamic-banner">
         <HeroSection bgType={"video"} />
       </div>
