@@ -118,6 +118,8 @@ const AnalyticsDashboard = () => {
   const [customStart, setCustomStart] = useState(searchParams.get("start") || "");
   const [customEnd, setCustomEnd] = useState(searchParams.get("end") || "");
   const [realtimeUpdatedAt, setRealtimeUpdatedAt] = useState(null);
+  const [realtimeLoading, setRealtimeLoading] = useState(true);
+  const [realtimeRefreshing, setRealtimeRefreshing] = useState(false);
 
   const [utmForm, setUtmForm] = useState({
     url: "https://latablemarine.com",
@@ -204,7 +206,7 @@ const AnalyticsDashboard = () => {
         const get = (index) =>
           gaResults[index]?.status === "fulfilled" ? gaResults[index].value : null;
 
-        setData({
+        setData((prev) => ({
           overview: get(0),
           timeseries: get(1),
           sources: get(2),
@@ -213,9 +215,9 @@ const AnalyticsDashboard = () => {
           locations: get(5),
           events: get(6),
           campaigns: get(7),
-          realtime: null,
+          realtime: prev.realtime,
           operational: operationalRes,
-        });
+        }));
       } catch (err) {
         const message = err instanceof Error ? err.message : "Erreur inconnue.";
         setError(message);
@@ -225,6 +227,12 @@ const AnalyticsDashboard = () => {
   );
 
   const loadRealtime = useCallback(async (force = false) => {
+    if (force) {
+      setRealtimeRefreshing(true);
+    } else {
+      setRealtimeLoading(true);
+    }
+
     try {
       const query = new URLSearchParams();
       if (force) query.set("refresh", "1");
@@ -233,6 +241,9 @@ const AnalyticsDashboard = () => {
       setRealtimeUpdatedAt(res.realtime?.updatedAt || new Date().toISOString());
     } catch {
       // Temps réel optionnel — ne bloque pas le dashboard
+    } finally {
+      setRealtimeLoading(false);
+      setRealtimeRefreshing(false);
     }
   }, []);
 
@@ -401,6 +412,67 @@ const AnalyticsDashboard = () => {
         </div>
       ) : null}
 
+      <SectionCard
+        id="analytics-realtime-title"
+        title="Temps réel"
+        description="Utilisateurs actifs sur les 30 dernières minutes."
+        actions={
+          <button
+            type="button"
+            className="tst-analytics-btn tst-analytics-btn--ghost"
+            onClick={() => loadRealtime(true)}
+            disabled={realtimeRefreshing}
+          >
+            <i className={`fas fa-sync${realtimeRefreshing ? " fa-spin" : ""}`} aria-hidden="true" /> Actualiser
+          </button>
+        }
+      >
+        <div className="tst-analytics-realtime">
+          <div className="tst-analytics-realtime__count">
+            <span>Utilisateurs actifs</span>
+            <strong>
+              {realtimeLoading && !data.realtime
+                ? "—"
+                : formatNumber(data.realtime?.realtime?.activeUsers ?? 0)}
+            </strong>
+          </div>
+          <p className="tst-analytics-realtime__updated">
+            Dernière mise à jour :{" "}
+            {realtimeLoading && !realtimeUpdatedAt
+              ? "—"
+              : formatFrenchDate(realtimeUpdatedAt, { withTime: true })}
+          </p>
+          {(data.realtime?.realtime?.pages || []).length > 0 ? (
+            <table className="tst-analytics-table">
+              <thead>
+                <tr>
+                  <th>Page</th>
+                  <th>Appareil</th>
+                  <th>Ville</th>
+                  <th>Pays</th>
+                  <th>Utilisateurs</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.realtime.realtime.pages.map((row, index) => (
+                  <tr key={`${row.page}-${index}`}>
+                    <td>{row.page}</td>
+                    <td>{row.device}</td>
+                    <td>{row.city}</td>
+                    <td>{row.country}</td>
+                    <td>{formatNumber(row.users)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          ) : realtimeLoading ? (
+            <p className="tst-analytics-empty">Chargement des données en temps réel…</p>
+          ) : (
+            <EmptyState message="Aucune activité en temps réel pour le moment." />
+          )}
+        </div>
+      </SectionCard>
+
       {loading ? <SkeletonGrid count={8} /> : null}
 
       {!loading && data.overview?.summary ? (
@@ -448,53 +520,6 @@ const AnalyticsDashboard = () => {
       ) : null}
 
       <div className="tst-analytics-grid">
-        <SectionCard
-          id="analytics-realtime-title"
-          title="Temps réel"
-          description="Utilisateurs actifs sur les 30 dernières minutes."
-          actions={
-            <button type="button" className="tst-analytics-btn tst-analytics-btn--ghost" onClick={() => loadRealtime(true)}>
-              Actualiser
-            </button>
-          }
-        >
-          <div className="tst-analytics-realtime">
-            <div className="tst-analytics-realtime__count">
-              <span>Utilisateurs actifs</span>
-              <strong>{formatNumber(data.realtime?.realtime?.activeUsers || 0)}</strong>
-            </div>
-            <p className="tst-analytics-realtime__updated">
-              Dernière mise à jour : {formatFrenchDate(realtimeUpdatedAt, { withTime: true })}
-            </p>
-            {(data.realtime?.realtime?.pages || []).length > 0 ? (
-              <table className="tst-analytics-table">
-                <thead>
-                  <tr>
-                    <th>Page</th>
-                    <th>Appareil</th>
-                    <th>Ville</th>
-                    <th>Pays</th>
-                    <th>Utilisateurs</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data.realtime.realtime.pages.map((row, index) => (
-                    <tr key={`${row.page}-${index}`}>
-                      <td>{row.page}</td>
-                      <td>{row.device}</td>
-                      <td>{row.city}</td>
-                      <td>{row.country}</td>
-                      <td>{formatNumber(row.users)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            ) : (
-              <EmptyState message="Aucune activité en temps réel pour le moment." />
-            )}
-          </div>
-        </SectionCard>
-
         <SectionCard id="analytics-traffic-title" title="Évolution du trafic" description="Utilisateurs, sessions et pages vues.">
           {(data.timeseries?.timeseries?.points || []).length > 0 ? (
             <div className="tst-analytics-chart" role="img" aria-label="Graphique d'évolution du trafic">
