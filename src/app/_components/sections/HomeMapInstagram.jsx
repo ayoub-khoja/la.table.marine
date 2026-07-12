@@ -10,9 +10,17 @@ import {
   getGoogleMapsDirectionsUrl,
   getGoogleMapsPlaceUrl,
 } from "@library/maps/google";
+import { useExternalMediaActivation } from "@library/cookies/use-external-media";
 
 const HomeMapInstagramSection = () => {
   const [googleMapActive, setGoogleMapActive] = useState(false);
+  const { requestActivation } = useExternalMediaActivation();
+
+  const handleGoogleMapActivate = () => {
+    if (requestActivation()) {
+      setGoogleMapActive(true);
+    }
+  };
   const { googleMaps } = AppData.settings;
 
   return (
@@ -89,7 +97,7 @@ const HomeMapInstagramSection = () => {
                 <p>Cliquez pour afficher la carte interactive Google Maps</p>
                 <button
                   type="button"
-                  onClick={() => setGoogleMapActive(true)}
+                  onClick={handleGoogleMapActivate}
                   aria-label="Afficher la carte Google Maps"
                 >
                   <i className="fas fa-map-marked-alt" aria-hidden="true" />

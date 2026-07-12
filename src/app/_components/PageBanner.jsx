@@ -11,11 +11,19 @@ import { mapboxInit } from "@common/mapboxInit";
 import GoogleMapEmbed from "@components/maps/GoogleMapEmbed";
 import AppData from "@data/app.json";
 import { getGoogleMapsDirectionsUrl, getGoogleMapsPlaceUrl } from "@library/maps/google";
+import { useExternalMediaActivation } from "@library/cookies/use-external-media";
 
 const PageBanner = ({ pageTitle, pageSubTitle = false, description, breadTitle, showMap = 0, mapProvider = "mapbox", bannerImage = "/img/banners/banner-sm-1.jpg", bannerImageAlt = "cover", bannerLayout = "default" }) => {
   const asPath = usePathname();
   const [mapLock, setMapLock] = useState(false);
   const [googleMapActive, setGoogleMapActive] = useState(false);
+  const { requestActivation } = useExternalMediaActivation();
+
+  const handleGoogleMapActivate = () => {
+    if (requestActivation()) {
+      setGoogleMapActive(true);
+    }
+  };
 
   let clearBreadTitle;
   
@@ -125,7 +133,7 @@ const PageBanner = ({ pageTitle, pageSubTitle = false, description, breadTitle, 
                   <button
                     type="button"
                     className="tst-lock tst-lock--split"
-                    onClick={() => setGoogleMapActive(true)}
+                    onClick={handleGoogleMapActivate}
                     aria-label="Afficher la carte Google Maps"
                   >
                     <i className="fas fa-map-marked-alt" aria-hidden="true" />
