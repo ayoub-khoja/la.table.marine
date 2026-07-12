@@ -121,6 +121,7 @@ const MenuPdfViewer = () => {
       <div className="tst-menu-pdf__canvas">
         <div className="tst-menu-pdf__inner" ref={containerRef}>
           <Document
+          key={menu.updatedAt || menu.id}
           file={menu.fileUrl}
           onLoadSuccess={onDocumentLoadSuccess}
           loading={
