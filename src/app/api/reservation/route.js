@@ -39,6 +39,9 @@ function checkRateLimit(request) {
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
 export async function POST(request) {
   try {
     const rate = checkRateLimit(request);
@@ -131,7 +134,7 @@ export async function POST(request) {
       });
     }
 
-    const transporter = createMailTransporter(mailConfig);
+    const transporter = await createMailTransporter(mailConfig);
     const attachments = getEmailHeaderAttachments();
     const emailData = { ...stored };
 

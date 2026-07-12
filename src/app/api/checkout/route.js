@@ -77,7 +77,7 @@ export async function POST(request) {
       );
     }
 
-    const transporter = createMailTransporter(mailConfig);
+    const transporter = await createMailTransporter(mailConfig);
     const attachments = getEmailHeaderAttachments();
 
     const fullName = `${firstname} ${lastname}`.trim();

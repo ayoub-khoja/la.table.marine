@@ -113,7 +113,7 @@ export async function POST(request) {
       return NextResponse.json({ success: true, emailSent: false });
     }
 
-    const transporter = createMailTransporter(mailConfig);
+    const transporter = await createMailTransporter(mailConfig);
     const attachments = getEmailHeaderAttachments();
     const emailData = { ...stored };
 
