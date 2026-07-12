@@ -12,7 +12,8 @@
     "admin:hash-password": "node scripts/hash-admin-password.js",
     "db:verify": "node scripts/verify-mongodb.js",
     "db:seed-reviews": "node scripts/seed-reviews.js",
-    "ga4:verify": "node scripts/verify-ga4.js"
+    "ga4:verify": "node scripts/verify-ga4.js",
+    "ga4:vercel-env": "node scripts/print-ga4-vercel-env.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",

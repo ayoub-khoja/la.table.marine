@@ -114,6 +114,7 @@ const AnalyticsDashboard = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState(null);
   const [configured, setConfigured] = useState(true);
+  const [configChecks, setConfigChecks] = useState(null);
   const [customStart, setCustomStart] = useState(searchParams.get("start") || "");
   const [customEnd, setCustomEnd] = useState(searchParams.get("end") || "");
   const [realtimeUpdatedAt, setRealtimeUpdatedAt] = useState(null);
@@ -180,11 +181,24 @@ const AnalyticsDashboard = () => {
         if (firstRejected?.reason?.configured === false) {
           setConfigured(false);
           setError(firstRejected.reason.message);
+          try {
+            const statusRes = await fetch("/api/admin/analytics/status", {
+              credentials: "same-origin",
+            });
+            if (statusRes.ok) {
+              const statusData = await statusRes.json();
+              setConfigChecks(statusData.checks || null);
+            }
+          } catch {
+            setConfigChecks(null);
+          }
         } else if (firstRejected) {
           setConfigured(true);
+          setConfigChecks(null);
           setError(firstRejected.reason?.message || "Erreur Analytics.");
         } else {
           setConfigured(true);
+          setConfigChecks(null);
         }
 
         const get = (index) =>
@@ -364,7 +378,24 @@ const AnalyticsDashboard = () => {
             <p>
               Les statistiques GA4 sont indisponibles. Consultez <code>docs/analytics-dashboard.md</code> pour
               configurer <code>GA4_PROPERTY_ID</code>, <code>GOOGLE_SERVICE_ACCOUNT_EMAIL</code> et{" "}
-              <code>GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY</code>.
+              <code>GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY</code> (ou <code>GOOGLE_SERVICE_ACCOUNT_JSON</code> sur Vercel).
+            </p>
+            {configChecks ? (
+              <ul className="tst-analytics-config-alert__checks">
+                <li>
+                  <code>GA4_PROPERTY_ID</code> : {configChecks.propertyId ? "✅ détecté" : "❌ manquant"}
+                </li>
+                <li>
+                  <code>GOOGLE_SERVICE_ACCOUNT_EMAIL</code> : {configChecks.email ? "✅ détecté" : "❌ manquant"}
+                </li>
+                <li>
+                  <code>Clé privée / JSON</code> : {configChecks.privateKey ? "✅ détecté" : "❌ manquant"}
+                </li>
+              </ul>
+            ) : null}
+            <p className="tst-analytics-config-alert__hint">
+              En local, <code>service-account.json</code> suffit. Sur Vercel, ce fichier n&apos;existe pas : ajoutez les
+              variables puis faites un <strong>Redeploy</strong> (obligatoire après chaque modification).
             </p>
           </div>
         </div>

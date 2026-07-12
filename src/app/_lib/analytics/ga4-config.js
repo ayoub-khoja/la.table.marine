@@ -47,6 +47,47 @@ const PRIVATE_KEY_PLACEHOLDERS = new Set([
 /** @type {{ email: string, privateKey: string } | null} */
 let cachedServiceAccountFile = undefined;
 
+/** @type {{ email: string, privateKey: string } | null} */
+let cachedServiceAccountEnvJson = undefined;
+
+/**
+ * @param {unknown} parsed
+ * @returns {{ email: string, privateKey: string } | null}
+ */
+function parseServiceAccountPayload(parsed) {
+  if (!parsed || typeof parsed !== "object") return null;
+
+  const email = String(parsed.client_email || "").trim();
+  const privateKey = String(parsed.private_key || "").trim();
+
+  if (!email || !privateKey) return null;
+  return { email, privateKey };
+}
+
+/**
+ * @returns {{ email: string, privateKey: string } | null}
+ */
+export function loadServiceAccountFromEnvJson() {
+  if (cachedServiceAccountEnvJson !== undefined) {
+    return cachedServiceAccountEnvJson;
+  }
+
+  const raw = process.env.GOOGLE_SERVICE_ACCOUNT_JSON?.trim();
+  if (!raw) {
+    cachedServiceAccountEnvJson = null;
+    return null;
+  }
+
+  try {
+    const parsed = parseServiceAccountPayload(JSON.parse(raw));
+    cachedServiceAccountEnvJson = parsed;
+    return parsed;
+  } catch {
+    cachedServiceAccountEnvJson = null;
+    return null;
+  }
+}
+
 /**
  * @returns {string | null}
  */
@@ -87,9 +128,9 @@ export function loadServiceAccountFromFile() {
   try {
     const fs = require("fs");
     const raw = fs.readFileSync(jsonPath, "utf8");
-    const parsed = JSON.parse(raw);
-    const email = parsed.client_email?.trim() || "";
-    const privateKey = parsed.private_key?.trim() || "";
+    const parsed = parseServiceAccountPayload(JSON.parse(raw));
+    const email = parsed?.email || "";
+    const privateKey = parsed?.privateKey || "";
 
     if (!email || !privateKey) {
       cachedServiceAccountFile = null;
@@ -110,7 +151,11 @@ export function loadServiceAccountFromFile() {
 export function getGa4ServiceAccountEmail() {
   const fromEnv = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL?.trim();
   if (fromEnv) return fromEnv;
-  return loadServiceAccountFromFile()?.email || null;
+  return (
+    loadServiceAccountFromEnvJson()?.email ||
+    loadServiceAccountFromFile()?.email ||
+    null
+  );
 }
 
 /**
@@ -119,7 +164,17 @@ export function getGa4ServiceAccountEmail() {
  */
 function isUsablePrivateKeyEnv(raw) {
   if (!raw) return false;
-  const normalized = raw.trim().replace(/\\n/g, "\n");
+  let normalized = raw.trim();
+
+  if (
+    (normalized.startsWith('"') && normalized.endsWith('"')) ||
+    (normalized.startsWith("'") && normalized.endsWith("'"))
+  ) {
+    normalized = normalized.slice(1, -1);
+  }
+
+  normalized = normalized.replace(/\\n/g, "\n");
+
   if (PRIVATE_KEY_PLACEHOLDERS.has(normalized)) return false;
   if (normalized.includes("VOTRE_CLE_ICI")) return false;
   return normalized.includes("BEGIN PRIVATE KEY");
@@ -161,8 +216,11 @@ export function getGa4Config() {
   const email = getGa4ServiceAccountEmail() || "";
   const privateKeyRaw = process.env.GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY?.trim() || "";
   const privateKeyFromFile = loadServiceAccountFromFile()?.privateKey || "";
+  const privateKeyFromJson = loadServiceAccountFromEnvJson()?.privateKey || "";
   const hasPrivateKey =
-    isUsablePrivateKeyEnv(privateKeyRaw) || Boolean(privateKeyFromFile);
+    isUsablePrivateKeyEnv(privateKeyRaw) ||
+    Boolean(privateKeyFromFile) ||
+    Boolean(privateKeyFromJson);
 
   if (!propertyId || !email || !hasPrivateKey) {
     const missing = [];
@@ -170,7 +228,7 @@ export function getGa4Config() {
     if (!email) missing.push("GOOGLE_SERVICE_ACCOUNT_EMAIL");
     if (!hasPrivateKey) {
       missing.push(
-        "GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY ou service-account.json"
+        "GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY, GOOGLE_SERVICE_ACCOUNT_JSON ou service-account.json"
       );
     }
 
@@ -203,15 +261,21 @@ export function getGa4PrivateKey() {
   if (isUsablePrivateKeyEnv(raw)) {
     let key = raw.replace(/\\n/g, "\n");
 
-    // Clé collée entre guillemets avec vrais retours à la ligne (Vercel / .env)
-    if (key.startsWith('"') && key.endsWith('"')) {
+    if (
+      (key.startsWith('"') && key.endsWith('"')) ||
+      (key.startsWith("'") && key.endsWith("'"))
+    ) {
       key = key.slice(1, -1).replace(/\\n/g, "\n");
     }
 
     return key;
   }
 
-  return loadServiceAccountFromFile()?.privateKey || null;
+  return (
+    loadServiceAccountFromEnvJson()?.privateKey ||
+    loadServiceAccountFromFile()?.privateKey ||
+    null
+  );
 }
 
 /**
@@ -269,4 +333,18 @@ export function validateGa4Credentials() {
  */
 export function resetGa4ConfigForTests() {
   cachedServiceAccountFile = undefined;
+  cachedServiceAccountEnvJson = undefined;
+}
+
+/**
+ * @returns {{ propertyId: boolean, email: boolean, privateKey: boolean, serviceAccountJson: boolean, serviceAccountFile: boolean }}
+ */
+export function getGa4ConfigChecks() {
+  return {
+    propertyId: Boolean(process.env.GA4_PROPERTY_ID?.trim()),
+    email: Boolean(getGa4ServiceAccountEmail()),
+    privateKey: Boolean(getGa4PrivateKey()),
+    serviceAccountJson: Boolean(loadServiceAccountFromEnvJson()),
+    serviceAccountFile: Boolean(loadServiceAccountFromFile()),
+  };
 }
