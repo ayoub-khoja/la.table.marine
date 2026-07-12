@@ -40,6 +40,3 @@ export async function handleAnalyticsRoute(request, handler) {
     return NextResponse.json(mapped.body, { status: mapped.status });
   }
 }
-
-export const analyticsRuntime = "nodejs";
-export const analyticsDynamic = "force-dynamic";
