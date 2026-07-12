@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import path from "path";
 import {
-  getOrderEmailAttachment,
+  getEmailHeaderAttachments,
   normalizeItems,
   renderOrderEmailHtml,
 } from "@library/email/order";
@@ -79,13 +78,7 @@ export async function POST(request) {
     }
 
     const transporter = createMailTransporter(mailConfig);
-
-    const headerImagePath = path.join(
-      process.cwd(),
-      "public",
-      "img",
-      "header-email.png"
-    );
+    const attachments = getEmailHeaderAttachments();
 
     const fullName = `${firstname} ${lastname}`.trim();
     const order = {
@@ -116,9 +109,6 @@ export async function POST(request) {
       payment_method,
       items,
     });
-
-    const attachment = getOrderEmailAttachment(headerImagePath);
-    const attachments = [attachment];
 
     await sendMailBatch(transporter, [
       {
