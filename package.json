@@ -13,7 +13,7 @@
     "db:verify": "node scripts/verify-mongodb.js",
     "db:seed-reviews": "node scripts/seed-reviews.js",
     "ga4:verify": "node scripts/verify-ga4.js",
-    "ga4:vercel-env": "node scripts/print-ga4-vercel-env.js",
+    "smtp:verify": "node scripts/verify-smtp.js",
     "seo:audit": "node scripts/seo-audit.js"
   },
   "dependencies": {

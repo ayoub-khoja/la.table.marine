@@ -1,11 +1,15 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
 import path from "path";
 import {
   getOrderEmailAttachment,
   normalizeItems,
   renderOrderEmailHtml,
 } from "@library/email/order";
+import {
+  createMailTransporter,
+  getMailConfig,
+  sendMailBatch,
+} from "@library/email/mail-config";
 import { createOrder } from "@library/orders/store";
 
 const attempts = new Map();
@@ -33,20 +37,6 @@ function checkRateLimit(request) {
 
   entry.count += 1;
   return { allowed: true };
-}
-
-function getMailConfig() {
-  const host = process.env.SMTP_HOST?.trim();
-  const port = Number(process.env.SMTP_PORT || "465");
-  const user = process.env.SMTP_USER?.trim();
-  const pass = process.env.SMTP_PASS?.trim();
-  const to = process.env.CONTACT_TO?.trim() || user;
-  const from = process.env.CONTACT_FROM?.trim() || user;
-
-  if (!host || !user || !pass) return null;
-  if (!to || !from) return null;
-
-  return { host, port, user, pass, to, from };
 }
 
 export async function POST(request) {
@@ -88,15 +78,7 @@ export async function POST(request) {
       );
     }
 
-    const transporter = nodemailer.createTransport({
-      host: mailConfig.host,
-      port: mailConfig.port,
-      secure: mailConfig.port === 465,
-      auth: {
-        user: mailConfig.user,
-        pass: mailConfig.pass,
-      },
-    });
+    const transporter = createMailTransporter(mailConfig);
 
     const headerImagePath = path.join(
       process.cwd(),
@@ -138,23 +120,23 @@ export async function POST(request) {
     const attachment = getOrderEmailAttachment(headerImagePath);
     const attachments = [attachment];
 
-    await Promise.all([
-      transporter.sendMail({
+    await sendMailBatch(transporter, [
+      {
         from: `"Commande" <${mailConfig.from}>`,
         to: mailConfig.to,
         subject: "Nouvelle commande (site web)",
         replyTo: email,
         attachments,
         html: renderOrderEmailHtml("admin", order),
-      }),
-      transporter.sendMail({
+      },
+      {
         from: `"La Table Marine" <${mailConfig.from}>`,
         to: email,
         subject: "Confirmation de votre commande — La Table Marine",
         replyTo: mailConfig.to,
         attachments,
         html: renderOrderEmailHtml("customer", order),
-      }),
+      },
     ]);
 
     return NextResponse.json({ success: true });
