@@ -9,7 +9,7 @@ tags:
     - Restaurant
 author: Nguta Ithya
 authorAvatar: /img/faces/4.jpg
-short: Actualités du restaurant : notre équipe vous accueille à Plaisir pour une cuisine de la mer raffinée et conviviale.
+short: "Actualités du restaurant : notre équipe vous accueille à Plaisir pour une cuisine de la mer raffinée et conviviale."
 ---
 
 **La Table Marine** poursuit sa mission : offrir à Plaisir et aux Yvelines une table où les produits de la mer sont à l'honneur, dans un cadre chaleureux et soigné.

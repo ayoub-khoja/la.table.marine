@@ -10,7 +10,7 @@ tags:
     - Menu
 author: Tamzyn French
 authorAvatar: /img/faces/2.jpg
-short: En hiver, la Table Marine met en avant des poissons de saison et des préparations réconfortantes.
+short: "En hiver, la Table Marine met en avant des poissons de saison et des préparations réconfortantes."
 ---
 
 L'hiver est une belle saison pour la cuisine de la mer. À **La Table Marine**, nous adaptons nos suggestions aux produits disponibles et aux envies de réconfort de nos convives.

@@ -10,7 +10,7 @@ tags:
     - Food
 author: Charlie Williams
 authorAvatar: /img/faces/3.jpg
-short: Une recette signature de La Table Marine : bar poêlé, légumes de saison et beurre citronné maison.
+short: "Une recette signature de La Table Marine : bar poêlé, légumes de saison et beurre citronné maison."
 ---
 
 Le **filet de bar poêlé** figure régulièrement sur notre carte, quand le poisson est au meilleur de sa fraîcheur. C'est un plat simple en apparence, mais exigeant dans l'exécution : cuisson précise, peau croustillante, chair fondante.
