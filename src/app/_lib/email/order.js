@@ -222,6 +222,8 @@ export function getEmailHeaderAttachments() {
             filename: "header-email.png",
             content: fs.readFileSync(filePath),
             cid: "header-email",
+            contentDisposition: "inline",
+            contentType: "image/png",
           },
         ];
       }
@@ -241,6 +243,8 @@ export function getOrderEmailAttachment(headerImagePath) {
         filename: "header-email.png",
         content: fs.readFileSync(headerImagePath),
         cid: "header-email",
+        contentDisposition: "inline",
+        contentType: "image/png",
       };
     }
   } catch {
