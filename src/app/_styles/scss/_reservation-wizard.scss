@@ -44,11 +44,41 @@
     color: $rz-ink-soft;
   }
 
+  &__date-field {
+    display: block;
+    width: 100%;
+    margin-bottom: 16px;
+    text-align: left;
+  }
+
+  &__date-label {
+    display: block;
+    margin-bottom: 8px;
+    font-family: $sf;
+    font-size: 13px;
+    font-weight: 700;
+    color: $rz-ink;
+  }
+
   &__date {
+    appearance: auto;
+    -webkit-appearance: auto;
+    display: block;
+    width: 100%;
+    min-height: 50px;
+    margin-bottom: 0 !important;
+    padding: 0 16px;
+    border: 1px solid $rz-border;
+    border-radius: 12px;
+    font-family: $sf;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 50px;
     color-scheme: light;
     background-color: $card;
     color: $rz-ink;
     cursor: pointer;
+    box-shadow: 0 6px 18px rgba(2, 6, 23, 0.05);
 
     &::-webkit-datetime-edit,
     &::-webkit-datetime-edit-fields-wrapper,
@@ -58,18 +88,22 @@
     &::-webkit-datetime-edit-year-field {
       color: $rz-ink;
       -webkit-text-fill-color: $rz-ink;
+      padding: 0;
     }
 
     &::-webkit-calendar-picker-indicator {
       cursor: pointer;
-      opacity: 0.75;
-      filter: none;
+      opacity: 1;
+      width: 22px;
+      height: 22px;
+      margin-left: 4px;
     }
 
     &:focus {
       outline: none;
+      border-color: rgba($rz-accent, 0.45);
       box-shadow:
-        0 2px 5px 0 rgba(26, 47, 51, 0.11),
+        0 6px 18px rgba(2, 6, 23, 0.05),
         0 0 0 3px rgba($rz-accent, 0.2);
     }
   }
