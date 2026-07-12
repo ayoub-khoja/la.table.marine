@@ -31,6 +31,9 @@ import '@styles/scss/style.scss';
 
 import AppData from "@data/app.json";
 import FloatingCallButtonHost from "@components/FloatingCallButtonHost";
+import CookieConsentRoot from "@components/cookies/CookieConsentRoot";
+import { GOOGLE_CONSENT_DEFAULT_SCRIPT } from "@library/cookies/google-consent";
+import Script from "next/script";
 
 const siteUrl = process.env.SITE_URL?.trim() || "https://latablemarine.com";
 
@@ -69,15 +72,24 @@ const Layouts = ({
 }) => {
   return (
     <html lang="fr" className={`${josefin_sans.variable} ${playfair_display.variable}`}>
+      <head>
+        <Script
+          id="ltm-google-consent-default"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: GOOGLE_CONSENT_DEFAULT_SCRIPT }}
+        />
+      </head>
       <body style={{"backgroundImage": "url("+AppData.settings.bgImage+")"}}>
         <div className="tst-main-overlay"></div>
-        <FloatingCallButtonHost />
-        
-        {/* app wrapper */}
-        <div id="tst-app" className="tst-app">
-          {children}
-        </div>
-        {/* app wrapper end */}
+        <CookieConsentRoot>
+          <FloatingCallButtonHost />
+          
+          {/* app wrapper */}
+          <div id="tst-app" className="tst-app">
+            {children}
+          </div>
+          {/* app wrapper end */}
+        </CookieConsentRoot>
       </body>
     </html>
   );

@@ -6,6 +6,11 @@ import { usePathname } from 'next/navigation';
 import Link from "next/link";
 
 import AppData from "@data/app.json";
+import CookieSettingsButton from "@components/cookies/CookieSettingsButton";
+import {
+  COOKIE_POLICY_PATH,
+  PRIVACY_POLICY_PATH,
+} from "@library/cookies/consent-config";
 
 import { ScrollAnimation } from "@common/scrollAnims";
 
@@ -81,7 +86,14 @@ const DefaultFooter = () => {
                 <div className="tst-spacer tst-white tst-spacer-only-bottom-space"></div>
 
                 <div className="tst-footer-bottom">
-                    <div className="tst-text" dangerouslySetInnerHTML={{__html : AppData.footer.copy}} />
+                    <div>
+                      <div className="tst-text" dangerouslySetInnerHTML={{__html : AppData.footer.copy}} />
+                      <nav className="tst-footer-legal" aria-label="Informations légales">
+                        <Link href={PRIVACY_POLICY_PATH}>Politique de confidentialité</Link>
+                        <Link href={COOKIE_POLICY_PATH}>Politique de cookies</Link>
+                        <CookieSettingsButton />
+                      </nav>
+                    </div>
                     <a href="#tst-app" className="tst-label tst-color tst-anchor-scroll" onClick={ (e) => scrollToTop(e) }>Back to top</a>
                 </div>
             </div>
