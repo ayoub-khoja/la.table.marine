@@ -197,6 +197,7 @@ const MenuPanel = () => {
           {previewUrl ? (
             <div className="tst-admin-menu__preview">
               <iframe
+                key={menu.updatedAt || menu.id}
                 src={previewUrl}
                 title="Aperçu de la carte menu"
                 className="tst-admin-menu__preview-frame"

@@ -1,15 +1,17 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
-import path from "path";
-import { getOrderEmailAttachment } from "@library/email/order";
+import { getEmailHeaderAttachments } from "@library/email/order";
 import { renderContactEmailHtml } from "@library/email/contact";
+import {
+  createMailTransporter,
+  getMailConfig,
+  sendMailBatch,
+} from "@library/email/mail-config";
 import { createMessage } from "@library/messages/store";
 
 const attempts = new Map();
 const RATE_LIMIT = { max: 5, windowMs: 15 * 60 * 1000 };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_MESSAGE_CHARS = 3000;
-const ADMIN_EMAIL_FALLBACK = "contact@latablemarine.com";
 
 function getClientKey(request) {
   const forwarded = request.headers.get("x-forwarded-for");
@@ -33,20 +35,6 @@ function checkRateLimit(request) {
 
   entry.count += 1;
   return { allowed: true };
-}
-
-function getMailConfig() {
-  const host = process.env.SMTP_HOST?.trim();
-  const port = Number(process.env.SMTP_PORT || "465");
-  const user = process.env.SMTP_USER?.trim();
-  const pass = process.env.SMTP_PASS?.trim();
-  const to = process.env.CONTACT_TO?.trim() || ADMIN_EMAIL_FALLBACK;
-  const from = process.env.CONTACT_FROM?.trim() || user || ADMIN_EMAIL_FALLBACK;
-
-  if (!host || !user || !pass) return null;
-  if (!to || !from) return null;
-
-  return { host, port, user, pass, to, from };
 }
 
 export async function POST(request) {
@@ -125,46 +113,37 @@ export async function POST(request) {
       return NextResponse.json({ success: true, emailSent: false });
     }
 
-    const transporter = nodemailer.createTransport({
-      host: mailConfig.host,
-      port: mailConfig.port,
-      secure: mailConfig.port === 465,
-      auth: {
-        user: mailConfig.user,
-        pass: mailConfig.pass,
-      },
-    });
-
-    const headerImagePath = path.join(
-      process.cwd(),
-      "public",
-      "img",
-      "header-email.png"
-    );
-
-    const attachments = [getOrderEmailAttachment(headerImagePath)];
+    const transporter = createMailTransporter(mailConfig);
+    const attachments = getEmailHeaderAttachments();
     const emailData = { ...stored };
 
     try {
-      await Promise.all([
-        transporter.sendMail({
+      const { sent, results } = await sendMailBatch(transporter, [
+        {
           from: `"Contact" <${mailConfig.from}>`,
           to: mailConfig.to,
           subject: "Nouveau message (site web)",
           replyTo: email,
           attachments,
           html: renderContactEmailHtml("admin", emailData),
-        }),
-        transporter.sendMail({
+        },
+        {
           from: `"La Table Marine" <${mailConfig.from}>`,
           to: email,
           subject: "Confirmation de votre message — La Table Marine",
           replyTo: mailConfig.to,
           attachments,
           html: renderContactEmailHtml("customer", emailData),
-        }),
+        },
       ]);
-      return NextResponse.json({ success: true, emailSent: true });
+
+      if (sent === 0) {
+        console.error("[api/contact] email failed", results);
+      } else if (sent < results.length) {
+        console.error("[api/contact] partial email failure", results);
+      }
+
+      return NextResponse.json({ success: true, emailSent: sent > 0 });
     } catch (mailError) {
       console.error("[api/contact] email failed", mailError);
       return NextResponse.json({ success: true, emailSent: false });

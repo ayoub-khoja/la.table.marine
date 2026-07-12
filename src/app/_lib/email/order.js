@@ -1,3 +1,6 @@
+import fs from "fs";
+import path from "path";
+
 import { renderEmailFooter } from "@library/email/footer";
 import { wrapEmailHtml } from "@library/email/layout";
 import { normalizeCustomerMessage } from "@library/email/message";
@@ -205,10 +208,43 @@ export function renderOrderEmailHtml(variant, order) {
   );
 }
 
+export function getEmailHeaderAttachments() {
+  const candidates = [
+    path.join(process.cwd(), "public", "img", "header-email.png"),
+    path.join(process.cwd(), "..", "public", "img", "header-email.png"),
+  ];
+
+  for (const filePath of candidates) {
+    try {
+      if (fs.existsSync(filePath)) {
+        return [
+          {
+            filename: "header-email.png",
+            content: fs.readFileSync(filePath),
+            cid: "header-email",
+          },
+        ];
+      }
+    } catch {
+      /* ignore */
+    }
+  }
+
+  return [];
+}
+
+/** @deprecated Utiliser getEmailHeaderAttachments() */
 export function getOrderEmailAttachment(headerImagePath) {
-  return {
-    filename: "header-email.png",
-    path: headerImagePath,
-    cid: "header-email",
-  };
+  try {
+    if (headerImagePath && fs.existsSync(headerImagePath)) {
+      return {
+        filename: "header-email.png",
+        content: fs.readFileSync(headerImagePath),
+        cid: "header-email",
+      };
+    }
+  } catch {
+    /* ignore */
+  }
+  return null;
 }

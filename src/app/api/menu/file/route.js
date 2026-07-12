@@ -26,7 +26,7 @@ export async function GET(request) {
         headers: {
           "Content-Type": menu.mimeType || "application/pdf",
           "Content-Disposition": `inline; filename="${encodeURIComponent(fileName)}"`,
-          "Cache-Control": "public, max-age=3600",
+          "Cache-Control": "private, no-cache, must-revalidate",
           ...(file.length ? { "Content-Length": String(file.length) } : {}),
         },
       });
@@ -39,7 +39,10 @@ export async function GET(request) {
       );
     }
 
-    const fileUrl = withMenuPdfViewOptions(menu.fileUrl, request.nextUrl.origin);
+    const fileUrl = withMenuPdfViewOptions(menu.fileUrl, request.nextUrl.origin, {
+      updatedAt: menu.updatedAt,
+      gridFsId: menu.gridFsId,
+    });
 
     return NextResponse.redirect(fileUrl, 302);
   } catch (error) {
