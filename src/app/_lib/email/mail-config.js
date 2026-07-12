@@ -1,5 +1,4 @@
 import nodemailer from "nodemailer";
-import { lookup as dnsLookup } from "node:dns";
 
 const ADMIN_EMAIL_FALLBACK = "contact@latablemarine.com";
 
@@ -50,7 +49,7 @@ export function getMailConfig() {
 }
 
 /**
- * Transport compatible Hostinger / Vercel (IPv4, timeouts, TLS).
+ * Transport SMTP — résolution DNS par défaut (compatible Vercel).
  * @param {ReturnType<typeof getMailConfig>} mailConfig
  */
 export function createMailTransporter(mailConfig) {
@@ -71,9 +70,6 @@ export function createMailTransporter(mailConfig) {
     tls: {
       minVersion: "TLSv1.2",
       servername: mailConfig.host,
-    },
-    lookup: (hostname, options, callback) => {
-      dnsLookup(hostname, { ...options, family: 4 }, callback);
     },
   });
 }
