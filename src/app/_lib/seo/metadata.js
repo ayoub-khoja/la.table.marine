@@ -80,9 +80,6 @@ export function buildRootMetadata() {
     applicationName: SEO_CONFIG.siteName,
     publisher: SEO_CONFIG.businessName,
     category: "restaurant",
-    alternates: {
-      canonical: absoluteUrl("/"),
-    },
     robots: {
       index: true,
       follow: true,

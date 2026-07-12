@@ -14,6 +14,16 @@ describe("seo metadata", () => {
     expect(meta.alternates?.canonical).toBe("https://latablemarine.com/contact");
   });
 
+  it("canonical accueil avec slash final", () => {
+    const meta = buildPageMetadata({
+      title: PAGE_SEO.home.title,
+      description: PAGE_SEO.home.description,
+      path: "/",
+    });
+
+    expect(meta.alternates?.canonical).toBe("https://latablemarine.com/");
+  });
+
   it("applique noindex quand demandé", () => {
     const meta = buildPageMetadata({
       title: "Demo",
