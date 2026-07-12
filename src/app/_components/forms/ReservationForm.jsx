@@ -58,6 +58,14 @@ function buildTimeSlots(service) {
   return slots;
 }
 
+function todayLocalISO() {
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
 const STEP_REQUIRED = {
   1: ["requestType", "occasion", "serviceType", "date", "time"],
   2: ["first_name", "last_name", "email", "phone", "person"],
@@ -95,6 +103,7 @@ const ReservationForm = () => {
   const [step, setStep] = useState(1);
   const [autoPauseUntil, setAutoPauseUntil] = useState(0);
   const hasTrackedStart = useRef(false);
+  const minReservationDate = useMemo(() => todayLocalISO(), []);
 
   useEffect(() => {
     if (hasTrackedStart.current) return;
@@ -415,7 +424,9 @@ const ReservationForm = () => {
                         <input
                           type="date"
                           name="date"
+                          className="tst-reservation-wizard__date"
                           required
+                          min={minReservationDate}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.date}
@@ -431,38 +442,38 @@ const ReservationForm = () => {
                         </div>
                       ) : null}
 
-                      <div className="col-12">
-                        {!values.date ? (
+                      {values.date ? (
+                        <div className="col-12">
+                          <div
+                            className="tst-reservation-wizard__slots"
+                            role="list"
+                          >
+                            {buildTimeSlots(values.serviceType).map((slot) => (
+                              <button
+                                key={slot}
+                                type="button"
+                                className={`tst-reservation-wizard__slot${
+                                  values.time === slot ? " is-active" : ""
+                                }`}
+                                onClick={(e) => {
+                                  setFieldValue("time", slot);
+                                  e.currentTarget.blur();
+                                }}
+                                role="listitem"
+                                aria-pressed={values.time === slot}
+                              >
+                                {slot}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="col-12">
                           <p className="tst-reservation-wizard__hint">
                             Sélectionnez d’abord une date pour afficher les horaires disponibles.
                           </p>
-                        ) : null}
-
-                        <div
-                          className="tst-reservation-wizard__slots"
-                          role="list"
-                          aria-disabled={!values.date}
-                        >
-                          {buildTimeSlots(values.serviceType).map((slot) => (
-                            <button
-                              key={slot}
-                              type="button"
-                              className={`tst-reservation-wizard__slot${
-                                values.time === slot ? " is-active" : ""
-                              }`}
-                              onClick={(e) => {
-                                setFieldValue("time", slot);
-                                e.currentTarget.blur();
-                              }}
-                              role="listitem"
-                              aria-pressed={values.time === slot}
-                              disabled={!values.date}
-                            >
-                              {slot}
-                            </button>
-                          ))}
                         </div>
-                      </div>
+                      )}
 
                       {touched.time && errors.time ? (
                         <div className="col-12">

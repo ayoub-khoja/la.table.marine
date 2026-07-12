@@ -44,6 +44,36 @@
     color: $rz-ink-soft;
   }
 
+  &__date {
+    color-scheme: light;
+    background-color: $card;
+    color: $rz-ink;
+    cursor: pointer;
+
+    &::-webkit-datetime-edit,
+    &::-webkit-datetime-edit-fields-wrapper,
+    &::-webkit-datetime-edit-text,
+    &::-webkit-datetime-edit-month-field,
+    &::-webkit-datetime-edit-day-field,
+    &::-webkit-datetime-edit-year-field {
+      color: $rz-ink;
+      -webkit-text-fill-color: $rz-ink;
+    }
+
+    &::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      opacity: 0.75;
+      filter: none;
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow:
+        0 2px 5px 0 rgba(26, 47, 51, 0.11),
+        0 0 0 3px rgba($rz-accent, 0.2);
+    }
+  }
+
   &__error {
     margin: 12px 0 0;
     font-family: $sf;
