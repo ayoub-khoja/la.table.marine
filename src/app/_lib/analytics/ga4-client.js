@@ -3,6 +3,9 @@ import { BetaAnalyticsDataClient } from "@google-analytics/data";
 import {
   getGa4Config,
   getGa4PrivateKey,
+  getGa4ServiceAccountEmail,
+  normalizePropertyId,
+  validateGa4Credentials,
   GA4_REQUEST_TIMEOUT_MS,
 } from "./ga4-config";
 import { Ga4ConfigError } from "./ga4-errors";
@@ -20,13 +23,18 @@ export function getGa4Client() {
   }
 
   if (!cachedClient) {
-    const email = process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL?.trim();
+    const email = getGa4ServiceAccountEmail();
     const privateKey = getGa4PrivateKey();
+    const validation = validateGa4Credentials();
 
     if (!email || !privateKey) {
       throw new Ga4ConfigError(
         "Identifiants du compte de service Google Analytics manquants."
       );
+    }
+
+    if (!validation.valid) {
+      throw new Ga4ConfigError(validation.error || "Configuration GA4 invalide.");
     }
 
     cachedClient = new BetaAnalyticsDataClient({
@@ -48,7 +56,7 @@ export function getGa4PropertyName() {
   if (!config.propertyId) {
     throw new Ga4ConfigError(config.message);
   }
-  return `properties/${config.propertyId}`;
+  return `properties/${normalizePropertyId(config.propertyId)}`;
 }
 
 /**

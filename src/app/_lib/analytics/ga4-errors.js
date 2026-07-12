@@ -1,3 +1,5 @@
+import { parseGoogleApiErrorMessage } from "./ga4-error-parse";
+
 export class Ga4ConfigError extends Error {
   constructor(message) {
     super(message);
@@ -74,13 +76,27 @@ export function mapGa4ErrorResponse(error) {
     };
   }
 
+  const parsed = parseGoogleApiErrorMessage(error);
+  if (parsed) {
+    console.error("[GA4]", error);
+    return {
+      status: 502,
+      body: {
+        success: false,
+        error: parsed,
+        code: "GA4_API_ERROR",
+      },
+    };
+  }
+
   console.error("[GA4]", error);
 
   return {
     status: 502,
     body: {
       success: false,
-      error: "Impossible de récupérer les données Google Analytics pour le moment.",
+      error:
+        "Impossible de récupérer les données Google Analytics. Vérifiez les variables Vercel (GA4_PROPERTY_ID, GOOGLE_SERVICE_ACCOUNT_EMAIL, GOOGLE_SERVICE_ACCOUNT_PRIVATE_KEY) et consultez docs/analytics-dashboard.md.",
       code: "GA4_UNKNOWN",
     },
   };

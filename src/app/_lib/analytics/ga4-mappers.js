@@ -51,11 +51,18 @@ export function mapMetricsFromTotals(response) {
 export function mapMetricsFromRowTotals(response, rangeIndex = 0) {
   const headers = response?.metricHeaders || [];
   const row = response?.rows?.[rangeIndex];
+  const totalsRow = response?.totals?.[rangeIndex];
   const result = {};
 
   headers.forEach((header, index) => {
     const key = header.name || `metric_${index}`;
-    result[key] = getMetricValue(row, index);
+    if (row?.metricValues?.length) {
+      result[key] = getMetricValue(row, index);
+    } else if (totalsRow?.metricValues?.length) {
+      result[key] = getMetricValue(totalsRow, index);
+    } else {
+      result[key] = 0;
+    }
   });
 
   return result;
