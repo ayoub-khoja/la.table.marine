@@ -33,6 +33,7 @@ describe("seo routes", () => {
     const paths = INDEXABLE_STATIC_ROUTES.map((route) => route.path);
     expect(paths).toContain("/");
     expect(paths).toContain("/about");
+    expect(paths).toContain("/decouvrir-le-restaurant-en-video");
     expect(paths).not.toContain("/home-2");
   });
 });

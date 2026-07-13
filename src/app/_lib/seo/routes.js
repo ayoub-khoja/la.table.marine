@@ -11,6 +11,7 @@ export const INDEXABLE_STATIC_ROUTES = [
   { path: "/contact", changeFrequency: "monthly", priority: 0.9 },
   { path: "/reservation", changeFrequency: "weekly", priority: 0.95 },
   { path: "/menu", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/decouvrir-le-restaurant-en-video", changeFrequency: "monthly", priority: 0.7 },
   { path: "/blog", changeFrequency: "weekly", priority: 0.5 },
   { path: "/politique-de-confidentialite", changeFrequency: "yearly", priority: 0.3 },
   { path: "/politique-de-cookies", changeFrequency: "yearly", priority: 0.3 },

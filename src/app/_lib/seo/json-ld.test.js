@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   buildHomeSchemas,
   buildRestaurantSchema,
+  buildRestaurantVideoObjectSchema,
   serializeJsonLd,
 } from "./json-ld";
 
@@ -28,5 +29,14 @@ describe("seo json-ld", () => {
     expect(types).toContain("Organization");
     expect(types).toContain("WebSite");
     expect(types).toContain("WebPage");
+    expect(types).toContain("VideoObject");
+  });
+
+  it("construit un VideoObject pour la vidéo du restaurant", () => {
+    const schema = buildRestaurantVideoObjectSchema();
+    expect(schema["@type"]).toBe("VideoObject");
+    expect(schema.contentUrl).toMatch(/^https:\/\//);
+    expect(schema.thumbnailUrl).toMatch(/^https:\/\//);
+    expect(schema.duration).toMatch(/^PT\d+S$/);
   });
 });

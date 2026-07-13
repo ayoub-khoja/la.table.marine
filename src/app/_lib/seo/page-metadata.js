@@ -51,6 +51,12 @@ export const PAGE_SEO = {
       "Consultez la carte de La Table Marine à Plaisir : poissons frais, fruits de mer, viandes et suggestions préparées avec soin.",
     path: "/menu",
   },
+  restaurantVideo: {
+    title: "Découvrir La Table Marine en vidéo",
+    description:
+      "Regardez la vidéo de présentation de La Table Marine, restaurant de poissons et fruits de mer à Plaisir, et découvrez l'ambiance de notre établissement.",
+    path: "/decouvrir-le-restaurant-en-video",
+  },
   blog: {
     title: "Blog",
     description:
