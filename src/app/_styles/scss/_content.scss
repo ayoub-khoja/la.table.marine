@@ -165,6 +165,50 @@ banner
   }
 }
 
+.tst-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+
+  &__primary {
+    margin-right: 18px;
+  }
+
+  &__secondary {
+    display: none;
+  }
+
+  &__secondary-btn {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    font-weight: 800;
+    font-family: $sf;
+    text-align: center;
+    transition: $tr-sm;
+  }
+}
+
+.tst-restaurant-video {
+  &__player {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    background-color: $dl2;
+  }
+
+  &__video {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+    background-color: $dl2;
+  }
+}
+
 .tst-main-slider {
   & .swiper-wrapper {
     z-index: 0;
@@ -196,14 +240,14 @@ banner
   }
 }
 @media (max-width: 991px) {
-  .tst-banner {
+  .tst-banner:not(.tst-banner--split-photo):not(.tst-banner--split-map) {
     height: 60vh;
     min-height: 420px;
     max-height: 520px;
   }
 }
 @media (max-width: 790px) {
-  .tst-banner {
+  .tst-banner:not(.tst-banner--split-photo):not(.tst-banner--split-map) {
     height: 52vh;
     min-height: 360px;
     max-height: 460px;
@@ -236,6 +280,61 @@ banner
           .tst-suptitle {
             margin-bottom: 10px !important;
           }
+
+          .tst-hero-actions {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+
+            &__primary {
+              margin: 0;
+              width: 100%;
+              height: 48px;
+              min-height: 48px;
+              line-height: 48px;
+              padding: 0 20px;
+            }
+
+            &__desktop {
+              display: none !important;
+            }
+
+            &__secondary {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 10px;
+              width: 100%;
+            }
+
+            &__secondary-btn {
+              height: 44px;
+              padding: 0 10px;
+              border-radius: 5px;
+              background: rgba(255, 255, 255, 0.14);
+              border: 1px solid rgba(255, 255, 255, 0.5);
+              color: $wl1;
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              backdrop-filter: blur(6px);
+              box-shadow: 0 2px 8px rgba(4, 25, 29, 0.2);
+
+              &:hover,
+              &:focus,
+              &:visited {
+                color: $wl1;
+              }
+
+              &:hover,
+              &:focus {
+                background: rgba(255, 255, 255, 0.24);
+                border-color: rgba(255, 255, 255, 0.75);
+              }
+            }
+          }
         }
       }
     }
@@ -255,7 +354,7 @@ banner
       }
     }
 
-    &.tst-small-banner {
+    &.tst-small-banner:not(.tst-banner--split-photo) {
       height: auto;
 
       & .tst-cover-frame {

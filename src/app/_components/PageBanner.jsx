@@ -27,9 +27,11 @@ const PageBanner = ({ pageTitle, pageSubTitle = false, description, breadTitle, 
 
   let clearBreadTitle;
   
-  if(!pageSubTitle) {
+  if (pageSubTitle === false) {
     pageSubTitle = breadTitle;
   }
+
+  const showSubTitle = Boolean(pageSubTitle && String(pageSubTitle).replace(/<[^>]*>/g, "").trim());
 
   if ( breadTitle != undefined ) {
     clearBreadTitle = breadTitle;
@@ -183,7 +185,9 @@ const PageBanner = ({ pageTitle, pageSubTitle = false, description, breadTitle, 
                     ? "tst-main-title tst-main-title--split"
                     : "tst-main-title text-center"
               }>
+                {showSubTitle ? (
                 <div className={`tst-suptitle ${showMap || bannerLayout === "split-photo" ? "" : "tst-suptitle-center"} tst-suptitle-mobile-center ${showMap || bannerLayout === "split-photo" ? "" : "tst-text-shadow"} tst-white-2 tst-mb-15`} dangerouslySetInnerHTML={{__html : pageSubTitle}} />
+                ) : null}
                 <h1 className={`tst-white-2 ${showMap || bannerLayout === "split-photo" ? "" : "tst-text-shadow"} tst-mb-30`} dangerouslySetInnerHTML={{__html : pageTitle}} />
                 <div className={`tst-text ${showMap || bannerLayout === "split-photo" ? "" : "tst-text-shadow"} tst-text-lg tst-white-2 tst-mb-30`} dangerouslySetInnerHTML={{__html : description}} />
                 {mapProvider === "google" ? (
