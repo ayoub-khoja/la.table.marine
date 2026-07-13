@@ -8,7 +8,8 @@ banner
 -------------------------*/
 .tst-banner {
   position: relative;
-  z-index: 0;
+  // Doit rester au-dessus des cartes de contenu qui peuvent chevaucher le bas du hero.
+  z-index: 5;
   width: 100%;
   height: 78vh;
   min-height: 560px;
@@ -17,10 +18,13 @@ banner
   & .tst-cover-frame {
     width: 100%;
     height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+
+    &:not(.tst-cover-frame--split):not(.tst-cover-frame--split-photo) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
 
     & .tst-cover {
       width: 100%;
@@ -123,7 +127,7 @@ banner
     }
   }
 
-  &.tst-small-banner {
+  &.tst-small-banner:not(.tst-banner--split-map):not(.tst-banner--split-photo) {
     height: 70vh;
 
     & .tst-cover-frame {
@@ -219,11 +223,13 @@ banner
   }
 }
 @media (max-width: 1199px) {
-  .tst-banner {
+  .tst-banner:not(.tst-banner--split-map):not(.tst-banner--split-photo) {
     height: 72vh;
     min-height: 500px;
     max-height: 640px;
+  }
 
+  .tst-banner {
     &.tst-banner--video {
       height: 76vh;
       min-height: 540px;
@@ -248,12 +254,20 @@ banner
 }
 @media (max-width: 790px) {
   .tst-banner:not(.tst-banner--split-photo):not(.tst-banner--split-map) {
-    height: 52vh;
-    min-height: 360px;
-    max-height: 460px;
+    // IMPORTANT: sur mobile, une hauteur fixe en vh fait "déborder" les CTA
+    // hors du hero sur certains écrans/zooms, ce qui les place au-dessus de la carte blanche.
+    // En mettant la hauteur en auto, le hero englobe toujours les boutons.
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    // Espace réel sous le hero pour éviter que la première carte blanche
+    // commence visuellement sous les boutons sur certains écrans/zooms.
+    margin-bottom: 16px;
 
     & .tst-banner-content-frame {
-      padding: 72px 0 28px;
+      // Bottom padding keeps CTA above the next white content card
+      // which slightly overlaps the hero on some mobile screens.
+      padding: 72px 0 72px;
       height: 100%;
       display: flex;
       align-items: flex-start;
@@ -277,6 +291,10 @@ banner
             margin-bottom: 20px !important;
             font-size: 14px;
             line-height: 1.5;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 4;
+            overflow: hidden;
           }
 
           .tst-suptitle {
@@ -298,6 +316,8 @@ banner
             width: 100%;
             max-width: 300px;
             margin: 0 auto;
+            margin-top: 2px;
+            margin-bottom: 0;
 
             &__primary {
               margin: 0;
@@ -323,14 +343,18 @@ banner
               height: 44px;
               padding: 0 10px;
               border-radius: 5px;
-              background: rgba(255, 255, 255, 0.14);
-              border: 1px solid rgba(255, 255, 255, 0.5);
+              // Style “glass” comme la maquette : sombre translucide + bordure claire.
+              // Reste lisible au-dessus du hero ET lorsque la carte blanche approche.
+              background: rgba($dl2, 0.55);
+              border: 1px solid rgba($wl1, 0.38);
               color: $wl1;
               display: inline-flex;
               align-items: center;
               justify-content: center;
-              backdrop-filter: blur(6px);
-              box-shadow: 0 2px 8px rgba(4, 25, 29, 0.2);
+              backdrop-filter: blur(8px);
+              box-shadow:
+                0 10px 22px rgba($dl2, 0.22),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
 
               &:hover,
               &:focus,
@@ -340,8 +364,8 @@ banner
 
               &:hover,
               &:focus {
-                background: rgba(255, 255, 255, 0.24);
-                border-color: rgba(255, 255, 255, 0.75);
+                background: rgba($dl2, 0.68);
+                border-color: rgba($wl1, 0.5);
               }
             }
           }
@@ -376,6 +400,64 @@ banner
 
         & .tst-main-title-frame {
           height: auto;
+        }
+      }
+    }
+  }
+
+  // Petites hauteurs (ex: iPhone SE, mobile paysage) : on compactifie
+  // pour garantir la visibilité des CTA.
+  @media (max-height: 740px) {
+    .tst-banner:not(.tst-banner--split-photo):not(.tst-banner--split-map) {
+      min-height: 0;
+      margin-bottom: 18px;
+
+      & .tst-banner-content-frame {
+        padding: 64px 0 64px;
+
+        & .tst-main-title {
+          h1 {
+            margin-bottom: 14px !important;
+            font-size: clamp(24px, 7.6vw, 32px);
+          }
+
+          .tst-text-lg {
+            margin-bottom: 14px !important;
+            font-size: 13px;
+            line-height: 1.45;
+            -webkit-line-clamp: 3;
+          }
+
+          .tst-hero-actions {
+            gap: 8px;
+            max-width: 292px;
+
+            &__primary {
+              height: 46px;
+              min-height: 46px;
+              line-height: 46px;
+            }
+
+            &__secondary-btn {
+              height: 42px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-height: 680px) {
+    .tst-banner:not(.tst-banner--split-photo):not(.tst-banner--split-map) {
+      margin-bottom: 16px;
+
+      & .tst-banner-content-frame {
+        padding: 58px 0 58px;
+
+        & .tst-main-title {
+          .tst-text-lg {
+            -webkit-line-clamp: 2;
+          }
         }
       }
     }
