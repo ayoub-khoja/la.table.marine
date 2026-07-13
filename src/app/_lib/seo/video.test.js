@@ -15,6 +15,8 @@ import {
 } from "./video";
 
 const ISO_8601_DURATION = /^PT\d+(?:\.\d+)?S$/;
+const ISO_8601_DATETIME_WITH_TZ =
+  /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$/;
 const ABSOLUTE_URL = /^https:\/\/[^/]+\/.+/;
 
 describe("restaurant video seo", () => {
@@ -39,6 +41,8 @@ describe("restaurant video seo", () => {
     expect(schema.contentUrl).toBe(getRestaurantVideoContentUrl());
     expect(schema.embedUrl).toBe(getRestaurantVideoEmbedUrl());
     expect(schema.uploadDate).toBe(RESTAURANT_VIDEO.uploadDate);
+    expect(schema.uploadDate).toMatch(ISO_8601_DATETIME_WITH_TZ);
+    expect(schema.duration).toBe("PT17S");
     expect(schema.duration).toMatch(ISO_8601_DURATION);
     expect(schema.publisher).toBeTruthy();
     expect(schema.publisher.name).toBeTruthy();

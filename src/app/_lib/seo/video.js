@@ -2,7 +2,8 @@ import { absoluteUrl, SEO_CONFIG } from "./config";
 
 /**
  * Vidéo de présentation du restaurant (bannière d'accueil).
- * uploadDate : date du premier commit git de public/video/banner.mp4 (2026-07-10).
+ * uploadDate : premier commit git de public/video/banner.mp4
+ *   (370c794 — 2026-07-10T12:52:17+02:00, fuseau Europe/Paris).
  * duration : extraite via ffprobe (17,02 s → PT17S).
  */
 export const RESTAURANT_VIDEO = {
@@ -14,8 +15,8 @@ export const RESTAURANT_VIDEO = {
   embedPath: "/decouvrir-le-restaurant-en-video",
   width: 576,
   height: 1024,
-  /** @type {string} ISO 8601 date (YYYY-MM-DD) */
-  uploadDate: "2026-07-10",
+  /** @type {string} ISO 8601 date-time with timezone offset */
+  uploadDate: "2026-07-10T12:52:17+02:00",
   /** @type {string} ISO 8601 duration */
   duration: "PT17S",
   mimeType: "video/mp4",
