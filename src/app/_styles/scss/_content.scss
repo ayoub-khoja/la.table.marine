@@ -253,16 +253,18 @@ banner
     max-height: 460px;
 
     & .tst-banner-content-frame {
-      padding: 36px 0;
+      padding: 72px 0 28px;
       height: 100%;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
+      justify-content: flex-start;
 
       & .tst-main-title-frame {
         height: auto;
+        width: 100%;
 
         & .tst-main-title {
-          margin-top: 0;
+          margin-top: 8px;
           text-align: center;
 
           h1 {
@@ -279,6 +281,14 @@ banner
 
           .tst-suptitle {
             margin-bottom: 10px !important;
+
+            &.tst-suptitle-mobile-center {
+              padding-top: 28px;
+
+              &:before {
+                top: 6px;
+              }
+            }
           }
 
           .tst-hero-actions {
