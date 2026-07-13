@@ -69,6 +69,9 @@ export function buildPageMetadata({
  */
 export function buildRootMetadata() {
   const verification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();
+  // Le favicon est fortement mis en cache par les navigateurs.
+  // Changer ce suffixe force un rechargement côté client.
+  const ICONS_VERSION = "2026-07-13-01";
 
   return {
     metadataBase: new URL(SEO_CONFIG.siteUrl),
@@ -115,12 +118,12 @@ export function buildRootMetadata() {
     },
     icons: {
       icon: [
-        { url: "/icons/favicon-48x48.png", sizes: "48x48", type: "image/png" },
-        { url: "/icons/favicon-96x96.png", sizes: "96x96", type: "image/png" },
-        { url: "/icons/favicon-192x192.png", sizes: "192x192", type: "image/png" },
+        { url: `/icons/favicon-48x48.png?v=${ICONS_VERSION}`, sizes: "48x48", type: "image/png" },
+        { url: `/icons/favicon-96x96.png?v=${ICONS_VERSION}`, sizes: "96x96", type: "image/png" },
+        { url: `/icons/favicon-192x192.png?v=${ICONS_VERSION}`, sizes: "192x192", type: "image/png" },
       ],
-      shortcut: "/icons/favicon-48x48.png",
-      apple: "/icons/favicon-192x192.png",
+      shortcut: `/icons/favicon-48x48.png?v=${ICONS_VERSION}`,
+      apple: `/icons/favicon-192x192.png?v=${ICONS_VERSION}`,
     },
     manifest: "/site.webmanifest",
     ...(verification
