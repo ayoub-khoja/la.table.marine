@@ -114,9 +114,15 @@ export function buildRootMetadata() {
       images: [SEO_CONFIG.defaultOgImage],
     },
     icons: {
-      icon: "/img/home/logo-latablemarine.png",
-      apple: "/img/home/logo-latablemarine.png",
+      icon: [
+        { url: "/icons/favicon-48x48.png", sizes: "48x48", type: "image/png" },
+        { url: "/icons/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+        { url: "/icons/favicon-192x192.png", sizes: "192x192", type: "image/png" },
+      ],
+      shortcut: "/icons/favicon-48x48.png",
+      apple: "/icons/favicon-192x192.png",
     },
+    manifest: "/site.webmanifest",
     ...(verification
       ? {
           verification: {
