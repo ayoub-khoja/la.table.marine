@@ -16,7 +16,8 @@ const Contact = () => {
   return (
     <>
         <SeoPageJsonLd pageKey="contact" />
-        <div id="tst-dynamic-banner" className="tst-dynamic-banner">
+        <div className="tst-page-contact-stack">
+        <div id="tst-dynamic-banner" className="tst-dynamic-banner tst-page-contact">
             <PageBanner
               pageTitle={"Contactez-nous"}
               description={"Une question, une réservation ou un renseignement ?<br>Nous sommes à votre écoute à Plaisir."}
@@ -25,7 +26,7 @@ const Contact = () => {
               mapProvider="google"
             />
         </div>
-        <main id="tst-dynamic-content" className="tst-dynamic-content">
+        <main id="tst-dynamic-content" className="tst-dynamic-content tst-page-contact">
             <div className="tst-content-frame">
                 <div className="tst-content-box">
                     <div className="container tst-p-60-60">
@@ -40,6 +41,7 @@ const Contact = () => {
                 </div>
             </div>
         </main>
+        </div>
     </>
   );
 };
