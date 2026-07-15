@@ -139,7 +139,7 @@ const OnlineOrderContent = () => {
 
     const fetchMenu = async () => {
       try {
-        const res = await fetch("/api/online-order/menu");
+        const res = await fetch("/api/online-order/menu", { cache: "no-store" });
         const data = await res.json();
 
         if (!res.ok) {
@@ -179,7 +179,7 @@ const OnlineOrderContent = () => {
 
     const fetchSpecialMenus = async () => {
       try {
-        const res = await fetch("/api/special-menus");
+        const res = await fetch("/api/special-menus", { cache: "no-store" });
         const data = await res.json();
 
         if (!res.ok) {
@@ -262,14 +262,36 @@ const OnlineOrderContent = () => {
 
   return (
     <div className={`online-order${cartCount > 0 ? " online-order--has-summary" : ""}`}>
-      <div className="online-order__toolbar">
-        <p className="online-order__intro">
-          Composez votre commande et finalisez par téléphone. Produits affichés à titre indicatif.
+      <header className="online-order__page-header">
+        <h1 className="online-order__page-title">
+          Commandez vos poissons frais et fruits de mer à Plaisir
+        </h1>
+        <p className="online-order__page-subtitle">
+          Composez votre commande en ligne parmi nos entrées, poissons du jour, fruits de mer
+          et desserts préparés par le restaurant La Table Marine. Livraison gratuite à Plaisir
+          et alentours — minimum de commande 28&nbsp;€.
         </p>
-      </div>
+      </header>
+
+      <section className="online-order__delivery" aria-label="Informations de livraison">
+        <h3 className="online-order__delivery-title">{menuConfig.delivery.title}</h3>
+        <div className="online-order__delivery-grid">
+          {menuConfig.delivery.items.map((item) => (
+            <div key={item.title} className="online-order__delivery-item">
+              <span className="online-order__delivery-icon">
+                <DeliveryIcon type={item.icon} />
+              </span>
+              <div>
+                <strong>{item.title}</strong>
+                <p>{item.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
 
       <section className="online-order__categories" aria-label="Catégories du menu">
-        <h2 className="online-order__section-title">Menu</h2>
+        <h3 className="online-order__section-title">Parcourir le menu</h3>
         {menuLoading ? (
           <p className="online-order__specials-empty">Chargement du menu…</p>
         ) : menuCategories.length ? (
@@ -302,25 +324,8 @@ const OnlineOrderContent = () => {
         )}
       </section>
 
-      <section className="online-order__delivery" aria-label="Informations de livraison">
-        <h2 className="online-order__delivery-title">{menuConfig.delivery.title}</h2>
-        <div className="online-order__delivery-grid">
-          {menuConfig.delivery.items.map((item) => (
-            <div key={item.title} className="online-order__delivery-item">
-              <span className="online-order__delivery-icon">
-                <DeliveryIcon type={item.icon} />
-              </span>
-              <div>
-                <strong>{item.title}</strong>
-                <p>{item.text}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <section className="online-order__menu" aria-label="Notre carte">
-        <h2 className="online-order__section-title">Notre carte</h2>
+        <h3 className="online-order__section-title">Notre carte</h3>
         {menuLoading ? (
           <p className="online-order__specials-empty">Chargement de la carte…</p>
         ) : menuSections.length ? (

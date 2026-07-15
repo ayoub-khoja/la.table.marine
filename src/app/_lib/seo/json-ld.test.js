@@ -4,6 +4,7 @@ import {
   buildHomeSchemas,
   buildRestaurantSchema,
   buildRestaurantVideoObjectSchema,
+  buildSecondaryPageSchemas,
   serializeJsonLd,
 } from "./json-ld";
 
@@ -40,5 +41,22 @@ describe("seo json-ld", () => {
     expect(schema.contentUrl).toMatch(/^https:\/\//);
     expect(schema.thumbnailUrl).toMatch(/^https:\/\//);
     expect(schema.duration).toMatch(/^PT\d+S$/);
+  });
+
+  it("inclut le schéma Restaurant sur /commande-en-ligne", () => {
+    const schemas = buildSecondaryPageSchemas({
+      path: "/commande-en-ligne",
+      title: "Commande en ligne",
+      description: "Commandez en ligne à Plaisir.",
+      breadcrumbs: [
+        { name: "Accueil", path: "/" },
+        { name: "Commande en ligne", path: "/commande-en-ligne" },
+      ],
+    });
+
+    const types = schemas.map((item) => item["@type"]);
+    expect(types).toContain("Restaurant");
+    expect(types).toContain("WebPage");
+    expect(types).toContain("BreadcrumbList");
   });
 });

@@ -7,6 +7,7 @@ export const INDEXABLE_STATIC_ROUTES = [
   { path: "/about", changeFrequency: "monthly", priority: 0.8 },
   { path: "/contact", changeFrequency: "monthly", priority: 0.9 },
   { path: "/reservation", changeFrequency: "weekly", priority: 0.95 },
+  { path: "/commande-en-ligne", changeFrequency: "weekly", priority: 0.9 },
   { path: "/decouvrir-le-restaurant-en-video", changeFrequency: "monthly", priority: 0.7 },
   { path: "/politique-de-confidentialite", changeFrequency: "yearly", priority: 0.3 },
   { path: "/politique-de-cookies", changeFrequency: "yearly", priority: 0.3 },

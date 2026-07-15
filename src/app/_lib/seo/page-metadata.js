@@ -52,9 +52,9 @@ export const PAGE_SEO = {
     path: "/reservation",
   },
   commandeEnLigne: {
-    title: "Commande en ligne",
+    title: "Commande en ligne — Poissons et fruits de mer à Plaisir",
     description:
-      "Commandez en ligne les poissons, fruits de mer et plats de La Table Marine. Livraison à Plaisir et alentours.",
+      "Commandez en ligne au restaurant La Table Marine à Plaisir : poissons frais, fruits de mer, entrées, plats et desserts. Livraison à domicile dans les Yvelines.",
     path: "/commande-en-ligne",
   },
   menu: {
