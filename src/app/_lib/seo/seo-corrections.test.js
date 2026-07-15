@@ -100,6 +100,31 @@ describe("seo corrections — reservation, search, demo pages", () => {
     expect(reservationPage).toContain("Réservez votre table à La Table Marine");
   });
 
+  it("expose un H1 et le JSON-LD sur /commande-en-ligne", () => {
+    const commandePage = fs.readFileSync(
+      path.join(projectRoot, "src/app/(pages)/commande-en-ligne/page.jsx"),
+      "utf8"
+    );
+    const commandeContent = fs.readFileSync(
+      path.join(projectRoot, "src/app/_components/online-order/OnlineOrderContent.jsx"),
+      "utf8"
+    );
+
+    expect(commandePage).toContain('getPageMetadata("commandeEnLigne")');
+    expect(commandePage).toContain("SeoPageJsonLd");
+    expect(commandeContent).toContain("<h1");
+    expect(commandeContent).toContain("Commandez vos poissons frais et fruits de mer à Plaisir");
+  });
+
+  it("indexe /commande-en-ligne avec canonical et sans noindex", () => {
+    const meta = getPageMetadata("commandeEnLigne");
+    expect(meta.robots?.index).toBe(true);
+    expect(meta.robots?.follow).toBe(true);
+    expect(meta.alternates?.canonical).toBe("https://latablemarine.com/commande-en-ligne");
+    expect(meta.title).toContain("Commande en ligne");
+    expect(meta.description).toContain("Plaisir");
+  });
+
   it("met /search en noindex, follow", () => {
     const meta = getPageMetadata("search");
     expect(meta.robots?.index).toBe(false);
@@ -125,6 +150,7 @@ describe("seo corrections — sitemap et blog", () => {
     expect(paths).toContain("/about");
     expect(paths).toContain("/contact");
     expect(paths).toContain("/reservation");
+    expect(paths).toContain("/commande-en-ligne");
     expect(paths).toContain("/decouvrir-le-restaurant-en-video");
     expect(paths).toContain("/politique-de-confidentialite");
     expect(paths).toContain("/politique-de-cookies");
@@ -336,6 +362,7 @@ describe("seo corrections — routes indexables", () => {
   it("exclut /menu du sitemap et garde /search non indexable", () => {
     expect(isIndexableRoute("/menu")).toBe(false);
     expect(isIndexableRoute("/search")).toBe(false);
+    expect(isIndexableRoute("/commande-en-ligne")).toBe(true);
     expect(isIndexableRoute("/about-chef")).toBe(false);
     expect(isIndexableRoute("/history")).toBe(false);
     expect(isIndexableRoute("/services")).toBe(false);

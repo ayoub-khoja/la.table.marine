@@ -243,7 +243,7 @@ export function buildSecondaryPageSchemas({ path, title, description, breadcrumb
     buildBreadcrumbSchema(breadcrumbs),
   ];
 
-  if (path === "/contact") {
+  if (path === "/contact" || path === "/commande-en-ligne") {
     schemas.unshift(buildRestaurantSchema());
   }
 

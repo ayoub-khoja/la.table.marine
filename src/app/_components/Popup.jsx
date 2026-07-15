@@ -9,6 +9,7 @@ const Popup = ({
   children,
   onClose,
   closeLabel = "Fermer",
+  className = "",
 }) => {
   const [mounted, setMounted] = useState(false);
 
@@ -36,7 +37,7 @@ const Popup = ({
   if (!mounted) return null;
 
   return createPortal(
-    <div className={`tst-popup-bg ${open ? "tst-active" : ""}`}>
+    <div className={`tst-popup-bg ${open ? "tst-active" : ""} ${className}`.trim()}>
       <div
         style={{ position: "fixed", inset: 0 }}
         onClick={onClose}
