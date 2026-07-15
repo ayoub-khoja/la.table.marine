@@ -444,7 +444,8 @@
   }
 }
 
-.tst-footer-legal {
+.tst-footer-legal,
+.tst-footer-nav {
   display: flex;
   flex-wrap: wrap;
   gap: 8px 20px;
@@ -456,11 +457,13 @@
     font-family: $sf;
     font-size: 13px;
     color: rgba($wl1, 0.85);
+    text-decoration: none;
   }
 
   a:hover,
   .ltm-cookie-settings-btn:hover {
     color: $wl1;
+    text-decoration: underline;
   }
 }
 

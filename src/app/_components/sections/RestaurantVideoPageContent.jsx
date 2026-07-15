@@ -127,12 +127,23 @@ const RestaurantVideoPageContent = () => {
             </h2>
             <p className="tst-video-page__cta-text">{PageData.cta.description}</p>
             <div className="tst-video-page__cta-actions">
-              <Link
-                href={PageData.cta.buttonMenu.link}
-                className="tst-btn tst-btn-lg tst-btn-shadow"
-              >
-                {PageData.cta.buttonMenu.label}
-              </Link>
+              {PageData.cta.buttonMenu.blank ? (
+                <a
+                  href={PageData.cta.buttonMenu.link}
+                  className="tst-btn tst-btn-lg tst-btn-shadow"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {PageData.cta.buttonMenu.label}
+                </a>
+              ) : (
+                <Link
+                  href={PageData.cta.buttonMenu.link}
+                  className="tst-btn tst-btn-lg tst-btn-shadow"
+                >
+                  {PageData.cta.buttonMenu.label}
+                </Link>
+              )}
               <Link
                 href={PageData.cta.buttonReservation.link}
                 className="tst-btn tst-btn-lg tst-btn-shadow tst-video-page__cta-btn-alt"

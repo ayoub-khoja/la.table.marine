@@ -1,8 +1,9 @@
 "use client";
 
 import AppData from "@data/app.json";
-import Data from "@data/sections/about.json";
+import Data from "@data/sections/home-about.json";
 import Link from "next/link";
+import SocialIconLinks from "@components/SocialIconLinks";
 
 import { useState } from 'react';
 
@@ -25,11 +26,13 @@ const AboutSection = () => {
                   <h3 className="tst-mb-30" dangerouslySetInnerHTML={{__html : Data.title}} />
                   <p className="tst-text tst-mb-30" dangerouslySetInnerHTML={{__html : Data.description}} />
 
+                  {Data.button.blank ? (
+                  <a href={Data.button.link} className="tst-btn tst-anima-link tst-mr-30" target="_blank" rel="noopener noreferrer">{Data.button.label}</a>
+                  ) : (
                   <Link href={Data.button.link} className="tst-btn tst-anima-link tst-mr-30">{Data.button.label}</Link>
+                  )}
                   
-                  {AppData.social.map((item, key) => (
-                  <a href={item.url} className="tst-icon-link" title={item.title} key={`about-social-item-${key}`}><i className={item.icon}></i></a>
-                  ))}
+                  <SocialIconLinks items={AppData.social} keyPrefix="about-social-item" />
                 </div>
                 {/* about text end */}
 

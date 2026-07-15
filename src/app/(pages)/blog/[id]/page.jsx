@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { getAllPostsIds, getPostData, getFeaturedPostsData } from "@library/posts";
+import { getPostData, getFeaturedPostsData, getPublishedPostStaticParams, isPostPublished } from "@library/posts";
 import { getAuthorData } from "@library/authors";
 import { buildDynamicPageMetadata } from "@library/seo/page-metadata";
 
@@ -19,7 +19,9 @@ import CommentsData from "@data/comments.json";
 
 export async function generateMetadata({ params }) {
   const postData = await getPostData(params.id);
-  if (!postData) return {};
+  if (!postData || !isPostPublished(postData)) {
+    notFound();
+  }
 
   const description =
     postData.short ||
@@ -29,6 +31,7 @@ export async function generateMetadata({ params }) {
     title: postData.title,
     description,
     path: `/blog/${params.id}`,
+    noindex: !isPostPublished(postData),
   });
 }
 
@@ -156,9 +159,7 @@ async function PostsDetail( { params } ) {
 export default PostsDetail;
 
 export async function generateStaticParams() {
-  const paths = getAllPostsIds()
-
-  return paths
+  return getPublishedPostStaticParams();
 }
 
 async function getAllPupulars() {
@@ -169,12 +170,12 @@ async function getAllPupulars() {
 
 async function getSinglePostData(params) {
   const postData = await getPostData(params.id)
-  
-  if ( !postData ) {
+
+  if (!postData || !isPostPublished(postData)) {
     notFound()
-  } else {
-    return postData
   }
+
+  return postData
 }
 
 async function getSingleAuthorData(author_id) {

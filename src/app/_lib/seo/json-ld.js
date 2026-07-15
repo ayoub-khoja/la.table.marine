@@ -73,7 +73,6 @@ export function buildRestaurantSchema() {
     openingHoursSpecification: buildOpeningHoursSpecification(),
     servesCuisine: SEO_CONFIG.cuisineTypes,
     priceRange: SEO_CONFIG.priceRange,
-    menu: SEO_CONFIG.menuPdfUrl,
     acceptsReservations: SEO_CONFIG.acceptsReservations,
     areaServed: SEO_CONFIG.areaServed.map((name) => ({
       "@type": "City",
@@ -246,17 +245,6 @@ export function buildSecondaryPageSchemas({ path, title, description, breadcrumb
 
   if (path === "/contact") {
     schemas.unshift(buildRestaurantSchema());
-  }
-
-  if (path === "/menu") {
-    schemas.unshift({
-      ...buildRestaurantSchema(),
-      hasMenu: {
-        "@type": "Menu",
-        url: SEO_CONFIG.menuPdfUrl,
-        name: "Carte La Table Marine",
-      },
-    });
   }
 
   return schemas;

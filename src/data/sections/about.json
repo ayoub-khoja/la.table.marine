@@ -1,16 +1,16 @@
 {
-    "image": { 
+    "image": {
         "url": "/img/video-about.png",
-        "alt": "Découvrez La Table Marine — restaurant au goût de la mer"
+        "alt": "La Table Marine — restaurant de poissons et fruits de mer à Plaisir"
     },
     "video": {
         "url": "https://raw.githubusercontent.com/ayoub-khoja/Media-latablemarine/main/apropos.mp4"
     },
     "button": {
-        "link": "/about",
-        "label": "En savoir plus"
+        "link": "/contact",
+        "label": "Nous contacter"
     },
-    "title": "Nous vous invitons à<br>visiter notre restaurant",
-    "subtitle": "À propos",
-    "description": "Au cœur de Plaisir, La Table Marine vous accueille dans un cadre chaleureux et raffiné. Notre cuisine célèbre les saveurs de la mer et les produits du terroir, élaborée avec soin par une équipe passionnée. Que ce soit pour un déjeuner en famille ou un dîner entre amis, venez vivre une expérience gourmande où qualité, convivialité et authenticité sont au rendez-vous."
+    "title": "Un restaurant de la mer<br>à Plaisir",
+    "subtitle": "Notre établissement",
+    "description": "La Table Marine est un restaurant de poissons et fruits de mer installé au 2 rue Pierre Curie, à Plaisir dans les Yvelines. Venez découvrir notre univers, notre équipe et l'ambiance de notre salle avant votre prochaine visite."
 }

@@ -1,4 +1,5 @@
 import React, { Suspense } from "react";
+import { notFound } from "next/navigation";
 
 import { getSortedPostsData } from "@library/posts";
 import { getPageMetadata } from "@library/seo/page-metadata";
@@ -11,9 +12,16 @@ import CallToActionSection from "@components/sections/CallToAction";
 import LatestPostsSection from "@components/sections/LatestPosts";
 import SubscribeSection from "@components/sections/Subscribe";
 
+// Metadata noindex — contenu template en attente de validation éditoriale réelle.
 export const metadata = getPageMetadata("history");
 
-async function History() {
+// Page temporairement désactivée jusqu'à validation du contenu réel.
+export default function HistoryPage() {
+  notFound();
+}
+
+// Contenu template conservé pour une future réactivation.
+async function HistoryPageContent() {
   const posts = await getAllPosts();
 
   const Content = {
@@ -147,8 +155,7 @@ async function History() {
       </div>
     </>
   );
-};
-export default History;
+}
 
 async function getAllPosts() {
   const allPosts = getSortedPostsData();

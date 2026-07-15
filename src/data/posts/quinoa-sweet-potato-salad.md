@@ -1,4 +1,6 @@
 ---
+draft: true
+index: false
 #preview
 title: 'La Table Marine fête plus de 25 ans à Plaisir'
 date: '2024-11-12'
@@ -11,6 +13,8 @@ author: Anya Taylor
 authorAvatar: /img/faces/1.jpg
 short: "Depuis plus de 25 ans, La Table Marine accueille Plaisir autour d'une cuisine de la mer et du terroir."
 ---
+draft: true
+index: false
 
 Installé au cœur de **Plaisir**, La Table Marine est devenu au fil des années une adresse de référence pour les amateurs de poissons, fruits de mer et cuisine du terroir.
 

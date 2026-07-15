@@ -1,4 +1,4 @@
-import { getSortedPostsData } from "@library/posts";
+import { getSortedPostsData, isPostPublished } from "@library/posts";
 import { absoluteUrl } from "@library/seo/config";
 import { INDEXABLE_STATIC_ROUTES } from "@library/seo/routes";
 
@@ -19,12 +19,14 @@ export default async function sitemap() {
   let blogEntries = [];
   try {
     const posts = getSortedPostsData();
-    blogEntries = posts.map((post) => ({
-      url: absoluteUrl(`/blog/${post.id}`),
-      lastModified: toValidLastModified(post.date),
-      changeFrequency: "monthly",
-      priority: 0.5,
-    }));
+    blogEntries = posts
+      .filter(isPostPublished)
+      .map((post) => ({
+        url: absoluteUrl(`/blog/${post.id}`),
+        lastModified: toValidLastModified(post.date),
+        changeFrequency: "monthly",
+        priority: 0.5,
+      }));
   } catch (error) {
     console.error("[sitemap] Impossible de charger les articles du blog :", error);
     blogEntries = [];

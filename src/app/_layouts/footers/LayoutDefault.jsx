@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import Link from "next/link";
 
 import AppData from "@data/app.json";
+import SocialIconLinks from "@components/SocialIconLinks";
 import CookieSettingsButton from "@components/cookies/CookieSettingsButton";
 import {
   COOKIE_POLICY_PATH,
@@ -18,7 +19,7 @@ const FooterGallery = dynamic( () => import("@layouts/footers/Gallery"), { ssr: 
 
 const DefaultFooter = () => {
   const asPath = usePathname();
-  
+
   useEffect(() => {
     ScrollAnimation();
   }, []);
@@ -37,9 +38,7 @@ const DefaultFooter = () => {
                     <img src={AppData.footer.logo.url} alt={AppData.footer.logo.alt} className="tst-logo" />
 
                     <div className="tst-social">
-                        {AppData.social.map((item, key) => (
-                        <a href={item.link} target="_blank" title={item.title} className="tst-icon-link" key={`footer-social-item-${key}`}><i className={item.icon}></i></a>
-                        ))}
+                        <SocialIconLinks items={AppData.social} keyPrefix="footer-social-item" />
                     </div>
                 </div>
                 <div className="tst-spacer tst-white"></div>
@@ -88,6 +87,24 @@ const DefaultFooter = () => {
                 <div className="tst-footer-bottom">
                     <div>
                       <div className="tst-text" dangerouslySetInnerHTML={{__html : AppData.footer.copy}} />
+                      <nav className="tst-footer-nav" aria-label="Navigation du pied de page">
+                        {(AppData.footer.nav || []).map((item, key) =>
+                          item.blank ? (
+                            <a
+                              href={item.link}
+                              key={`footer-nav-item-${key}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {item.label}
+                            </a>
+                          ) : (
+                            <Link href={item.link} key={`footer-nav-item-${key}`}>
+                              {item.label}
+                            </Link>
+                          )
+                        )}
+                      </nav>
                       <nav className="tst-footer-legal" aria-label="Informations légales">
                         <Link href={PRIVACY_POLICY_PATH}>Politique de confidentialité</Link>
                         <Link href={COOKIE_POLICY_PATH}>Politique de cookies</Link>

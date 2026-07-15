@@ -13,6 +13,8 @@ import { generateJsonPostsData } from "@library/posts";
 
 import { promises as fs } from 'fs';
 
+export const metadata = getPageMetadata("search");
+
 async function Search() {
   const generateJsonPosts = await generateJsonPostsData();
   const file = await fs.readFile(process.cwd() + '/src/data/.json/posts.json', 'utf8');
@@ -48,7 +50,7 @@ async function Search() {
                     <Sidebar />
                   </div>
                 </div>
-                
+
               </div>
             </div>
           </div>

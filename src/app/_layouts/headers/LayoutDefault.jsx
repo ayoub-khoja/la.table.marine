@@ -122,7 +122,7 @@ const DefaultHeader = () => {
                 {/* top bar right */}
                 <div className="tst-menu-right">
                     {/* reservation button */}
-                    <a href="#." className={`tst-btn tst-res-btn ${reservationPopup ? "tst-active" : "" }`} onClick={(e) => { setReservationPopup(!reservationPopup); e.preventDefault(); }} data-no-swup>Réserver</a>
+                    <Link href="/reservation" className="tst-btn tst-res-btn" onClick={closeMobileMenu}>Réserver</Link>
                     {/* Minicart (panier) temporairement désactivé par demande. */}
                     {false && (
                       <div className="tst-minicart">

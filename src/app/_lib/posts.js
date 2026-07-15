@@ -7,6 +7,23 @@ import html from 'remark-html'
 const postsDirectory = path.join(process.cwd(), 'src/data/posts')
 const jsonDir = "src/data/.json";
 
+/**
+ * @param {Record<string, unknown> | null | undefined} post
+ */
+export function isPostPublished(post) {
+  if (!post || !post.id || !post.title) return false;
+  if (post.draft === true || post.draft === "true") return false;
+  if (post.index === false || post.index === "false") return false;
+  return true;
+}
+
+/**
+ * @param {Array<Record<string, unknown>>} posts
+ */
+function filterPublishedPosts(posts) {
+  return posts.filter(isPostPublished);
+}
+
 export function getSortedPostsData() {
   // Get file names under /posts
   const fileNames = fs.readdirSync(postsDirectory)
@@ -29,13 +46,13 @@ export function getSortedPostsData() {
     }
   })
   // Sort posts by date
-  return allPostsData.sort((a, b) => {
+  return filterPublishedPosts(allPostsData.sort((a, b) => {
     if (a.date < b.date) {
       return 1
     } else {
       return -1
     }
-  })
+  }))
 }
 
 export function getCategoryPosts(cat_id) {
@@ -72,13 +89,13 @@ export function getCategoryPosts(cat_id) {
     }
   })
   // Sort posts by date
-  return allData.sort((a, b) => {
+  return filterPublishedPosts(allData.sort((a, b) => {
     if (a.date < b.date) {
       return 1
     } else {
       return -1
     }
-  })
+  }))
 }
 
 export function getTagPosts(tag_id) {
@@ -115,13 +132,13 @@ export function getTagPosts(tag_id) {
     }
   })
   // Sort posts by date
-  return allData.sort((a, b) => {
+  return filterPublishedPosts(allData.sort((a, b) => {
     if (a.date < b.date) {
       return 1
     } else {
       return -1
     }
-  })
+  }))
 }
 
 export function getAuthorPosts(author_id) {
@@ -150,13 +167,13 @@ export function getAuthorPosts(author_id) {
     }
   })
   // Sort posts by date
-  return allData.sort((a, b) => {
+  return filterPublishedPosts(allData.sort((a, b) => {
     if (a.date < b.date) {
       return 1
     } else {
       return -1
     }
-  })
+  }))
 }
 
 export function getArchivePosts(archive_id) {
@@ -187,13 +204,13 @@ export function getArchivePosts(archive_id) {
     }
   })
   // Sort posts by date
-  return allData.sort((a, b) => {
+  return filterPublishedPosts(allData.sort((a, b) => {
     if (a.date < b.date) {
       return 1
     } else {
       return -1
     }
-  })
+  }))
 }
 
 export function getPaginatedPostsData(limit, page) {
@@ -217,16 +234,16 @@ export function getPaginatedPostsData(limit, page) {
     }
   })
   // Sort posts by date
-  allPostsData.sort((a, b) => {
+  const publishedPosts = filterPublishedPosts(allPostsData.sort((a, b) => {
     if (a.date < b.date) {
       return 1
     } else {
       return -1
     }
-  })
+  }))
 
-  const paginatedPosts = allPostsData.slice((page - 1) * limit, page * limit)
-  return { posts: paginatedPosts, total: allPostsData.length }
+  const paginatedPosts = publishedPosts.slice((page - 1) * limit, page * limit)
+  return { posts: paginatedPosts, total: publishedPosts.length }
 }
 
 export function getFeaturedPostsData(ids) {
@@ -255,13 +272,13 @@ export function getFeaturedPostsData(ids) {
   })
 
   // Sort posts by date
-  return allData.sort((a, b) => {
+  return filterPublishedPosts(allData.sort((a, b) => {
     if (a.date < b.date) {
       return 1
     } else {
       return -1
     }
-  })
+  }))
 }
 
 export function getRelatedPosts(current_id) {
@@ -292,13 +309,13 @@ export function getRelatedPosts(current_id) {
   })
 
   // Sort posts by date
-  return allData.sort((a, b) => {
+  return filterPublishedPosts(allData.sort((a, b) => {
     if (a.category > b.category) {
       return 1
     } else {
       return -1
     }
-  })
+  }))
 }
 
 export function getAllPostsIds() {
@@ -310,6 +327,30 @@ export function getAllPostsIds() {
       }
     }
   })
+}
+
+/**
+ * Paramètres statiques App Router pour les articles réellement publiés.
+ * @returns {Array<{ id: string }>}
+ */
+export function getPublishedPostStaticParams() {
+  const fileNames = fs.readdirSync(postsDirectory)
+
+  return fileNames
+    .filter((fileName) => fileName.includes('.md'))
+    .map((fileName) => {
+      const id = fileName.replace(/\.md$/, '')
+      const fullPath = path.join(postsDirectory, fileName)
+      const fileContents = fs.readFileSync(fullPath, 'utf8')
+      const matterResult = matter(fileContents)
+
+      return {
+        id,
+        ...matterResult.data,
+      }
+    })
+    .filter(isPostPublished)
+    .map(({ id }) => ({ id }))
 }
 
 export async function getPostData(id) {

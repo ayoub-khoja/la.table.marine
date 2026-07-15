@@ -13,8 +13,9 @@
                 "label": "Réserver"
             },
             "button2": {
-                "link": "/menu",
-                "label": "Voir le menu"
+                "link": "/api/menu/file",
+                "label": "Voir le menu",
+                "blank": true
             }
         },
         {

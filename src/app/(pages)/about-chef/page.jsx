@@ -1,5 +1,6 @@
 import React from "react";
 import dynamic from "next/dynamic";
+import { notFound } from "next/navigation";
 
 import ScrollHint from "@layouts/scroll-hint/Index";
 import Divider from "@layouts/divider/Index";
@@ -10,9 +11,16 @@ const TestimonialSlider = dynamic(() => import("@components/sliders/Testimonial"
   ssr: false,
 });
 
+// Metadata noindex — contenu template en attente de validation éditoriale réelle.
 export const metadata = getPageMetadata("aboutChef");
 
-const About2 = () => {
+// Page temporairement désactivée jusqu'à validation du contenu réel.
+export default function AboutChefPage() {
+  notFound();
+}
+
+// Contenu template conservé pour une future réactivation.
+function AboutChefPageContent() {
   const Content = {
     "image": {
       "url": "/img/faces/c2.jpg",
@@ -85,7 +93,7 @@ const About2 = () => {
                 </div>
 
               </div>
-              
+
               <Divider />
               <TestimonialSlider />
             </div>
@@ -94,5 +102,4 @@ const About2 = () => {
       </div>
     </>
   );
-};
-export default About2;
+}
