@@ -6,6 +6,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import menuConfig from "@data/online-order/menu.json";
 import OnlineOrderCheckoutModal from "@components/online-order/OnlineOrderCheckoutModal";
 import { formatPrice } from "@library/online-order/format-price";
+import {
+  isChildSpecialMenu,
+  sortPublishedSpecialMenus,
+} from "@library/special-menus/sort";
 
 function getAccompanimentTags(accompaniments) {
   if (!Array.isArray(accompaniments) || !accompaniments.length) return [];
@@ -21,6 +25,14 @@ function getAccompanimentTags(accompaniments) {
       .map((part) => part.replace(labelPrefix, "").replace(/\.+$/g, "").trim())
       .filter(Boolean);
   });
+}
+
+function isCompactSpecialMenu(menu) {
+  const hasImage = Boolean(menu?.image);
+  const hasSubtitle = Boolean(menu?.subtitle?.trim());
+  const hasAccompaniments = getAccompanimentTags(menu?.accompaniments).length > 0;
+
+  return !hasImage || (!hasSubtitle && !hasAccompaniments);
 }
 
 function DeliveryIcon({ type }) {
@@ -216,6 +228,16 @@ const OnlineOrderContent = () => {
     () => cartLines.reduce((sum, line) => sum + line.price * line.quantity, 0),
     [cartLines]
   );
+
+  const displaySpecialMenus = useMemo(
+    () => sortPublishedSpecialMenus(specialMenus),
+    [specialMenus]
+  );
+
+  const centerChildMenu = useMemo(() => {
+    if (displaySpecialMenus.length !== 3) return false;
+    return displaySpecialMenus.some(isChildSpecialMenu);
+  }, [displaySpecialMenus]);
 
   const addToCart = useCallback((item) => {
     setCartLines((prev) => {
@@ -442,10 +464,23 @@ const OnlineOrderContent = () => {
 
           {specialMenusLoading ? (
             <p className="online-order__specials-empty">Chargement des menus spéciaux…</p>
-          ) : specialMenus.length ? (
-            <div className="online-order__specials-grid">
-              {specialMenus.map((menu) => (
-                <article key={menu.id} className="online-order__special-card">
+          ) : displaySpecialMenus.length ? (
+            <div
+              className={`online-order__specials-grid${
+                centerChildMenu ? " online-order__specials-grid--three" : ""
+              }`}
+            >
+              {displaySpecialMenus.map((menu) => {
+                const isChild = isChildSpecialMenu(menu);
+                const isCompact = isCompactSpecialMenu(menu);
+
+                return (
+                <article
+                  key={menu.id}
+                  className={`online-order__special-card${
+                    isChild ? " online-order__special-card--child" : ""
+                  }${isCompact ? " online-order__special-card--compact" : ""}`}
+                >
                   {menu.image ? (
                     <div className="online-order__special-media">
                       <Image
@@ -505,7 +540,8 @@ const OnlineOrderContent = () => {
                     </button>
                   </div>
                 </article>
-              ))}
+                );
+              })}
             </div>
           ) : (
             <p className="online-order__specials-empty">Aucun menu spécial disponible pour le moment.</p>

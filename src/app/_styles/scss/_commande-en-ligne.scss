@@ -474,9 +474,24 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 20px;
+    align-items: start;
 
     @media (max-width: 991px) {
       grid-template-columns: 1fr;
+    }
+
+    &--three {
+      .online-order__special-card--child {
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: calc((100% - 20px) / 2);
+        max-width: 100%;
+
+        @media (max-width: 991px) {
+          width: 100%;
+          justify-self: stretch;
+        }
+      }
     }
   }
 
@@ -485,6 +500,29 @@
     overflow: hidden;
     background: $card;
     box-shadow: 0 12px 32px rgba($dl2, 0.06);
+    height: auto;
+
+    &--compact {
+      .online-order__special-body {
+        padding: 16px 18px 18px;
+      }
+
+      .online-order__special-head {
+        margin-bottom: 8px;
+      }
+
+      .online-order__special-course {
+        margin-bottom: 10px;
+
+        &:last-of-type {
+          margin-bottom: 0;
+        }
+      }
+
+      .online-order__special-btn {
+        margin-top: 10px;
+      }
+    }
   }
 
   &__special-media {
