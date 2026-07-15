@@ -51,6 +51,12 @@ export const PAGE_SEO = {
       "Réservez votre table à La Table Marine, restaurant de poissons et fruits de mer situé à Plaisir dans les Yvelines.",
     path: "/reservation",
   },
+  commandeEnLigne: {
+    title: "Commande en ligne",
+    description:
+      "Commandez en ligne les poissons, fruits de mer et plats de La Table Marine. Livraison à Plaisir et alentours.",
+    path: "/commande-en-ligne",
+  },
   menu: {
     title: "Carte et menu à Plaisir",
     description:

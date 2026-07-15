@@ -1,7 +1,10 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+
+import CategoriesTable from "@components/admin/CategoriesTable";
+import SpecialMenusTable from "@components/admin/SpecialMenusTable";
 
 const PAGE_SIZE = 10;
 
@@ -9,14 +12,19 @@ const EMPTY_FORM = {
   title: "",
   image: "",
   price: "",
-  old_price: "",
-  currency: "$",
   short: "",
+  categoryId: "",
 };
 
-const TABS = [
+const PRODUCT_TABS = [
   { id: "list", label: "Tous les produits", icon: "fa-box" },
   { id: "add", label: "Ajouter produit", icon: "fa-plus" },
+];
+
+const MAIN_TABS = [
+  { id: "products", label: "Produits", icon: "fa-box" },
+  { id: "categories", label: "Catégories", icon: "fa-tags" },
+  { id: "special-menus", label: "Nos Menus Spéciaux", icon: "fa-utensils" },
 ];
 
 function formatCreatedAt(iso) {
@@ -31,6 +39,7 @@ function formatCreatedAt(iso) {
 }
 
 const ProductsTable = () => {
+  const [mainTab, setMainTab] = useState("products");
   const [activeTab, setActiveTab] = useState("list");
   const [products, setProducts] = useState([]);
   const [pagination, setPagination] = useState(null);
@@ -45,6 +54,35 @@ const ProductsTable = () => {
   const [imagePreview, setImagePreview] = useState("");
   const [uploadingImage, setUploadingImage] = useState(false);
   const [imageError, setImageError] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(false);
+
+  const fetchCategories = useCallback(async () => {
+    setCategoriesLoading(true);
+
+    try {
+      const params = new URLSearchParams({
+        page: "1",
+        limit: "100",
+      });
+      const res = await fetch(`/api/admin/categories?${params}`);
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Erreur lors du chargement des catégories.");
+      }
+
+      setCategories(data.categories || []);
+    } catch {
+      setCategories([]);
+    } finally {
+      setCategoriesLoading(false);
+    }
+  }, []);
+
+  const categoryNameById = useMemo(() => {
+    return Object.fromEntries(categories.map((category) => [category.id, category.name]));
+  }, [categories]);
 
   const fetchProducts = useCallback(async (pageNum) => {
     setLoading(true);
@@ -78,6 +116,12 @@ const ProductsTable = () => {
       fetchProducts(page);
     }
   }, [page, activeTab, fetchProducts]);
+
+  useEffect(() => {
+    if (activeTab === "add" || activeTab === "list") {
+      fetchCategories();
+    }
+  }, [activeTab, fetchCategories]);
 
   useEffect(() => {
     return () => {
@@ -249,12 +293,10 @@ const ProductsTable = () => {
               <tr>
                 <th scope="col">Image</th>
                 <th scope="col">Titre</th>
+                <th scope="col">Catégorie</th>
                 <th scope="col">Description</th>
                 <th scope="col" className="tst-admin-orders__col--num">
                   Prix
-                </th>
-                <th scope="col" className="tst-admin-orders__col--num">
-                  Ancien prix
                 </th>
                 <th scope="col">Ajouté le</th>
               </tr>
@@ -278,6 +320,9 @@ const ProductsTable = () => {
                   <td data-label="Titre">
                     <strong>{product.title}</strong>
                   </td>
+                  <td data-label="Catégorie">
+                    {categoryNameById[product.categoryId] || product.categorySlug || "—"}
+                  </td>
                   <td data-label="Description">
                     {product.short
                       ? product.short.length > 80
@@ -290,14 +335,6 @@ const ProductsTable = () => {
                     className="tst-admin-orders__col--num"
                   >
                     <strong>{product.priceFormatted}</strong>
-                  </td>
-                  <td
-                    data-label="Ancien prix"
-                    className="tst-admin-orders__col--num"
-                  >
-                    {product.old_price
-                      ? `${product.currency || "$"}${product.old_price}`
-                      : "—"}
                   </td>
                   <td data-label="Ajouté le">
                     {formatCreatedAt(product.createdAt)}
@@ -354,6 +391,30 @@ const ProductsTable = () => {
         ) : null}
 
         <label className="tst-admin-products__field">
+          <span>Catégorie *</span>
+          <select
+            name="categoryId"
+            value={form.categoryId}
+            onChange={handleFormChange}
+            required
+            disabled={categoriesLoading || !categories.length}
+          >
+            <option value="">
+              {categoriesLoading
+                ? "Chargement des catégories…"
+                : categories.length
+                  ? "Sélectionnez une catégorie"
+                  : "Aucune catégorie — créez-en une d'abord"}
+            </option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label className="tst-admin-products__field">
           <span>Titre *</span>
           <input
             type="text"
@@ -377,7 +438,7 @@ const ProductsTable = () => {
             <span>
               {imageFile
                 ? imageFile.name
-                : "Cliquez pour choisir une image (JPG, PNG, WEBP, GIF — max. 5 Mo)"}
+                : "Cliquez pour choisir une image (JPG, PNG, WEBP, GIF — max. 4 Mo)"}
             </span>
           </label>
 
@@ -416,59 +477,25 @@ const ProductsTable = () => {
         </div>
 
         <label className="tst-admin-products__field">
-          <span>Image (URL)</span>
+          <span>Prix (€) *</span>
           <input
             type="text"
-            name="image"
-            value={form.image}
+            name="price"
+            value={form.price}
             onChange={handleFormChange}
-            placeholder="/uploads/products/... ou /img/menu/1.jpg"
+            required
+            placeholder="12,90"
           />
         </label>
 
-        <div className="tst-admin-products__row">
-          <label className="tst-admin-products__field">
-            <span>Prix *</span>
-            <input
-              type="text"
-              name="price"
-              value={form.price}
-              onChange={handleFormChange}
-              required
-              placeholder="12.99"
-            />
-          </label>
-
-          <label className="tst-admin-products__field">
-            <span>Ancien prix</span>
-            <input
-              type="text"
-              name="old_price"
-              value={form.old_price}
-              onChange={handleFormChange}
-              placeholder="16.00"
-            />
-          </label>
-
-          <label className="tst-admin-products__field tst-admin-products__field--short">
-            <span>Devise</span>
-            <input
-              type="text"
-              name="currency"
-              value={form.currency}
-              onChange={handleFormChange}
-              placeholder="$"
-            />
-          </label>
-        </div>
-
         <label className="tst-admin-products__field">
-          <span>Description courte</span>
+          <span>Description</span>
           <textarea
             name="short"
             value={form.short}
             onChange={handleFormChange}
             rows={4}
+            placeholder="Ingrédients, accompagnements, précisions…"
           />
         </label>
 
@@ -496,23 +523,23 @@ const ProductsTable = () => {
   return (
     <div className="tst-admin-products">
       <div
-        className="tst-admin-products__tabs"
+        className="tst-admin-products__main-tabs"
         role="tablist"
-        aria-label="Gestion des produits"
+        aria-label="Produits, catégories et menus spéciaux"
       >
-        {TABS.map((tab) => {
-          const isActive = activeTab === tab.id;
+        {MAIN_TABS.map((tab) => {
+          const isActive = mainTab === tab.id;
 
           return (
             <button
               key={tab.id}
               type="button"
               role="tab"
-              id={`products-tab-${tab.id}`}
+              id={`products-main-tab-${tab.id}`}
               aria-selected={isActive}
-              aria-controls={`products-panel-${tab.id}`}
-              className={`tst-admin-products__tab${isActive ? " is-active" : ""}`}
-              onClick={() => setActiveTab(tab.id)}
+              aria-controls={`products-main-panel-${tab.id}`}
+              className={`tst-admin-products__main-tab${isActive ? " is-active" : ""}`}
+              onClick={() => setMainTab(tab.id)}
             >
               <i className={`fas ${tab.icon}`} aria-hidden="true" />
               {tab.label}
@@ -521,16 +548,61 @@ const ProductsTable = () => {
         })}
       </div>
 
-      <div className="tst-admin-orders">
+      {mainTab === "categories" ? (
         <div
           role="tabpanel"
-          id={`products-panel-${activeTab}`}
-          aria-labelledby={`products-tab-${activeTab}`}
-          hidden={false}
+          id="products-main-panel-categories"
+          aria-labelledby="products-main-tab-categories"
         >
-          {activeTab === "list" ? renderListTab() : renderAddTab()}
+          <CategoriesTable />
         </div>
-      </div>
+      ) : mainTab === "special-menus" ? (
+        <div
+          role="tabpanel"
+          id="products-main-panel-special-menus"
+          aria-labelledby="products-main-tab-special-menus"
+        >
+          <SpecialMenusTable />
+        </div>
+      ) : (
+        <>
+          <div
+            className="tst-admin-products__tabs"
+            role="tablist"
+            aria-label="Gestion des produits"
+          >
+            {PRODUCT_TABS.map((tab) => {
+              const isActive = activeTab === tab.id;
+
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  role="tab"
+                  id={`products-tab-${tab.id}`}
+                  aria-selected={isActive}
+                  aria-controls={`products-panel-${tab.id}`}
+                  className={`tst-admin-products__tab${isActive ? " is-active" : ""}`}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  <i className={`fas ${tab.icon}`} aria-hidden="true" />
+                  {tab.label}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="tst-admin-orders">
+            <div
+              role="tabpanel"
+              id={`products-panel-${activeTab}`}
+              aria-labelledby={`products-tab-${activeTab}`}
+            >
+              {activeTab === "list" ? renderListTab() : renderAddTab()}
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

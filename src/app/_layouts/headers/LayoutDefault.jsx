@@ -30,6 +30,13 @@ const DefaultHeader = () => {
   const hasSubmenu = (item) =>
     Array.isArray(item.children) && item.children.length > 0;
 
+  const isExternalNavLink = (link) =>
+    typeof link === "string" &&
+    (link.startsWith("tel:") ||
+      link.startsWith("mailto:") ||
+      link.startsWith("http://") ||
+      link.startsWith("https://"));
+
   const closeMobileMenu = () => {
     setMobileMenu(false);
     setOpenSubMenu(false);
@@ -87,6 +94,10 @@ const DefaultHeader = () => {
                                 rel="noopener noreferrer"
                                 onClick={closeMobileMenu}
                               >
+                                {item.label}
+                              </a>
+                            ) : isExternalNavLink(item.link) ? (
+                              <a href={item.link} onClick={closeMobileMenu}>
                                 {item.label}
                               </a>
                             ) : (
