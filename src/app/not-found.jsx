@@ -39,9 +39,14 @@ const NotFound = () => {
                     <Link href="/" className="tst-btn">
                       Accueil
                     </Link>
-                    <Link href="/menu" className="tst-btn tst-btn--ghost">
-                      Carte menu
-                    </Link>
+                    <a
+                      href="/api/menu/file"
+                      className="tst-btn tst-btn--ghost"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Carte et menu
+                    </a>
                     <Link href="/reservation" className="tst-btn tst-btn--ghost">
                       Réserver
                     </Link>

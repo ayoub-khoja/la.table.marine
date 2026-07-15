@@ -1,4 +1,6 @@
 ---
+draft: true
+index: false
 #preview
 title: 'Entrée iodée : tartare de saumon'
 date: '2025-02-05'
@@ -12,6 +14,8 @@ author: Anya Taylor
 authorAvatar: /img/faces/1.jpg
 short: "Le tartare de saumon, une entrée fraîche et élégante pour commencer votre repas à La Table Marine."
 ---
+draft: true
+index: false
 
 Le **tartare de saumon** est l'une des entrées les plus appréciées à La Table Marine. Préparé à la commande, il offre une texture fondante et une fraîcheur immédiate, idéale pour ouvrir un repas autour des produits de la mer.
 

@@ -15,23 +15,29 @@ export const PAGE_SEO = {
       "Découvrez l'histoire, l'équipe et la cuisine de La Table Marine, restaurant de poissons et fruits de mer au cœur de Plaisir dans les Yvelines.",
     path: "/about",
   },
+  // Contenu template — noindex jusqu'à validation éditoriale du contenu réel.
   aboutChef: {
     title: "Le chef et la cuisine",
     description:
       "Rencontrez le chef de La Table Marine et sa vision d'une cuisine de la mer raffinée, entre produits frais et savoir-faire.",
     path: "/about-chef",
+    noindex: true,
   },
+  // Contenu template — noindex jusqu'à validation éditoriale du contenu réel.
   history: {
     title: "L'histoire du restaurant",
     description:
       "L'histoire de La Table Marine, restaurant de fruits de mer et cuisine du terroir à Plaisir, dans les Yvelines.",
     path: "/history",
+    noindex: true,
   },
+  // Contenu template — noindex jusqu'à validation éditoriale du contenu réel.
   services: {
     title: "Services et expériences",
     description:
       "Privatisation, événements et services proposés par La Table Marine, restaurant de poissons et fruits de mer à Plaisir.",
     path: "/services",
+    noindex: true,
   },
   contact: {
     title: "Contact et accès",
@@ -46,9 +52,9 @@ export const PAGE_SEO = {
     path: "/reservation",
   },
   menu: {
-    title: "Carte et menu",
+    title: "Carte et menu à Plaisir",
     description:
-      "Consultez la carte de La Table Marine à Plaisir : poissons frais, fruits de mer, viandes et suggestions préparées avec soin.",
+      "Consultez la carte de La Table Marine, restaurant de poissons et fruits de mer à Plaisir. Découvrez notre menu PDF et réservez votre table.",
     path: "/menu",
   },
   restaurantVideo: {
@@ -57,11 +63,13 @@ export const PAGE_SEO = {
       "Regardez la vidéo de présentation de La Table Marine, restaurant de poissons et fruits de mer à Plaisir, et découvrez l'ambiance de notre établissement.",
     path: "/decouvrir-le-restaurant-en-video",
   },
+  // Noindex tant qu'aucun article publié n'est disponible (drafts exclus).
   blog: {
     title: "Blog",
     description:
       "Actualités, recettes et coulisses de La Table Marine, restaurant de fruits de mer à Plaisir.",
     path: "/blog",
+    noindex: true,
   },
   privacy: {
     title: "Politique de confidentialité",
@@ -83,7 +91,7 @@ export const PAGE_SEO = {
   },
   home2: { title: "Accueil — variante image", description: "Variante de démonstration non indexée.", path: "/home-2", noindex: true },
   home3: { title: "Accueil — variante vidéo", description: "Variante de démonstration non indexée.", path: "/home-3", noindex: true },
-  onepage: { title: "Accueil one page", description: "Variante de démonstration non indexée.", path: "/onepage", noindex: true },
+  onepage: { title: "Accueil — variante one page", description: "Variante de démonstration non indexée.", path: "/onepage", noindex: true },
   menu2: { title: "Menu — variante", description: "Variante de démonstration non indexée.", path: "/menu-2", noindex: true },
   reservation2: { title: "Réservation OpenTable", description: "Variante de démonstration non indexée.", path: "/reservation-2", noindex: true },
   shop: { title: "Boutique", description: "Boutique — page template non publiée.", path: "/shop", noindex: true },
@@ -91,7 +99,12 @@ export const PAGE_SEO = {
   product: { title: "Fiche produit", description: "Fiche produit — page template non publiée.", path: "/product", noindex: true },
   cart: { title: "Panier", description: "Panier — page utilitaire non indexée.", path: "/cart", noindex: true },
   checkout: { title: "Commande", description: "Commande — page utilitaire non indexée.", path: "/checkout", noindex: true },
-  search: { title: "Recherche", description: "Résultats de recherche internes non indexés.", path: "/search", noindex: true },
+  search: {
+    title: "Recherche",
+    description: "Recherchez du contenu sur le site de La Table Marine.",
+    path: "/search",
+    noindex: true,
+  },
 };
 
 /**
@@ -108,7 +121,7 @@ export function getPageMetadata(key) {
     description: page.description,
     path: page.path,
     noindex: page.noindex || isNoindexPublicRoute(page.path),
-    nofollow: page.noindex || isNoindexPublicRoute(page.path),
+    nofollow: page.nofollow ?? false,
   });
 }
 
@@ -117,7 +130,14 @@ export function getPageMetadata(key) {
  * @param {string} input.title
  * @param {string} input.description
  * @param {string} input.path
+ * @param {boolean} [input.noindex]
  */
-export function buildDynamicPageMetadata({ title, description, path }) {
-  return buildPageMetadata({ title, description, path });
+export function buildDynamicPageMetadata({
+  title,
+  description,
+  path,
+  noindex = false,
+  nofollow = false,
+}) {
+  return buildPageMetadata({ title, description, path, noindex, nofollow });
 }

@@ -41,7 +41,7 @@ export const SEO_CONFIG = {
     "Cuisine française",
     "Cuisine du terroir",
   ],
-  menuUrl: `${SEO_SITE_URL}/menu`,
+  menuUrl: `${SEO_SITE_URL}/api/menu/file`,
   menuPdfUrl: `${SEO_SITE_URL}/api/menu/file`,
   reservationUrl: `${SEO_SITE_URL}/reservation`,
   contactUrl: `${SEO_SITE_URL}/contact`,

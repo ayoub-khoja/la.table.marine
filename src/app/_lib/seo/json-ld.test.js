@@ -18,6 +18,8 @@ describe("seo json-ld", () => {
     const schema = buildRestaurantSchema();
     expect(schema["@type"]).toBe("Restaurant");
     expect(schema.name).toBe("La Table Marine");
+    expect(schema.menu).toBeUndefined();
+    expect(schema.hasMenu).toBeUndefined();
     expect(schema.aggregateRating).toBeUndefined();
     expect(schema.review).toBeUndefined();
   });

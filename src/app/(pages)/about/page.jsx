@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { getSortedPostsData } from "@library/posts";
 
 import AppData from "@data/app.json";
+import SocialIconLinks from "@components/SocialIconLinks";
 import AboutData from "@data/sections/about.json";
 import SeoPageJsonLd from "@components/seo/SeoPageJsonLd";
 import { getPageMetadata } from "@library/seo/page-metadata";
@@ -53,13 +54,11 @@ async function About() {
 
                   {/* about text */}
                   <div className="tst-mb-60 text-center">
-                    <div className="tst-suptitle tst-suptitle-center tst-mb-15" dangerouslySetInnerHTML={{__html : AboutData.subtitle}} /> 
+                    <div className="tst-suptitle tst-suptitle-center tst-mb-15" dangerouslySetInnerHTML={{__html : AboutData.subtitle}} />
                     <h3 className="tst-mb-30" dangerouslySetInnerHTML={{__html : AboutData.title}} />
                     <p className="tst-text tst-mb-30" dangerouslySetInnerHTML={{__html : AboutData.description}} />
 
-                    {AppData.social.map((item, key) => (
-                    <a href={item.link} target="_blank" title={item.title} className="tst-icon-link" key={`about-social-item-${key}`}><i className={item.icon}></i></a>
-                    ))}
+                    <SocialIconLinks items={AppData.social} keyPrefix="about-social-item" />
                   </div>
                   {/* about text end */}
 

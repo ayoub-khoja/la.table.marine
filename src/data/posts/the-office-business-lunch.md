@@ -1,4 +1,6 @@
 ---
+draft: true
+index: false
 #preview
 title: "Déjeuner d'affaires à Plaisir"
 date: '2025-03-01'
@@ -12,6 +14,8 @@ author: Nguta Ithya
 authorAvatar: /img/faces/4.jpg
 short: "Organisez un déjeuner professionnel à La Table Marine : cadre calme, service attentif et carte du midi."
 ---
+draft: true
+index: false
 
 Un **déjeuner d'affaires** réussi repose sur un bon repas, un service fluide et un cadre propice à l'échange. La Table Marine réunit ces trois éléments à Plaisir.
 

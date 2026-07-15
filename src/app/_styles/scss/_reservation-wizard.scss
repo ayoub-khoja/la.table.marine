@@ -407,6 +407,22 @@
   border-radius: 18px;
   padding: 0;
 
+  header {
+    h1 {
+      @media (max-width: 790px) {
+        font-size: clamp(24px, 6.5vw, 32px);
+        line-height: 1.2;
+      }
+    }
+
+    .tst-text {
+      @media (max-width: 790px) {
+        font-size: 14px;
+        line-height: 1.5;
+      }
+    }
+  }
+
   &__hero {
     border-radius: 18px;
     overflow: hidden;

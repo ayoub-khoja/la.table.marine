@@ -1,6 +1,3 @@
-/** Zoom par défaut du PDF carte menu (lecteur Chrome / Adobe). */
-export const MENU_PDF_DEFAULT_ZOOM = 163;
-
 /**
  * Ajoute un paramètre de version pour éviter le cache navigateur/CDN
  * quand l'URL du menu reste identique (`/api/menu/file`).
@@ -24,6 +21,9 @@ export function withMenuCacheBuster(fileUrl, meta = {}) {
   url.searchParams.set("v", String(version));
   return `${url.pathname}${url.search}`;
 }
+
+/** Zoom par défaut du PDF carte menu (lecteur Chrome / Adobe). */
+export const MENU_PDF_DEFAULT_ZOOM = 90;
 
 export function withMenuPdfViewOptions(fileUrl, origin, meta = {}) {
   const versionedUrl = withMenuCacheBuster(fileUrl, meta);

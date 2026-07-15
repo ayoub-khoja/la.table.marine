@@ -1,4 +1,6 @@
 ---
+draft: true
+index: false
 #preview
 title: 'Comment bien choisir son menu au restaurant'
 date: '2025-01-20'
@@ -12,6 +14,8 @@ author: Charlie Williams
 authorAvatar: /img/faces/3.jpg
 short: "Quelques conseils pour composer un repas harmonieux autour des poissons, fruits de mer et vins à La Table Marine."
 ---
+draft: true
+index: false
 
 Arriver au restaurant avec l'envie de tout goûter, c'est compréhensible. Voici quelques repères simples pour profiter pleinement de la carte de **La Table Marine**.
 
