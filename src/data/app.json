@@ -70,6 +70,10 @@
                 "blank": 1
             },
             {
+                "label": "Commande en ligne",
+                "link": "/commande-en-ligne"
+            },
+            {
                 "label": "À propos",
                 "link": "/about",
                 "children": 0

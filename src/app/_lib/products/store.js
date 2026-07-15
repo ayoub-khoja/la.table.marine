@@ -1,79 +1,72 @@
-import { promises as fs } from "fs";
-import path from "path";
 import { randomUUID } from "crypto";
 import { getDb } from "@library/mongodb/client";
 import { buildPagination, parsePagination } from "@library/mongodb/pagination";
 
 const COLLECTION = "products";
-const STATIC_PRODUCTS_FILE = path.join(process.cwd(), "src", "data", "products.json");
-
-async function loadStaticSeed() {
-  try {
-    const raw = await fs.readFile(STATIC_PRODUCTS_FILE, "utf8");
-    const parsed = JSON.parse(raw);
-    const items = Array.isArray(parsed.items) ? parsed.items : [];
-    const now = new Date().toISOString();
-
-    return items.map((item) => ({
-      id: randomUUID(),
-      createdAt: now,
-      image: (item.image || "").toString(),
-      title: (item.title || "").toString(),
-      old_price: (item.old_price || "").toString(),
-      price: (item.price || "").toString(),
-      currency: (item.currency || "$").toString(),
-      short: (item.short || "").toString(),
-      priceFormatted: formatProductPrice({
-        currency: item.currency || "$",
-        price: item.price,
-      }),
-    }));
-  } catch {
-    return [];
-  }
-}
-
-async function ensureProductsSeed() {
-  const db = await getDb();
-  const collection = db.collection(COLLECTION);
-  const count = await collection.countDocuments();
-
-  if (count > 0) return;
-
-  const seed = await loadStaticSeed();
-  if (seed.length) {
-    await collection.insertMany(seed);
-  }
-}
 
 export function formatProductPrice(product) {
-  const currency = product.currency || "$";
-  const price = product.price || "0";
-  return `${currency}${price}`;
+  const price = (product.price || "0").toString().trim();
+  return `${price.replace(".", ",")}€`;
+}
+
+export async function listAllProducts() {
+  const db = await getDb();
+  return db
+    .collection(COLLECTION)
+    .find({})
+    .sort({ createdAt: -1 })
+    .toArray()
+    .then((items) =>
+      items.map((product) => ({
+        ...product,
+        priceFormatted: product.priceFormatted || formatProductPrice(product),
+      }))
+    );
 }
 
 /**
  * @param {object} payload
  */
 export async function createProduct(payload) {
-  await ensureProductsSeed();
+  const title = (payload.title || "").toString().trim();
+  const price = (payload.price || "").toString().trim();
+  const image = (payload.image || "").toString().trim();
+  const old_price = (payload.old_price || "").toString().trim();
+  const short = (payload.short || "").toString().trim();
+  const categoryId = (payload.categoryId || "").toString().trim();
+
+  if (!title || !price) {
+    throw new Error("Le titre et le prix sont obligatoires.");
+  }
+
+  if (!categoryId) {
+    throw new Error("La catégorie est obligatoire.");
+  }
+
+  const db = await getDb();
+  const category = await db.collection("product_categories").findOne({ id: categoryId });
+
+  if (!category) {
+    throw new Error("Catégorie introuvable.");
+  }
 
   const product = {
     id: randomUUID(),
     createdAt: new Date().toISOString(),
-    image: (payload.image || "").toString().trim(),
-    title: (payload.title || "").toString().trim(),
-    old_price: (payload.old_price || "").toString().trim(),
-    price: (payload.price || "").toString().trim(),
-    currency: (payload.currency || "$").toString().trim(),
-    short: (payload.short || "").toString().trim(),
+    image,
+    title,
+    old_price,
+    price,
+    currency: "€",
+    short,
+    categoryId: category.id,
+    categorySlug: category.slug,
     priceFormatted: formatProductPrice({
-      currency: payload.currency || "$",
-      price: payload.price,
+      currency: "€",
+      price,
     }),
   };
 
-  const db = await getDb();
   await db.collection(COLLECTION).insertOne(product);
 
   return product;
@@ -83,8 +76,6 @@ export async function createProduct(payload) {
  * @param {URLSearchParams} searchParams
  */
 export async function listProducts(searchParams) {
-  await ensureProductsSeed();
-
   const { page, limit } = parsePagination(searchParams);
   const db = await getDb();
   const collection = db.collection(COLLECTION);
@@ -116,4 +107,34 @@ export async function listProducts(searchParams) {
       hasPrev: pagination.hasPrev,
     },
   };
+}
+
+/**
+ * @param {{ id: string, slug?: string }} category
+ */
+export async function deleteProductsByCategory(category) {
+  const db = await getDb();
+  const filters = [{ categoryId: category.id }];
+
+  if (category.slug) {
+    filters.push({ categorySlug: category.slug });
+  }
+
+  const result = await db.collection(COLLECTION).deleteMany({ $or: filters });
+
+  return result.deletedCount;
+}
+
+/**
+ * @param {{ id: string, slug?: string }} category
+ */
+export async function countProductsByCategory(category) {
+  const db = await getDb();
+  const filters = [{ categoryId: category.id }];
+
+  if (category.slug) {
+    filters.push({ categorySlug: category.slug });
+  }
+
+  return db.collection(COLLECTION).countDocuments({ $or: filters });
 }

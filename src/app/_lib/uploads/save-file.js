@@ -1,3 +1,4 @@
+import { put } from "@vercel/blob";
 import { promises as fs } from "fs";
 import path from "path";
 import { randomUUID } from "crypto";
@@ -16,28 +17,18 @@ const IMAGE_EXT = {
   "image/gif": ".gif",
 };
 
+/** Limite upload serveur Vercel (~4,5 Mo). */
+const DEFAULT_IMAGE_MAX_BYTES = 4 * 1024 * 1024;
+
 function isFileLike(file) {
   return file && typeof file.arrayBuffer === "function";
 }
 
-/**
- * @param {File} file
- * @param {{ maxBytes?: number }} options
- */
-export async function saveUploadedImage(file, { maxBytes = 5 * 1024 * 1024 } = {}) {
-  if (!isFileLike(file)) {
-    throw new Error("INVALID_FILE");
-  }
+function useBlobStorage() {
+  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+}
 
-  if (!IMAGE_TYPES.has(file.type)) {
-    throw new Error("INVALID_TYPE");
-  }
-
-  if (file.size > maxBytes) {
-    throw new Error("FILE_TOO_LARGE");
-  }
-
-  const ext = IMAGE_EXT[file.type] || ".jpg";
+async function saveImageToLocal(file, ext) {
   const dir = path.join(process.cwd(), "public", "uploads", "products");
   await fs.mkdir(dir, { recursive: true });
 
@@ -51,6 +42,49 @@ export async function saveUploadedImage(file, { maxBytes = 5 * 1024 * 1024 } = {
     filename: file.name,
     size: file.size,
   };
+}
+
+async function saveImageToBlob(file, ext) {
+  const pathname = `uploads/products/${randomUUID()}${ext}`;
+  const blob = await put(pathname, file, {
+    access: "public",
+    contentType: file.type,
+  });
+
+  return {
+    url: blob.url,
+    filename: file.name,
+    size: file.size,
+  };
+}
+
+/**
+ * @param {File} file
+ * @param {{ maxBytes?: number }} options
+ */
+export async function saveUploadedImage(
+  file,
+  { maxBytes = DEFAULT_IMAGE_MAX_BYTES } = {}
+) {
+  if (!isFileLike(file)) {
+    throw new Error("INVALID_FILE");
+  }
+
+  if (!IMAGE_TYPES.has(file.type)) {
+    throw new Error("INVALID_TYPE");
+  }
+
+  if (file.size > maxBytes) {
+    throw new Error("FILE_TOO_LARGE");
+  }
+
+  const ext = IMAGE_EXT[file.type] || ".jpg";
+
+  if (useBlobStorage()) {
+    return saveImageToBlob(file, ext);
+  }
+
+  return saveImageToLocal(file, ext);
 }
 
 /**

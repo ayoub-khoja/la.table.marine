@@ -1,0 +1,294 @@
+{
+  "delivery": {
+    "title": "Informations de livraison",
+    "items": [
+      {
+        "icon": "truck",
+        "title": "Livraison gratuite",
+        "text": "Temps estimé : 30-50 minutes"
+      },
+      {
+        "icon": "euro",
+        "title": "Minimum de commande",
+        "text": "28€ minimum requis"
+      },
+      {
+        "icon": "clock",
+        "title": "Horaires de livraison",
+        "text": "12h - 14h30 et 19h - 22h30"
+      }
+    ]
+  },
+  "categories": [
+    {
+      "id": "entrees",
+      "name": "Entrées",
+      "image": "/img/imageSlider/image00003.png"
+    },
+    {
+      "id": "poissons",
+      "name": "Poissons",
+      "image": "/img/imageSlider/image00007.png"
+    },
+    {
+      "id": "fruits-de-mer",
+      "name": "Fruits de mer",
+      "image": "/img/imageSlider/image00009.png"
+    },
+    {
+      "id": "desserts",
+      "name": "Desserts",
+      "image": "/img/imageSlider/image00012.png"
+    },
+    {
+      "id": "boissons",
+      "name": "Boissons",
+      "image": "/img/imageSlider/image00014.png"
+    }
+  ],
+  "sections": [
+    {
+      "id": "entrees",
+      "name": "Entrées",
+      "image": "/img/imageSlider/image00003.png",
+      "defaultOpen": true,
+      "items": [
+        {
+          "id": "entree-1",
+          "name": "Crottins de chèvre chaud",
+          "description": "Salade, tomate, crottins de chèvre, miel et noix",
+          "price": 11
+        },
+        {
+          "id": "entree-2",
+          "name": "Velouté de poisson",
+          "description": "Velouté du jour, crème fraîche et herbes fines",
+          "price": 9.5
+        },
+        {
+          "id": "entree-3",
+          "name": "Carpaccio de saumon",
+          "description": "Saumon frais, citron, huile d'olive et ciboulette",
+          "price": 13.5
+        },
+        {
+          "id": "entree-4",
+          "name": "Salade de la mer",
+          "description": "Mesclun, crevettes, moules et vinaigrette maison",
+          "price": 12.5
+        }
+      ]
+    },
+    {
+      "id": "poissons",
+      "name": "Poissons",
+      "image": "/img/imageSlider/image00007.png",
+      "defaultOpen": false,
+      "accompaniments": ["Riz", "Légumes grillés", "Haricots verts", "Purée"],
+      "items": [
+        {
+          "id": "poisson-1",
+          "name": "Filet de bar rôti",
+          "description": "Bar de ligne, beurre citron et légumes de saison",
+          "price": 24.5
+        },
+        {
+          "id": "poisson-2",
+          "name": "Pavé de saumon à l'aneth",
+          "description": "Saumon label rouge, sauce aneth et pommes vapeur",
+          "price": 22
+        },
+        {
+          "id": "poisson-3",
+          "name": "Dos de cabillaud",
+          "description": "Cabillaud, émulsion de crustacés et épinards",
+          "price": 23.5
+        },
+        {
+          "id": "poisson-4",
+          "name": "Sole meunière",
+          "description": "Sole entière, beurre noisette et citron",
+          "price": 28
+        }
+      ]
+    },
+    {
+      "id": "fruits-de-mer",
+      "name": "Fruits de mer",
+      "image": "/img/imageSlider/image00009.png",
+      "defaultOpen": false,
+      "items": [
+        {
+          "id": "mer-1",
+          "name": "Plateau de fruits de mer",
+          "description": "Huîtres, crevettes, bulots et moules (selon arrivage)",
+          "price": 32
+        },
+        {
+          "id": "mer-2",
+          "name": "Moules marinières",
+          "description": "Moules de bouchot, vin blanc, échalotes et persil",
+          "price": 18.5
+        },
+        {
+          "id": "mer-3",
+          "name": "Gambas grillées",
+          "description": "Gambas flambées, ail et persillade",
+          "price": 26
+        },
+        {
+          "id": "mer-4",
+          "name": "Bouillabaisse",
+          "description": "Poissons de roche, rouille et croûtons",
+          "price": 27.5
+        }
+      ]
+    },
+    {
+      "id": "desserts",
+      "name": "Desserts",
+      "image": "/img/imageSlider/image00012.png",
+      "defaultOpen": false,
+      "items": [
+        {
+          "id": "dessert-1",
+          "name": "Tiramisu maison",
+          "description": "Mascarpone, café et cacao",
+          "price": 7.5
+        },
+        {
+          "id": "dessert-2",
+          "name": "Crème brûlée",
+          "description": "Vanille bourbon et caramel croquant",
+          "price": 7
+        },
+        {
+          "id": "dessert-3",
+          "name": "Mousse au chocolat",
+          "description": "Chocolat noir 70% et chantilly",
+          "price": 6.5
+        },
+        {
+          "id": "dessert-4",
+          "name": "Salade de fruits",
+          "description": "Fruits frais de saison",
+          "price": 6
+        }
+      ]
+    },
+    {
+      "id": "boissons",
+      "name": "Boissons",
+      "image": "/img/imageSlider/image00014.png",
+      "defaultOpen": false,
+      "items": [
+        {
+          "id": "boisson-1",
+          "name": "Eau minérale 50cl",
+          "description": "Plate ou gazeuse",
+          "price": 3.5
+        },
+        {
+          "id": "boisson-2",
+          "name": "Vin blanc (verre)",
+          "description": "Sélection du sommelier",
+          "price": 5.5
+        },
+        {
+          "id": "boisson-3",
+          "name": "Vin rouge (verre)",
+          "description": "Sélection du sommelier",
+          "price": 5.5
+        },
+        {
+          "id": "boisson-4",
+          "name": "Café gourmand",
+          "description": "Expresso et mignardises maison",
+          "price": 8.5
+        }
+      ]
+    }
+  ],
+  "specialMenus": [
+    {
+      "id": "menu-royal",
+      "name": "Menu Royal",
+      "price": 49,
+      "image": "/img/imageSlider/image00012.png",
+      "subtitle": "Cocktail au choix inclus",
+      "courses": [
+        {
+          "title": "Entrée au choix",
+          "items": [
+            "Bloc de foie gras sur toasts",
+            "Salade italienne (salade, burrata, roquette)"
+          ]
+        },
+        {
+          "title": "Plat au choix",
+          "items": [
+            "Souris d'agneau au miel",
+            "Magret de canard aux framboises"
+          ]
+        },
+        {
+          "title": "Dessert au choix",
+          "items": ["Tiramisu maison", "Salade de fruit frais"]
+        }
+      ],
+      "accompaniments": [
+        "Pâtes",
+        "Riz",
+        "Haricots verts",
+        "Frites",
+        "Légumes grillés"
+      ]
+    },
+    {
+      "id": "menu-marine",
+      "name": "Menu Marine",
+      "price": 38,
+      "image": "/img/imageSlider/image00003.png",
+      "subtitle": "Cocktail de bienvenue inclus",
+      "courses": [
+        {
+          "title": "Entrée au choix",
+          "items": ["Velouté de poisson", "Salade de la mer"]
+        },
+        {
+          "title": "Plat au choix",
+          "items": ["Filet de bar rôti", "Moules marinières"]
+        },
+        {
+          "title": "Dessert au choix",
+          "items": ["Tiramisu maison", "Crème brûlée"]
+        }
+      ]
+    },
+    {
+      "id": "menu-express",
+      "name": "Menu Express",
+      "price": 26,
+      "image": "/img/imageSlider/image00007.png",
+      "courses": [
+        {
+          "title": "Entrée au choix",
+          "items": ["Velouté de poisson"]
+        },
+        {
+          "title": "Plat au choix",
+          "items": ["Pavé de saumon à l'aneth"]
+        },
+        {
+          "title": "Dessert au choix",
+          "items": ["Mousse au chocolat"]
+        }
+      ]
+    }
+  ],
+  "contact": {
+    "phone": "01 88 93 76 72",
+    "phoneHref": "tel:0188937672",
+    "address": "2 rue Pierre Curie, 78370 Plaisir"
+  }
+}
