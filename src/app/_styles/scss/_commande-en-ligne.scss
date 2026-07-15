@@ -489,8 +489,12 @@
 
   &__special-media {
     position: relative;
-    aspect-ratio: 16 / 10;
+    height: 200px;
     background: $wl2;
+
+    @media (max-width: 767px) {
+      height: 160px;
+    }
   }
 
   &__special-image {
