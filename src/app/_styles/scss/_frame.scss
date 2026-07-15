@@ -88,7 +88,8 @@ marcup
 
 .tst-content-frame {
   position: relative;
-  z-index: 99999;
+  // Ne doit jamais passer au-dessus du hero (sinon les CTA sont masqués sur mobile).
+  z-index: 2;
   border-radius: 10px;
   box-shadow: 0 5px 10px 0 rgba(26,47,51,0.40);
   margin-left: 45px;
@@ -124,6 +125,29 @@ marcup
   .tst-content-frame {
     margin-left: 10px;
     margin-right: 10px;
+  }
+}
+
+// Sur mobile, la première carte blanche (content frame) peut chevaucher le bas du hero
+// selon la hauteur d'écran et le zoom. On la décale légèrement vers le bas pour garantir
+// que les CTA du hero restent visibles.
+@media (max-width: 790px) {
+  #tst-dynamic-banner:not(.tst-page-contact) + #tst-dynamic-content > .tst-content-frame {
+    margin-top: 0;
+  }
+}
+
+@media (max-width: 790px) and (max-height: 740px) {
+  #tst-dynamic-banner:not(.tst-page-contact) + #tst-dynamic-content > .tst-content-frame {
+    margin-top: 0;
+  }
+}
+
+// Sur mobile, on masque souvent le scroll-hint : on peut donc réduire le padding-top
+// du premier container (sinon gros espace vide au-dessus des promo cards).
+@media (max-width: 790px) {
+  #tst-dynamic-banner + #tst-dynamic-content .container.tst-p-60-0 {
+    padding-top: 24px;
   }
 }
 /*-------------------------
@@ -484,6 +508,11 @@ menu
       transform: translateY(0);
       border-radius: 0 0 10px 10px;
 
+      & .tst-logo {
+        height: 44px;
+        max-width: 100px;
+      }
+
       & nav {
         opacity: 0;
         pointer-events: none;
@@ -599,6 +628,7 @@ scroll hint
   justify-content: center;
   align-items: center;
   background-color: $bg;
+  pointer-events: none;
 
   &:after {
     transform: scaleX(1.25) scaleY(1.09);
@@ -633,6 +663,22 @@ scroll hint
       left: 50%;
       animation: scroll 1s infinite;
     }
+  }
+}
+
+// Sur certains écrans mobiles, l'indicateur "souris" chevauche les CTA du hero.
+// On réduit sa taille et on limite son chevauchement vertical.
+@media (max-width: 790px) {
+  .tst-scroll-hint-frame {
+    display: none;
+  }
+}
+
+// Sur les petites hauteurs (mobile paysage / petits écrans), on masque l'indicateur
+// pour éviter qu'il chevauche les CTA du hero.
+@media (max-height: 740px) {
+  .tst-scroll-hint-frame {
+    display: none;
   }
 }
 @keyframes scroll {

@@ -77,25 +77,12 @@ export async function POST(request) {
       );
     }
 
-    const transporter = createMailTransporter(mailConfig);
+    const transporter = await createMailTransporter(mailConfig);
     const attachments = getEmailHeaderAttachments();
 
-    const fullName = `${firstname} ${lastname}`.trim();
-    const order = {
-      firstname,
-      fullName,
-      email,
-      tel,
-      address,
-      city,
-      state,
-      postcode,
-      message,
-      payment_method,
-      items,
-    };
+    const fullName = `${firstname} ${lastname}`.trim().replace(/\s+-\s*$/, "");
 
-    await createOrder({
+    const savedOrder = await createOrder({
       firstname,
       lastname,
       fullName,
@@ -117,7 +104,7 @@ export async function POST(request) {
         subject: "Nouvelle commande (site web)",
         replyTo: email,
         attachments,
-        html: renderOrderEmailHtml("admin", order),
+        html: renderOrderEmailHtml("admin", savedOrder),
       },
       {
         from: `"La Table Marine" <${mailConfig.from}>`,
@@ -125,7 +112,7 @@ export async function POST(request) {
         subject: "Confirmation de votre commande — La Table Marine",
         replyTo: mailConfig.to,
         attachments,
-        html: renderOrderEmailHtml("customer", order),
+        html: renderOrderEmailHtml("customer", savedOrder),
       },
     ]);
 

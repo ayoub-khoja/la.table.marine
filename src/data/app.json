@@ -65,31 +65,18 @@
                 ]
             },
             {
-                "label": "Carte Menu",
+                "label": "Carte et menu",
                 "link": "/api/menu/file",
                 "blank": 1
             },
             {
+                "label": "Commande en ligne",
+                "link": "/commande-en-ligne"
+            },
+            {
                 "label": "À propos",
                 "link": "/about",
-                "children": [
-                    {
-                        "label": "À propos de nous",
-                        "link": "/about"
-                    },
-                    {
-                        "label": "À propos du chef",
-                        "link": "/about-chef"
-                    },
-                    {
-                        "label": "Services",
-                        "link": "/services"
-                    },
-                    {
-                        "label": "Histoire",
-                        "link": "/history"
-                    }
-                ]
+                "children": 0
             },
             {
                 "label": "Menu",
@@ -201,13 +188,23 @@
         },
         "about": {
             "title": "À propos",
-            "text": "Au cœur de Plaisir, La Table Marine vous accueille dans un cadre chaleureux et raffiné. Notre cuisine célèbre les saveurs de la mer et les produits du terroir, élaborée avec soin par une équipe passionnée.",
+            "text": "Restaurant de poissons et fruits de mer à Plaisir. Consultez notre carte PDF, réservez en ligne ou contactez-nous pour organiser votre venue au 2 rue Pierre Curie.",
             "button": {
                 "link": "/api/menu/file",
-                "label": "Notre menu",
+                "label": "Carte et menu",
                 "blank": 1
             }
         },
+        "nav": [
+            { "label": "Accueil", "link": "/" },
+            { "label": "À propos", "link": "/about" },
+            { "label": "Carte et menu", "link": "/api/menu/file", "blank": 1 },
+            { "label": "Réservation", "link": "/reservation" },
+            { "label": "Contact", "link": "/contact" },
+            { "label": "Vidéo", "link": "/decouvrir-le-restaurant-en-video" },
+            { "label": "Politique de confidentialité", "link": "/politique-de-confidentialite" },
+            { "label": "Politique de cookies", "link": "/politique-de-cookies" }
+        ],
         "contact": {
             "title": "Infos contact",
             "items": [

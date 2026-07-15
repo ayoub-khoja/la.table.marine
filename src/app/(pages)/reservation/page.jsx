@@ -17,6 +17,13 @@ const Reservation = () => {
           <div className="tst-content-box">
             <div className="tst-reservation-page">
               <div className="container tst-p-60-60">
+                <header className="text-center tst-mb-60">
+                  <h1 className="tst-mb-30">Réservez votre table à La Table Marine</h1>
+                  <p className="tst-text">
+                    Réservez votre déjeuner ou votre dîner dans notre restaurant à Plaisir
+                    à l&apos;aide du formulaire ci-dessous.
+                  </p>
+                </header>
                 <div className="tst-reservation-page__card">
                   <ReservationFormSection showTitle={false} />
                 </div>

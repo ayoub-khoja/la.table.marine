@@ -1,4 +1,6 @@
 ---
+draft: true
+index: false
 #preview
 title: 'Nouvelle carte du midi'
 date: '2025-02-10'
@@ -12,6 +14,8 @@ author: Nguta Ithya
 authorAvatar: /img/faces/4.jpg
 short: "La Table Marine dévoile une carte du déjeuner revisitée, entre poissons frais, fruits de mer et produits du terroir."
 ---
+draft: true
+index: false
 
 La Table Marine accueille ses convives le midi avec une **carte du déjeuner** renouvelée, fidèle à l'esprit de la maison : des produits de la mer travaillés avec soin, complétés par des touches de cuisine du terroir.
 

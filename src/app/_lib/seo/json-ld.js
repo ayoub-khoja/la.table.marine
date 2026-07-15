@@ -1,4 +1,11 @@
 import { absoluteUrl, SEO_CONFIG } from "./config";
+import {
+  RESTAURANT_VIDEO,
+  buildRestaurantVideoPublisher,
+  getRestaurantVideoContentUrl,
+  getRestaurantVideoEmbedUrl,
+  getRestaurantVideoThumbnailUrl,
+} from "./video";
 
 /**
  * Sérialise du JSON-LD en évitant l'injection de balises script.
@@ -66,7 +73,6 @@ export function buildRestaurantSchema() {
     openingHoursSpecification: buildOpeningHoursSpecification(),
     servesCuisine: SEO_CONFIG.cuisineTypes,
     priceRange: SEO_CONFIG.priceRange,
-    menu: SEO_CONFIG.menuPdfUrl,
     acceptsReservations: SEO_CONFIG.acceptsReservations,
     areaServed: SEO_CONFIG.areaServed.map((name) => ({
       "@type": "City",
@@ -162,6 +168,29 @@ export function buildBreadcrumbSchema(items) {
 }
 
 /**
+ * Schéma VideoObject pour la vidéo de présentation du restaurant.
+ * @returns {Record<string, unknown>}
+ */
+export function buildRestaurantVideoObjectSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "@id": `${getRestaurantVideoEmbedUrl()}#video`,
+    name: RESTAURANT_VIDEO.name,
+    description: RESTAURANT_VIDEO.description,
+    thumbnailUrl: getRestaurantVideoThumbnailUrl(),
+    uploadDate: RESTAURANT_VIDEO.uploadDate,
+    duration: RESTAURANT_VIDEO.duration,
+    contentUrl: getRestaurantVideoContentUrl(),
+    embedUrl: getRestaurantVideoEmbedUrl(),
+    width: RESTAURANT_VIDEO.width,
+    height: RESTAURANT_VIDEO.height,
+    inLanguage: SEO_CONFIG.language,
+    publisher: buildRestaurantVideoPublisher(),
+  };
+}
+
+/**
  * Schémas pour la page d'accueil.
  * @returns {Record<string, unknown>[]}
  */
@@ -175,6 +204,28 @@ export function buildHomeSchemas() {
       title: SEO_CONFIG.defaultTitle,
       description: SEO_CONFIG.defaultDescription,
     }),
+    buildRestaurantVideoObjectSchema(),
+  ];
+}
+
+/**
+ * Schémas pour la page vidéo dédiée.
+ * @returns {Record<string, unknown>[]}
+ */
+export function buildRestaurantVideoPageSchemas() {
+  const page = {
+    path: RESTAURANT_VIDEO.embedPath,
+    title: "Découvrir La Table Marine en vidéo",
+    description: RESTAURANT_VIDEO.description,
+  };
+
+  return [
+    buildWebPageSchema(page),
+    buildBreadcrumbSchema([
+      { name: "Accueil", path: "/" },
+      { name: "Vidéo", path: RESTAURANT_VIDEO.embedPath },
+    ]),
+    buildRestaurantVideoObjectSchema(),
   ];
 }
 
@@ -192,19 +243,8 @@ export function buildSecondaryPageSchemas({ path, title, description, breadcrumb
     buildBreadcrumbSchema(breadcrumbs),
   ];
 
-  if (path === "/contact") {
+  if (path === "/contact" || path === "/commande-en-ligne") {
     schemas.unshift(buildRestaurantSchema());
-  }
-
-  if (path === "/menu") {
-    schemas.unshift({
-      ...buildRestaurantSchema(),
-      hasMenu: {
-        "@type": "Menu",
-        url: SEO_CONFIG.menuPdfUrl,
-        name: "Carte La Table Marine",
-      },
-    });
   }
 
   return schemas;

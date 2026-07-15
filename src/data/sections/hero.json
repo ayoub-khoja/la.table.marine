@@ -1,21 +1,20 @@
 {
     "image": {
        "url": "/img/banners/banner-1.jpg",
-       "alt": "cover"
+       "alt": "Restaurant La Table Marine à Plaisir"
     },
     "video": {
-        "url": "/video/banner.mp4"
+        "url": "/video/banner.mp4",
+        "poster": "/images/video/restaurant-la-table-marine-poster.webp",
+        "width": 576,
+        "height": 1024,
+        "alt": "Ambiance du restaurant La Table Marine à Plaisir"
      },
     "subtitle": "Bonjour, bienvenue !",
-    "title": "Heureux de vous revoir <br>à La Table Marine",
-    "description": "Fruits de mer, poissons frais et cuisine du terroir :<br>une expérience gourmande au cœur de Plaisir.",
+    "title": "Restaurant de poissons frais, viandes et grandes salades gourmandes",
+    "description": "",
     "button1": {
         "link": "/reservation",
         "label": "Réserver"
-    },
-    "button2": {
-        "link": "/api/menu/file",
-        "label": "Voir le menu",
-        "blank": true
     }
 }

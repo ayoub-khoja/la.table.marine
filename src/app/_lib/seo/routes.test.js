@@ -12,7 +12,8 @@ describe("seo routes", () => {
     expect(isIndexableRoute("/")).toBe(true);
     expect(isIndexableRoute("/contact")).toBe(true);
     expect(isIndexableRoute("/reservation")).toBe(true);
-    expect(isIndexableRoute("/menu")).toBe(true);
+    expect(isIndexableRoute("/commande-en-ligne")).toBe(true);
+    expect(isIndexableRoute("/menu")).toBe(false);
   });
 
   it("exclut admin et API", () => {
@@ -29,10 +30,22 @@ describe("seo routes", () => {
     }
   });
 
+  it("noindex les pages template about-chef, history, services", () => {
+    expect(isIndexableRoute("/about-chef")).toBe(false);
+    expect(isIndexableRoute("/history")).toBe(false);
+    expect(isIndexableRoute("/services")).toBe(false);
+  });
+
   it("référence les routes statiques dans le sitemap", () => {
     const paths = INDEXABLE_STATIC_ROUTES.map((route) => route.path);
     expect(paths).toContain("/");
     expect(paths).toContain("/about");
+    expect(paths).toContain("/commande-en-ligne");
+    expect(paths).not.toContain("/menu");
+    expect(paths).not.toContain("/api/menu/file");
+    expect(paths).toContain("/decouvrir-le-restaurant-en-video");
     expect(paths).not.toContain("/home-2");
+    expect(paths).not.toContain("/about-chef");
+    expect(paths).not.toContain("/blog");
   });
 });

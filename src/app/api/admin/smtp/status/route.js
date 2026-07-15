@@ -38,7 +38,7 @@ export async function GET(request) {
   }
 
   try {
-    const transporter = createMailTransporter(mailConfig);
+    const transporter = await createMailTransporter(mailConfig);
     await transporter.verify();
 
     return NextResponse.json({

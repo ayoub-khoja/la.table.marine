@@ -1,0 +1,58 @@
+{
+  "intro": {
+    "subtitle": "Visite en images",
+    "lead": "Plongez dans l'atmosphère de La Table Marine avant même de franchir la porte. Cette vidéo vous invite à découvrir notre salle, notre équipe et l'esprit de notre cuisine de la mer à Plaisir."
+  },
+  "highlights": [
+    {
+      "icon": "/img/icons/2.svg",
+      "title": "Produits frais",
+      "text": "Poissons et fruits de mer sélectionnés avec exigence, pour une cuisine généreuse et authentique."
+    },
+    {
+      "icon": "/img/icons/1.svg",
+      "title": "Ambiance chaleureuse",
+      "text": "Un cadre convivial au cœur de Plaisir, idéal pour un déjeuner en famille ou un dîner entre amis."
+    },
+    {
+      "icon": "/img/icons/3.svg",
+      "title": "Service attentionné",
+      "text": "Une équipe passionnée à votre écoute pour vous faire vivre une expérience mémorable."
+    }
+  ],
+  "details": [
+    {
+      "icon": "fas fa-map-marker-alt",
+      "label": "Adresse",
+      "value": "2, rue Pierre Curie, 78370 Plaisir"
+    },
+    {
+      "icon": "fas fa-utensils",
+      "label": "Cuisine",
+      "value": "Poissons, fruits de mer & terroir"
+    },
+    {
+      "icon": "fas fa-clock",
+      "label": "Durée",
+      "value": "17 secondes"
+    }
+  ],
+  "cta": {
+    "subtitle": "Envie d'en savoir plus ?",
+    "title": "Vivez l'expérience sur place",
+    "description": "Consultez notre carte ou réservez votre table pour déguster nos spécialités de la mer dans notre restaurant à Plaisir.",
+    "buttonMenu": {
+      "label": "Voir le menu",
+      "link": "/api/menu/file",
+      "blank": true
+    },
+    "buttonReservation": {
+      "label": "Réserver une table",
+      "link": "/reservation"
+    },
+    "buttonAbout": {
+      "label": "Découvrir le restaurant",
+      "link": "/about"
+    }
+  }
+}

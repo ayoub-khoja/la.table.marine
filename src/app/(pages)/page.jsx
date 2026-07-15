@@ -37,7 +37,6 @@ async function Home() {
             </div>
             <PromoBannersSection />
             <div className="container">
-              <Divider />
               <AboutSection />
               <Divider />
               <FeaturesSection />

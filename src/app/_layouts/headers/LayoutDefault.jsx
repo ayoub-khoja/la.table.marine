@@ -30,6 +30,13 @@ const DefaultHeader = () => {
   const hasSubmenu = (item) =>
     Array.isArray(item.children) && item.children.length > 0;
 
+  const isExternalNavLink = (link) =>
+    typeof link === "string" &&
+    (link.startsWith("tel:") ||
+      link.startsWith("mailto:") ||
+      link.startsWith("http://") ||
+      link.startsWith("https://"));
+
   const closeMobileMenu = () => {
     setMobileMenu(false);
     setOpenSubMenu(false);
@@ -89,6 +96,10 @@ const DefaultHeader = () => {
                               >
                                 {item.label}
                               </a>
+                            ) : isExternalNavLink(item.link) ? (
+                              <a href={item.link} onClick={closeMobileMenu}>
+                                {item.label}
+                              </a>
                             ) : (
                               <Link href={item.link} onClick={closeMobileMenu}>
                                 {item.label}
@@ -122,7 +133,7 @@ const DefaultHeader = () => {
                 {/* top bar right */}
                 <div className="tst-menu-right">
                     {/* reservation button */}
-                    <a href="#." className={`tst-btn tst-res-btn ${reservationPopup ? "tst-active" : "" }`} onClick={(e) => { setReservationPopup(!reservationPopup); e.preventDefault(); }} data-no-swup>Réserver</a>
+                    <Link href="/reservation" className="tst-btn tst-res-btn" onClick={closeMobileMenu}>Réserver</Link>
                     {/* Minicart (panier) temporairement désactivé par demande. */}
                     {false && (
                       <div className="tst-minicart">

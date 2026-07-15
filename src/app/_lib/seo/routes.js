@@ -1,17 +1,14 @@
 /**
- * Routes publiques destinées à l'indexation.
+ * Routes publiques destinées à l'indexation (sitemap).
  * @type {Array<{ path: string, changeFrequency: import('next').MetadataRoute.Sitemap[number]['changeFrequency'], priority: number }>}
  */
 export const INDEXABLE_STATIC_ROUTES = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: "/about", changeFrequency: "monthly", priority: 0.8 },
-  { path: "/about-chef", changeFrequency: "monthly", priority: 0.6 },
-  { path: "/history", changeFrequency: "monthly", priority: 0.6 },
-  { path: "/services", changeFrequency: "monthly", priority: 0.6 },
   { path: "/contact", changeFrequency: "monthly", priority: 0.9 },
   { path: "/reservation", changeFrequency: "weekly", priority: 0.95 },
-  { path: "/menu", changeFrequency: "weekly", priority: 0.9 },
-  { path: "/blog", changeFrequency: "weekly", priority: 0.5 },
+  { path: "/commande-en-ligne", changeFrequency: "weekly", priority: 0.9 },
+  { path: "/decouvrir-le-restaurant-en-video", changeFrequency: "monthly", priority: 0.7 },
   { path: "/politique-de-confidentialite", changeFrequency: "yearly", priority: 0.3 },
   { path: "/politique-de-cookies", changeFrequency: "yearly", priority: 0.3 },
 ];
@@ -31,6 +28,10 @@ export const NOINDEX_PUBLIC_ROUTES = [
   "/cart",
   "/checkout",
   "/search",
+  "/about-chef",
+  "/history",
+  "/services",
+  "/blog",
 ];
 
 /**

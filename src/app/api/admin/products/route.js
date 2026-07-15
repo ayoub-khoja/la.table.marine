@@ -34,12 +34,19 @@ export async function POST(request) {
     const price = (body?.price || "").toString().trim();
     const image = (body?.image || "").toString().trim();
     const old_price = (body?.old_price || "").toString().trim();
-    const currency = (body?.currency || "$").toString().trim();
     const short = (body?.short || "").toString().trim();
+    const categoryId = (body?.categoryId || "").toString().trim();
 
     if (!title || !price) {
       return NextResponse.json(
         { success: false, error: "Le titre et le prix sont obligatoires." },
+        { status: 400 }
+      );
+    }
+
+    if (!categoryId) {
+      return NextResponse.json(
+        { success: false, error: "La catégorie est obligatoire." },
         { status: 400 }
       );
     }
@@ -49,16 +56,18 @@ export async function POST(request) {
       price,
       image,
       old_price,
-      currency,
       short,
+      categoryId,
     });
 
     return NextResponse.json({ success: true, product });
   } catch (error) {
     console.error("[api/admin/products]", error);
-    return NextResponse.json(
-      { success: false, error: "Impossible d'ajouter le produit." },
-      { status: 500 }
-    );
+    const message =
+      error instanceof Error && error.message
+        ? error.message
+        : "Impossible d'ajouter le produit.";
+
+    return NextResponse.json({ success: false, error: message }, { status: 400 });
   }
 }

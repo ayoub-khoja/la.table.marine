@@ -8,7 +8,8 @@ banner
 -------------------------*/
 .tst-banner {
   position: relative;
-  z-index: 0;
+  // Doit rester au-dessus des cartes de contenu qui peuvent chevaucher le bas du hero.
+  z-index: 5;
   width: 100%;
   height: 78vh;
   min-height: 560px;
@@ -17,10 +18,13 @@ banner
   & .tst-cover-frame {
     width: 100%;
     height: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+
+    &:not(.tst-cover-frame--split):not(.tst-cover-frame--split-photo) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
 
     & .tst-cover {
       width: 100%;
@@ -123,7 +127,7 @@ banner
     }
   }
 
-  &.tst-small-banner {
+  &.tst-small-banner:not(.tst-banner--split-map):not(.tst-banner--split-photo) {
     height: 70vh;
 
     & .tst-cover-frame {
@@ -165,6 +169,75 @@ banner
   }
 }
 
+.tst-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+
+  &__primary {
+    margin-right: 18px;
+  }
+
+  &__secondary {
+    display: none;
+  }
+
+  &__secondary-btn {
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    font-weight: 800;
+    font-family: $sf;
+    text-align: center;
+    transition: $tr-sm;
+    height: 50px;
+    padding: 0 30px;
+    border-radius: 5px;
+    background: rgba($dl2, 0.55);
+    border: 1px solid rgba($wl1, 0.38);
+    color: $wl1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    box-shadow:
+      0 10px 22px rgba($dl2, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.12);
+
+    &:hover,
+    &:focus,
+    &:visited {
+      color: $wl1;
+    }
+
+    &:hover,
+    &:focus {
+      background: rgba($dl2, 0.68);
+      border-color: rgba($wl1, 0.5);
+    }
+  }
+}
+
+.tst-restaurant-video {
+  &__player {
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    background-color: $dl2;
+  }
+
+  &__video {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+    background-color: $dl2;
+  }
+}
+
 .tst-main-slider {
   & .swiper-wrapper {
     z-index: 0;
@@ -175,11 +248,13 @@ banner
   }
 }
 @media (max-width: 1199px) {
-  .tst-banner {
+  .tst-banner:not(.tst-banner--split-map):not(.tst-banner--split-photo) {
     height: 72vh;
     min-height: 500px;
     max-height: 640px;
+  }
 
+  .tst-banner {
     &.tst-banner--video {
       height: 76vh;
       min-height: 540px;
@@ -196,52 +271,37 @@ banner
   }
 }
 @media (max-width: 991px) {
-  .tst-banner {
+  .tst-banner:not(.tst-banner--split-photo):not(.tst-banner--split-map) {
     height: 60vh;
     min-height: 420px;
     max-height: 520px;
   }
 }
 @media (max-width: 790px) {
-  .tst-banner {
-    height: 52vh;
-    min-height: 360px;
-    max-height: 460px;
-
-    & .tst-banner-content-frame {
-      padding: 36px 0;
-      height: 100%;
-      display: flex;
-      align-items: center;
-
-      & .tst-main-title-frame {
-        height: auto;
-
-        & .tst-main-title {
-          margin-top: 0;
-          text-align: center;
-
-          h1 {
-            margin-bottom: 18px !important;
-            font-size: clamp(28px, 8vw, 36px);
-            line-height: 1.15;
-          }
-
-          .tst-text-lg {
-            margin-bottom: 20px !important;
-            font-size: 14px;
-            line-height: 1.5;
-          }
-
-          .tst-suptitle {
-            margin-bottom: 10px !important;
-          }
-        }
-      }
-    }
+  .tst-banner:not(.tst-banner--split-photo):not(.tst-banner--split-map) {
+    height: 75vh;
+    min-height: 500px;
+    max-height: 660px;
+    margin-bottom: 16px;
+    overflow: hidden;
 
     & .tst-cover-frame {
-      height: 100%;
+      position: absolute;
+      inset: 0;
+      height: auto;
+
+      & .tst-cover {
+        object-position: center center;
+      }
+
+      & .tst-overlay {
+        background-image: linear-gradient(
+          to bottom,
+          rgba(4, 25, 29, 0.2) 0%,
+          rgba(4, 25, 29, 0.45) 50%,
+          rgba(4, 25, 29, 0.2) 100%
+        );
+      }
 
       & .tst-lock {
         display: none;
@@ -255,20 +315,130 @@ banner
       }
     }
 
-    &.tst-small-banner {
+    & .tst-banner-content-frame {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
       height: auto;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      & .tst-main-title-frame {
+        height: auto;
+        width: 100%;
+        display: block;
+        align-items: unset;
+      }
+
+      & .tst-main-title {
+        margin-top: 0;
+        text-align: center;
+        width: 100%;
+
+        h1 {
+          margin-bottom: 24px !important;
+          font-size: clamp(28px, 8vw, 36px);
+          line-height: 1.15;
+        }
+
+        .tst-text-lg {
+          margin-bottom: 20px !important;
+          font-size: 14px;
+          line-height: 1.5;
+        }
+
+        .tst-suptitle {
+          margin-bottom: 10px !important;
+
+          &.tst-suptitle-mobile-center {
+            padding-top: 20px;
+
+            &:before {
+              top: 0;
+            }
+          }
+        }
+
+        .tst-hero-actions {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 0;
+          width: 100%;
+          max-width: 280px;
+          margin: 0 auto;
+
+          &__primary {
+            margin: 0;
+            width: 100%;
+            height: 48px;
+            min-height: 48px;
+            line-height: 48px;
+            padding: 0 20px;
+          }
+
+          &__desktop {
+            display: none !important;
+          }
+
+          &__secondary {
+            display: none;
+          }
+
+          &__secondary-btn {
+            height: 48px;
+            padding: 0 20px;
+          }
+        }
+      }
+    }
+
+    &.tst-small-banner:not(.tst-banner--split-photo) {
+      height: 75vh;
+      min-height: 500px;
 
       & .tst-cover-frame {
-        height: 100%;
+        height: auto;
       }
 
       & .tst-banner-content-frame {
-        padding: 90px 0;
-
-        & .tst-main-title-frame {
-          height: auto;
-        }
+        padding: 0;
       }
+    }
+  }
+
+  @media (max-height: 740px) {
+    .tst-banner:not(.tst-banner--split-photo):not(.tst-banner--split-map) {
+      height: 72vh;
+      min-height: 460px;
+      margin-bottom: 14px;
+
+      & .tst-main-title {
+          h1 {
+            margin-bottom: 20px !important;
+            font-size: clamp(26px, 7.6vw, 32px);
+          }
+
+          .tst-hero-actions {
+            max-width: 260px;
+
+            &__primary,
+            &__secondary-btn {
+              height: 46px;
+              min-height: 46px;
+              line-height: 46px;
+            }
+          }
+        }
+    }
+  }
+
+  @media (max-height: 680px) {
+    .tst-banner:not(.tst-banner--split-photo):not(.tst-banner--split-map) {
+      height: 68vh;
+      min-height: 420px;
+      margin-bottom: 12px;
     }
   }
 

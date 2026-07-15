@@ -1,0 +1,17 @@
+{
+    "image": {
+        "url": "/img/video-about.png",
+        "alt": "Découvrez La Table Marine — restaurant au goût de la mer"
+    },
+    "video": {
+        "url": "https://raw.githubusercontent.com/ayoub-khoja/Media-latablemarine/main/apropos.mp4"
+    },
+    "button": {
+        "link": "/api/menu/file",
+        "label": "Consulter la carte",
+        "blank": true
+    },
+    "title": "Poissons et fruits de mer<br>au cœur de Plaisir",
+    "subtitle": "La Table Marine",
+    "description": "Situé au 2 rue Pierre Curie à Plaisir, La Table Marine vous propose une carte de poissons et fruits de mer consultable en ligne. Réservez votre table, découvrez notre restaurant en vidéo ou contactez-nous pour préparer votre venue."
+}

@@ -22,6 +22,8 @@ export function escapeHtml(str) {
 }
 
 export function paymentLabel(paymentMethod) {
+  if (paymentMethod === "cash") return "Espèces";
+  if (paymentMethod === "card") return "Carte bancaire";
   if (paymentMethod === "3") return "Paiement à la livraison";
   if (paymentMethod === "2") return "Paiement par chèque";
   if (paymentMethod === "1") return "Virement bancaire";
@@ -210,8 +212,8 @@ export function renderOrderEmailHtml(variant, order) {
 
 export function getEmailHeaderAttachments() {
   const candidates = [
-    path.join(process.cwd(), "public", "img", "header-email.png"),
-    path.join(process.cwd(), "..", "public", "img", "header-email.png"),
+    path.join(process.cwd(), "public", "img", "header-email.jpeg"),
+    path.join(process.cwd(), "..", "public", "img", "header-email.jpeg"),
   ];
 
   for (const filePath of candidates) {
@@ -219,9 +221,11 @@ export function getEmailHeaderAttachments() {
       if (fs.existsSync(filePath)) {
         return [
           {
-            filename: "header-email.png",
+            filename: "header-email.jpeg",
             content: fs.readFileSync(filePath),
             cid: "header-email",
+            contentDisposition: "inline",
+            contentType: "image/jpeg",
           },
         ];
       }
@@ -238,9 +242,11 @@ export function getOrderEmailAttachment(headerImagePath) {
   try {
     if (headerImagePath && fs.existsSync(headerImagePath)) {
       return {
-        filename: "header-email.png",
+        filename: "header-email.jpeg",
         content: fs.readFileSync(headerImagePath),
         cid: "header-email",
+        contentDisposition: "inline",
+        contentType: "image/jpeg",
       };
     }
   } catch {

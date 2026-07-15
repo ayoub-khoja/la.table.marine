@@ -9,7 +9,7 @@ const ProduitsPage = () => {
     <>
       <header className="tst-admin-panel__header">
         <h1>Produit</h1>
-        <p>Consultez et gérez tous les produits du site.</p>
+        <p>Consultez et gérez les produits, catégories et menus spéciaux du site.</p>
       </header>
       <ProductsTable />
     </>

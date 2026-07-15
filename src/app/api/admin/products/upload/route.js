@@ -5,7 +5,7 @@ import { saveUploadedImage } from "@library/uploads/save-file";
 const ERROR_MESSAGES = {
   INVALID_FILE: "Fichier invalide.",
   INVALID_TYPE: "Format non supporté. Utilisez JPG, PNG, WEBP ou GIF.",
-  FILE_TOO_LARGE: "Image trop volumineuse (max. 5 Mo).",
+  FILE_TOO_LARGE: "Image trop volumineuse (max. 4 Mo).",
 };
 
 export async function POST(request) {

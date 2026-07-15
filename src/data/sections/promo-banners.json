@@ -1,26 +1,19 @@
 {
   "items": [
     {
-      "image": "/img/image-reservation.png",
-      "alt": "Réservez votre table à La Table Marine",
-      "link": "/reservation",
-      "width": 1916,
-      "height": 821
-    },
-    {
-      "image": "/img/image-liv-gratuite.png",
-      "alt": "Livraison à domicile gratuite — La Table Marine",
-      "link": "tel:0188937672",
-      "width": 1536,
-      "height": 1024
-    },
-    {
       "image": "/img/carte-menu.png",
       "alt": "Notre carte — fruits de mer et cuisine gourmande",
       "link": "/api/menu/file",
       "blank": true,
       "width": 2048,
       "height": 768
+    },
+    {
+      "image": "/img/image-reservation.png",
+      "alt": "Réservez votre table à La Table Marine",
+      "link": "/reservation",
+      "width": 1916,
+      "height": 821
     }
   ]
 }
