@@ -4,6 +4,7 @@ import QRCode from "qrcode";
 import sharp from "sharp";
 
 import { getPermanentGoogleReviewUrl } from "./public-url";
+import { getQrCardFontFaceCss, renderTextPng } from "@library/shared/embed-font";
 
 export {
   GOOGLE_REVIEW_QR_PNG_FILENAME,
@@ -212,6 +213,7 @@ function brandBarMarkup(y, height = 10) {
 export async function generateGoogleReviewQrSvg() {
   const payload = getGoogleReviewQrPayload();
   const logoUri = await safeLogoDataUri(LOGO_W, LOGO_H);
+  const fontFaceCss = await getQrCardFontFaceCss();
   const cx = CARD_WIDTH / 2;
 
   const qrSvg = await QRCode.toString(payload, {
@@ -236,24 +238,23 @@ export async function generateGoogleReviewQrSvg() {
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
   width="${CARD_WIDTH}" height="${CARD_HEIGHT}" viewBox="0 0 ${CARD_WIDTH} ${CARD_HEIGHT}" role="img"
   aria-label="QR code avis Google La Table Marine">
-  <!-- Fond marine -->
+  <defs>
+    <style type="text/css"><![CDATA[
+      ${fontFaceCss}
+      text { font-family: QRCard, DejaVu Sans, sans-serif; }
+    ]]></style>
+  </defs>
   <rect width="${CARD_WIDTH}" height="${CARD_HEIGHT}" fill="${REVIEW_QR_BRAND.navyDark}"/>
   <rect x="0" y="0" width="${CARD_WIDTH}" height="280" fill="${REVIEW_QR_BRAND.navyMid}" opacity="0.45"/>
 
-  <!-- En-tête compact -->
   <text x="${cx}" y="72" text-anchor="middle"
-    font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="600"
+    font-size="28" font-weight="700"
     fill="${REVIEW_QR_BRAND.sand}" letter-spacing="3">DONNEZ-NOUS VOTRE AVIS SUR</text>
 
   ${googleWordMarkup(cx, 145)}
-
-  <!-- Étoiles -->
   ${starsMarkup(cx, 175, 34, 12)}
-
-  <!-- Barre marque -->
   ${brandBarMarkup(250, 8)}
 
-  <!-- Zone QR -->
   <rect x="${frameX}" y="${frameY}" width="${frameSize}" height="${frameSize}"
     rx="12" fill="${REVIEW_QR_BRAND.white}"/>
   <svg x="${qrX}" y="${qrY}" width="${QR_SIZE}" height="${QR_SIZE}" viewBox="${viewBox}">
@@ -261,23 +262,21 @@ export async function generateGoogleReviewQrSvg() {
   </svg>
   ${viewfinderMarkup(frameX - 12, frameY - 12, frameSize + 24, REVIEW_QR_BRAND.white, 44, 5)}
 
-  <!-- Instruction -->
   <text x="${cx}" y="${frameBottom + 42}" text-anchor="middle"
-    font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="700"
+    font-size="24" font-weight="700"
     fill="${REVIEW_QR_BRAND.white}" letter-spacing="3">SCANNEZ POUR NOTER</text>
 
-  <!-- Logo restaurant (agrandi) -->
   ${
     logoUri
       ? `<image xlink:href="${logoUri}" href="${logoUri}"
     x="${(CARD_WIDTH - LOGO_W) / 2}" y="${logoY}" width="${LOGO_W}" height="${LOGO_H}" preserveAspectRatio="xMidYMid meet"/>`
       : `<text x="${cx}" y="${logoY + 90}" text-anchor="middle"
-    font-family="Georgia, 'Times New Roman', serif" font-size="36" font-weight="700"
+    font-size="36" font-weight="700"
     fill="${REVIEW_QR_BRAND.sand}">LA TABLE MARINE</text>`
   }
 
   <text x="${cx}" y="${urlY}" text-anchor="middle"
-    font-family="Georgia, 'Times New Roman', serif" font-size="16" font-weight="600"
+    font-size="16" font-weight="600"
     fill="${REVIEW_QR_BRAND.muted}" letter-spacing="1">${escapeXml(
       payload.replace(/^https?:\/\//, "")
     )}</text>
@@ -285,22 +284,175 @@ export async function generateGoogleReviewQrSvg() {
 }
 
 /**
- * Retire les filtres éventuellement incompatibles Sharp/Vercel.
- * @param {string} svg
- */
-function makeSharpCompatibleSvg(svg) {
-  return String(svg)
-    .replace(/\sfilter="url\([^"]+\)"/g, "")
-    .replace(/<filter[\s\S]*?<\/filter>/g, "");
-}
-
-/**
- * PNG carton brandé haute résolution.
+ * PNG carton brandé — composition Sharp + police embarquée (Vercel).
  * @returns {Promise<Buffer>}
  */
 export async function generateGoogleReviewQrPng() {
-  const svg = makeSharpCompatibleSvg(await generateGoogleReviewQrSvg());
-  return sharp(Buffer.from(svg, "utf8"), { density: 160 })
+  const payload = getGoogleReviewQrPayload();
+  const W = CARD_WIDTH;
+  const H = CARD_HEIGHT;
+
+  const qrSize = QR_SIZE;
+  const qrX = Math.round((W - qrSize) / 2);
+  const qrY = 340;
+  const framePad = 24;
+  const frameSize = qrSize + framePad * 2;
+  const frameX = qrX - framePad;
+  const frameY = qrY - framePad;
+  const frameBottom = frameY + frameSize;
+  const logoY = frameBottom + 55;
+
+  const [
+    headerPng,
+    googlePng,
+    starsPng,
+    barPng,
+    instructPng,
+    urlPng,
+    qrPng,
+    logoPng,
+    viewfinderPng,
+  ] = await Promise.all([
+    renderTextPng("DONNEZ-NOUS VOTRE AVIS SUR", {
+      fontSize: 28,
+      color: REVIEW_QR_BRAND.sand,
+      width: W,
+      height: 48,
+      letterSpacing: 3,
+    }),
+    (async () => {
+      const fontFace = await getQrCardFontFaceCss();
+      const letters = [
+        { ch: "G", color: REVIEW_QR_BRAND.waveLight },
+        { ch: "o", color: REVIEW_QR_BRAND.gold },
+        { ch: "o", color: REVIEW_QR_BRAND.star },
+        { ch: "g", color: REVIEW_QR_BRAND.wave },
+        { ch: "l", color: REVIEW_QR_BRAND.sand },
+        { ch: "e", color: REVIEW_QR_BRAND.gold },
+      ];
+      const charW = 40;
+      const startX = W / 2 - (letters.length * charW) / 2 + charW / 2;
+      const body = letters
+        .map(
+          (letter, i) =>
+            `<text x="${startX + i * charW}" y="48" text-anchor="middle"
+              font-family="QRCard, DejaVu Sans, sans-serif" font-size="58" font-weight="800"
+              fill="${letter.color}">${letter.ch}</text>`
+        )
+        .join("");
+      const svg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="70">
+  <defs><style type="text/css"><![CDATA[${fontFace}]]></style></defs>
+  ${body}
+</svg>`;
+      return sharp(Buffer.from(svg, "utf8"))
+        .resize(W, 70, { fit: "fill" })
+        .png()
+        .toBuffer();
+    })(),
+    (async () => {
+      const svg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="50">
+  ${starsMarkup(W / 2, 5, 34, 12)}
+</svg>`;
+      return sharp(Buffer.from(svg)).png().toBuffer();
+    })(),
+    (async () => {
+      const svg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="12">
+  ${brandBarMarkup(0, 8)}
+</svg>`;
+      return sharp(Buffer.from(svg)).png().toBuffer();
+    })(),
+    renderTextPng("SCANNEZ POUR NOTER", {
+      fontSize: 24,
+      color: REVIEW_QR_BRAND.white,
+      width: W,
+      height: 40,
+      letterSpacing: 3,
+    }),
+    renderTextPng(payload.replace(/^https?:\/\//, ""), {
+      fontSize: 16,
+      color: REVIEW_QR_BRAND.muted,
+      width: W,
+      height: 32,
+      letterSpacing: 1,
+      fontWeight: 600,
+    }),
+    QRCode.toBuffer(payload, {
+      ...QR_OPTIONS,
+      type: "png",
+      width: qrSize,
+      margin: 2,
+    }),
+    (async () => {
+      try {
+        const absolute = path.join(process.cwd(), LOGO_WHITE);
+        const buffer = await fs.readFile(absolute);
+        return sharp(buffer)
+          .resize(LOGO_W, LOGO_H, {
+            fit: "contain",
+            background: { r: 0, g: 0, b: 0, alpha: 0 },
+          })
+          .png()
+          .toBuffer();
+      } catch {
+        return null;
+      }
+    })(),
+    (async () => {
+      const svg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
+  ${viewfinderMarkup(frameX - 12, frameY - 12, frameSize + 24, REVIEW_QR_BRAND.white, 44, 5)}
+</svg>`;
+      return sharp(Buffer.from(svg)).png().toBuffer();
+    })(),
+  ]);
+
+  /** @type {import("sharp").OverlayOptions[]} */
+  const layers = [
+    { input: headerPng, left: 0, top: 36 },
+    { input: googlePng, left: 0, top: 95 },
+    { input: starsPng, left: 0, top: 175 },
+    { input: barPng, left: 0, top: 250 },
+    {
+      input: await sharp({
+        create: {
+          width: frameSize,
+          height: frameSize,
+          channels: 3,
+          background: { r: 255, g: 255, b: 255 },
+        },
+      })
+        .png()
+        .toBuffer(),
+      left: frameX,
+      top: frameY,
+    },
+    { input: qrPng, left: qrX, top: qrY },
+    { input: viewfinderPng, left: 0, top: 0 },
+    { input: instructPng, left: 0, top: frameBottom + 18 },
+  ];
+
+  if (logoPng) {
+    layers.push({
+      input: logoPng,
+      left: Math.round((W - LOGO_W) / 2),
+      top: logoY,
+    });
+  }
+
+  layers.push({ input: urlPng, left: 0, top: H - 40 });
+
+  return sharp({
+    create: {
+      width: W,
+      height: H,
+      channels: 3,
+      background: { r: 4, g: 30, b: 49 },
+    },
+  })
+    .composite(layers)
     .png({ compressionLevel: 8 })
     .toBuffer();
 }

@@ -4,6 +4,7 @@ import QRCode from "qrcode";
 import sharp from "sharp";
 
 import { getPermanentMenuUrl } from "@library/menu/public-url";
+import { getQrCardFontFaceCss, renderTextPng } from "@library/shared/embed-font";
 
 export const MENU_QR_PNG_FILENAME = "qr-menu-la-table-marine.png";
 export const MENU_QR_SVG_FILENAME = "qr-menu-la-table-marine.svg";
@@ -28,9 +29,9 @@ const LOGO_WHITE = path.join("public", "img", "logo-blanc.png");
 const FISH_MINIMAL_SVG = path.join("public", "img", "qr", "poisson-minimal.svg");
 const MUSSEL_MINIMAL_IMAGE = path.join("public", "img", "qr", "moule-minimal.png");
 
-const CARD_SCALE = 0.7;
+const CARD_SCALE = 0.72;
 const CARD_WIDTH = Math.round(1200 * CARD_SCALE);
-const CARD_HEIGHT = Math.round(1580 * CARD_SCALE);
+const CARD_HEIGHT = Math.round(1480 * CARD_SCALE);
 
 /** @param {number} value */
 function sc(value) {
@@ -299,7 +300,8 @@ async function safeDataUri(loader) {
 export async function generateMenuQrSvg() {
   const payload = getMenuQrPayload();
   const cx = CARD_WIDTH / 2;
-  const logoWhiteUri = await safeDataUri(() => getLogoDataUri(LOGO_WHITE, sc(800)));
+  const fontFaceCss = await getQrCardFontFaceCss();
+  const logoWhiteUri = await safeDataUri(() => getLogoDataUri(LOGO_WHITE, sc(900)));
   const fishUri = await safeDataUri(() =>
     getImageDataUri(FISH_MINIMAL_SVG, sc(190), sc(114))
   );
@@ -312,106 +314,80 @@ export async function generateMenuQrSvg() {
   const qrSvg = await QRCode.toString(payload, {
     ...QR_OPTIONS,
     type: "svg",
-    width: sc(780),
+    width: sc(720),
     margin: 2,
   });
 
   const { viewBox, inner: qrInner } = parseQrSvg(qrSvg);
 
-  const qrSize = sc(780);
+  const qrSize = sc(720);
   const qrX = (CARD_WIDTH - qrSize) / 2;
-  const qrY = sc(320);
-  const qrCenterY = qrY + qrSize / 2;
-  const framePad = sc(36);
+  const qrY = sc(260);
+  const framePad = sc(32);
   const qrFrameBottom = qrY + qrSize + framePad;
-  const logoY = sc(1230);
-  const logoW = sc(800);
-  const logoH = sc(280);
+  const logoY = sc(1120);
+  const logoW = sc(900);
+  const logoH = sc(300);
 
   return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
   width="${CARD_WIDTH}" height="${CARD_HEIGHT}" viewBox="0 0 ${CARD_WIDTH} ${CARD_HEIGHT}" role="img"
   aria-label="QR code menu La Table Marine">
   <defs>
+    <style type="text/css"><![CDATA[
+      ${fontFaceCss}
+      text { font-family: QRCard, DejaVu Sans, sans-serif; }
+    ]]></style>
     <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="${QR_BRAND.navyDark}"/>
       <stop offset="55%" stop-color="${QR_BRAND.navyMid}"/>
       <stop offset="100%" stop-color="${QR_BRAND.navyDark}"/>
     </linearGradient>
-    <linearGradient id="scanLine" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="${QR_BRAND.scan}" stop-opacity="0"/>
-      <stop offset="50%" stop-color="${QR_BRAND.scan}" stop-opacity="1"/>
-      <stop offset="100%" stop-color="${QR_BRAND.scan}" stop-opacity="0"/>
-    </linearGradient>
-    <filter id="scanGlow" x="-20%" y="-200%" width="140%" height="500%">
-      <feGaussianBlur stdDeviation="${sc(4)}" result="blur"/>
-      <feMerge>
-        <feMergeNode in="blur"/>
-        <feMergeNode in="SourceGraphic"/>
-      </feMerge>
-    </filter>
-    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="${sc(12)}" stdDeviation="${sc(18)}" flood-color="#000000" flood-opacity="0.35"/>
-    </filter>
   </defs>
 
-  <!-- Fond imprimable -->
   <rect width="${CARD_WIDTH}" height="${CARD_HEIGHT}" fill="url(#bg)"/>
 
-  <!-- Vagues décoratives discrètes -->
   <g opacity="0.08" fill="none" stroke="${QR_BRAND.waveLight}" stroke-width="2">
-    <path d="M0 ${sc(1460)} C${sc(200)} ${sc(1410)} ${sc(400)} ${sc(1510)} ${cx} ${sc(1460)} S${sc(1000)} ${sc(1410)} ${CARD_WIDTH} ${sc(1460)}"/>
-    <path d="M0 ${sc(1510)} C${sc(200)} ${sc(1460)} ${sc(400)} ${sc(1560)} ${cx} ${sc(1510)} S${sc(1000)} ${sc(1460)} ${CARD_WIDTH} ${sc(1510)}"/>
+    <path d="M0 ${sc(1360)} C${sc(200)} ${sc(1310)} ${sc(400)} ${sc(1410)} ${cx} ${sc(1360)} S${sc(1000)} ${sc(1310)} ${CARD_WIDTH} ${sc(1360)}"/>
+    <path d="M0 ${sc(1410)} C${sc(200)} ${sc(1360)} ${sc(400)} ${sc(1460)} ${cx} ${sc(1410)} S${sc(1000)} ${sc(1360)} ${CARD_WIDTH} ${sc(1410)}"/>
   </g>
 
-  <!-- En-tête -->
-  <text x="${cx}" y="${sc(150)}" text-anchor="middle"
-    font-family="Arial, Helvetica, sans-serif" font-size="${sc(88)}" font-weight="800"
+  <text x="${cx}" y="${sc(120)}" text-anchor="middle"
+    font-size="${sc(84)}" font-weight="800"
     fill="${QR_BRAND.white}" letter-spacing="${sc(8)}">SCANNEZ</text>
-  <text x="${cx}" y="${sc(210)}" text-anchor="middle"
-    font-family="Arial, Helvetica, sans-serif" font-size="${sc(30)}" font-weight="700"
+  <text x="${cx}" y="${sc(175)}" text-anchor="middle"
+    font-size="${sc(28)}" font-weight="700"
     fill="${QR_BRAND.waveLight}" letter-spacing="${sc(3)}">POUR ACCÉDER AU MENU DIGITAL</text>
 
-  <!-- Zone QR blanche -->
   <rect x="${qrX - framePad}" y="${qrY - framePad}"
     width="${qrSize + framePad * 2}" height="${qrSize + framePad * 2}"
-    rx="${sc(8)}" fill="${QR_BRAND.white}" filter="url(#cardShadow)"/>
+    rx="${sc(8)}" fill="${QR_BRAND.white}"/>
 
-  <!-- QR code plein format -->
   <svg x="${qrX}" y="${qrY}" width="${qrSize}" height="${qrSize}" viewBox="${viewBox}">
     ${qrInner}
   </svg>
 
-  <!-- Coins viewfinder -->
-  ${viewfinderMarkup(qrX - framePad - sc(18), qrY - framePad - sc(18), qrSize + framePad * 2 + sc(36), QR_BRAND.white, sc(64), sc(6))}
+  ${viewfinderMarkup(qrX - framePad - sc(16), qrY - framePad - sc(16), qrSize + framePad * 2 + sc(32), QR_BRAND.white, sc(56), sc(5))}
 
-  <!-- Ligne de scan décorative (fine, ne gêne pas la lecture) -->
-  <rect x="${qrX + sc(40)}" y="${qrCenterY - 2}" width="${qrSize - sc(80)}" height="${sc(4)}"
-    fill="url(#scanLine)" filter="url(#scanGlow)" opacity="0.85"/>
-
-  <!-- Instruction -->
-  <text x="${cx}" y="${qrFrameBottom + sc(45)}" text-anchor="middle"
-    font-family="Arial, Helvetica, sans-serif" font-size="${sc(24)}" font-weight="600"
+  <text x="${cx}" y="${qrFrameBottom + sc(40)}" text-anchor="middle"
+    font-size="${sc(22)}" font-weight="700"
     fill="${QR_BRAND.white}" letter-spacing="2">DIRIGEZ VOTRE APPAREIL PHOTO</text>
-  <text x="${cx}" y="${qrFrameBottom + sc(78)}" text-anchor="middle"
-    font-family="Arial, Helvetica, sans-serif" font-size="${sc(24)}" font-weight="600"
+  <text x="${cx}" y="${qrFrameBottom + sc(70)}" text-anchor="middle"
+    font-size="${sc(22)}" font-weight="700"
     fill="${QR_BRAND.white}" letter-spacing="2">VERS LE QR CODE</text>
 
-  <!-- Illustrations minimalistes — poisson & moule -->
   ${
     fishUri
       ? `<image xlink:href="${fishUri}" href="${fishUri}"
-    x="${sc(40)}" y="${sc(1240)}" width="${sc(190)}" height="${sc(114)}" opacity="0.98"/>`
+    x="${sc(30)}" y="${sc(1140)}" width="${sc(190)}" height="${sc(114)}" opacity="0.98"/>`
       : ""
   }
   ${
     musselUri
       ? `<image xlink:href="${musselUri}" href="${musselUri}"
-    x="${CARD_WIDTH - sc(40) - sc(175)}" y="${sc(1235)}" width="${sc(175)}" height="${sc(175)}" opacity="0.98"/>`
+    x="${CARD_WIDTH - sc(30) - sc(175)}" y="${sc(1135)}" width="${sc(175)}" height="${sc(175)}" opacity="0.98"/>`
       : ""
   }
-
-  <!-- Logo restaurant (unique) -->
   ${
     logoWhiteUri
       ? `<image xlink:href="${logoWhiteUri}" href="${logoWhiteUri}"
@@ -419,32 +395,195 @@ export async function generateMenuQrSvg() {
       : ""
   }
 
-  <text x="${cx}" y="${sc(1545)}" text-anchor="middle"
-    font-family="Georgia, 'Times New Roman', serif" font-size="${sc(22)}" font-weight="600"
+  <text x="${cx}" y="${CARD_HEIGHT - sc(28)}" text-anchor="middle"
+    font-size="${sc(20)}" font-weight="600"
     fill="${QR_BRAND.muted}" letter-spacing="2">${escapeXml(payload.replace(/^https?:\/\//, ""))}</text>
 </svg>`;
 }
 
 /**
- * Retire les filtres SVG mal supportés par librsvg (Sharp sur Vercel/Linux).
- * @param {string} svg
+ * Charge un buffer image redimensionné depuis public/.
+ * @param {string} filePath
+ * @param {number} width
+ * @param {number} height
+ * @param {{ transparentDark?: boolean }} [options]
  */
-function makeSharpCompatibleSvg(svg) {
-  return String(svg)
-    .replace(/\sfilter="url\(#cardShadow\)"/g, "")
-    .replace(/\sfilter="url\(#scanGlow\)"/g, "")
-    .replace(/<filter id="scanGlow"[\s\S]*?<\/filter>/g, "")
-    .replace(/<filter id="cardShadow"[\s\S]*?<\/filter>/g, "");
+async function loadResizedPngBuffer(
+  filePath,
+  width,
+  height,
+  { transparentDark = false } = {}
+) {
+  const absolute = path.join(process.cwd(), filePath);
+  let buffer = await fs.readFile(absolute);
+  const isSvg = filePath.toLowerCase().endsWith(".svg");
+
+  let pipeline = isSvg
+    ? sharp(Buffer.from(sanitizeSvgContent(buffer.toString("utf8"))), {
+        density: 300,
+      })
+    : sharp(buffer);
+
+  if (!isSvg && transparentDark) {
+    buffer = await makeDarkBackgroundTransparent(
+      await pipeline.png().toBuffer()
+    );
+    pipeline = sharp(buffer);
+  }
+
+  return pipeline
+    .resize(width, height, {
+      fit: "contain",
+      background: { r: 0, g: 0, b: 0, alpha: 0 },
+    })
+    .png()
+    .toBuffer();
 }
 
 /**
- * PNG haute résolution prêt à imprimer (échelle 70 %).
- * Compatible Vercel : pas de feDropShadow, densité maîtrisée.
+ * PNG haute résolution — composition Sharp (fiable sur Vercel).
+ * Pas de texte SVG système (évite les carrés □□□ en production).
  * @returns {Promise<Buffer>}
  */
 export async function generateMenuQrPng() {
-  const svg = makeSharpCompatibleSvg(await generateMenuQrSvg());
-  return sharp(Buffer.from(svg, "utf8"), { density: 144 })
+  const payload = getMenuQrPayload();
+  const W = CARD_WIDTH;
+  const H = CARD_HEIGHT;
+
+  const qrSize = sc(720);
+  const qrX = Math.round((W - qrSize) / 2);
+  const qrY = sc(260);
+  const framePad = sc(32);
+  const frameSize = qrSize + framePad * 2;
+  const frameX = qrX - framePad;
+  const frameY = qrY - framePad;
+  const frameBottom = frameY + frameSize;
+
+  const logoW = sc(900);
+  const logoH = sc(300);
+  const logoY = sc(1100);
+
+  const [
+    titlePng,
+    subtitlePng,
+    line1Png,
+    line2Png,
+    urlPng,
+    qrPng,
+    logoPng,
+    fishPng,
+    musselPng,
+  ] = await Promise.all([
+    renderTextPng("SCANNEZ", {
+      fontSize: sc(84),
+      color: QR_BRAND.white,
+      width: W,
+      height: sc(110),
+      letterSpacing: sc(8),
+    }),
+    renderTextPng("POUR ACCÉDER AU MENU DIGITAL", {
+      fontSize: sc(28),
+      color: QR_BRAND.waveLight,
+      width: W,
+      height: sc(50),
+      letterSpacing: sc(3),
+    }),
+    renderTextPng("DIRIGEZ VOTRE APPAREIL PHOTO", {
+      fontSize: sc(22),
+      color: QR_BRAND.white,
+      width: W,
+      height: sc(40),
+      letterSpacing: 2,
+    }),
+    renderTextPng("VERS LE QR CODE", {
+      fontSize: sc(22),
+      color: QR_BRAND.white,
+      width: W,
+      height: sc(40),
+      letterSpacing: 2,
+    }),
+    renderTextPng(payload.replace(/^https?:\/\//, ""), {
+      fontSize: sc(20),
+      color: QR_BRAND.muted,
+      width: W,
+      height: sc(36),
+      letterSpacing: 2,
+      fontWeight: 600,
+    }),
+    QRCode.toBuffer(payload, {
+      ...QR_OPTIONS,
+      type: "png",
+      width: qrSize,
+      margin: 2,
+    }),
+    loadResizedPngBuffer(LOGO_WHITE, logoW, logoH).catch(() => null),
+    loadResizedPngBuffer(FISH_MINIMAL_SVG, sc(190), sc(114)).catch(() => null),
+    loadResizedPngBuffer(MUSSEL_MINIMAL_IMAGE, sc(175), sc(175), {
+      transparentDark: true,
+    }).catch(() => null),
+  ]);
+
+  const viewfinderSvg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">
+  ${viewfinderMarkup(frameX - sc(16), frameY - sc(16), frameSize + sc(32), QR_BRAND.white, sc(56), sc(5))}
+</svg>`;
+  const viewfinderPng = await sharp(Buffer.from(viewfinderSvg))
+    .png()
+    .toBuffer();
+
+  /** @type {import("sharp").OverlayOptions[]} */
+  const layers = [
+    {
+      input: await sharp({
+        create: {
+          width: frameSize,
+          height: frameSize,
+          channels: 3,
+          background: { r: 255, g: 255, b: 255 },
+        },
+      })
+        .png()
+        .toBuffer(),
+      left: frameX,
+      top: frameY,
+    },
+    { input: qrPng, left: qrX, top: qrY },
+    { input: viewfinderPng, left: 0, top: 0 },
+    { input: titlePng, left: 0, top: sc(40) },
+    { input: subtitlePng, left: 0, top: sc(145) },
+    { input: line1Png, left: 0, top: frameBottom + sc(18) },
+    { input: line2Png, left: 0, top: frameBottom + sc(48) },
+  ];
+
+  if (fishPng) {
+    layers.push({ input: fishPng, left: sc(30), top: sc(1120) });
+  }
+  if (musselPng) {
+    layers.push({
+      input: musselPng,
+      left: W - sc(30) - sc(175),
+      top: sc(1115),
+    });
+  }
+  if (logoPng) {
+    layers.push({
+      input: logoPng,
+      left: Math.round((W - logoW) / 2),
+      top: logoY,
+    });
+  }
+
+  layers.push({ input: urlPng, left: 0, top: H - sc(50) });
+
+  return sharp({
+    create: {
+      width: W,
+      height: H,
+      channels: 3,
+      background: { r: 4, g: 30, b: 49 },
+    },
+  })
+    .composite(layers)
     .png({ compressionLevel: 8 })
     .toBuffer();
 }
