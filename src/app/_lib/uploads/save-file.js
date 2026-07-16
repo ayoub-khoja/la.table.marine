@@ -88,6 +88,8 @@ export async function saveUploadedImage(
 }
 
 /**
+ * @deprecated Utiliser saveMenuPdfForStore (@library/menu/pdf-storage).
+ * Conservé pour compatibilité ; validation PDF stricte incluse.
  * @param {File} file
  * @param {{ maxBytes?: number }} options
  */
@@ -95,34 +97,24 @@ export async function saveUploadedMenuPdf(
   file,
   { maxBytes = 15 * 1024 * 1024 } = {}
 ) {
-  if (!isFileLike(file)) {
-    throw new Error("INVALID_FILE");
-  }
-
-  if (file.type !== "application/pdf" && !file.name?.toLowerCase().endsWith(".pdf")) {
-    throw new Error("INVALID_TYPE");
-  }
-
-  if (file.size > maxBytes) {
-    throw new Error("FILE_TOO_LARGE");
-  }
+  const { validateAndReadPdf } = await import("@library/menu/validate-pdf");
+  const validated = await validateAndReadPdf(file, { maxBytes });
 
   const dir = path.join(process.cwd(), "public", "uploads", "menu");
   await fs.mkdir(dir, { recursive: true });
 
-  const storedName = `menu-${Date.now()}.pdf`;
+  const storedName = `menu-${Date.now()}-${Math.random().toString(36).slice(2, 8)}.pdf`;
   const filepath = path.join(dir, storedName);
-  const buffer = Buffer.from(await file.arrayBuffer());
-  await fs.writeFile(filepath, buffer);
+  await fs.writeFile(filepath, validated.buffer);
 
   return {
     fileUrl: `/uploads/menu/${storedName}`,
-    fileName: file.name,
-    fileSize: file.size,
+    fileName: validated.originalFileName,
+    fileSize: validated.fileSize,
     mimeType: "application/pdf",
     // rétrocompatibilité
     url: `/uploads/menu/${storedName}`,
-    filename: file.name,
-    size: file.size,
+    filename: validated.originalFileName,
+    size: validated.fileSize,
   };
 }
