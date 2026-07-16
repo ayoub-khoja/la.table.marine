@@ -34,12 +34,13 @@ describe("seo corrections — domaine", () => {
 });
 
 describe("seo corrections — page /menu", () => {
-  it("redirige côté serveur vers le PDF officiel", () => {
+  it("redirige côté serveur vers le PDF officiel quand un menu est actif", () => {
     const menuPage = fs.readFileSync(
       path.join(projectRoot, "src/app/(pages)/menu/page.jsx"),
       "utf8"
     );
     expect(menuPage).toContain('redirect("/api/menu/file")');
+    expect(menuPage).toContain("getActiveCarteMenu");
     expect(menuPage).toContain('from "next/navigation"');
     expect(menuPage).not.toContain("MenuPageClient");
     expect(menuPage).not.toContain("useEffect");
@@ -50,24 +51,24 @@ describe("seo corrections — page /menu", () => {
 });
 
 describe("seo corrections — navigation", () => {
-  it("ouvre le menu principal dans un nouvel onglet", () => {
+  it("ouvre le menu principal dans un nouvel onglet via l'URL permanente", () => {
     const menuItem = AppData.header.menu.find((item) =>
       item.label.toLowerCase().includes("carte")
     );
-    expect(menuItem?.link).toBe("/api/menu/file");
+    expect(menuItem?.link).toBe("/menu");
     expect(menuItem?.blank).toBe(1);
   });
 
-  it("ouvre le lien footer nav menu dans un nouvel onglet", () => {
+  it("ouvre le lien footer nav menu dans un nouvel onglet via l'URL permanente", () => {
     const footerMenu = AppData.footer.nav.find((item) =>
       item.label.toLowerCase().includes("carte")
     );
-    expect(footerMenu?.link).toBe("/api/menu/file");
+    expect(footerMenu?.link).toBe("/menu");
     expect(footerMenu?.blank).toBe(1);
   });
 
-  it("ouvre le bouton footer about menu dans un nouvel onglet", () => {
-    expect(AppData.footer.about.button.link).toBe("/api/menu/file");
+  it("ouvre le bouton footer about menu dans un nouvel onglet via l'URL permanente", () => {
+    expect(AppData.footer.about.button.link).toBe("/menu");
     expect(AppData.footer.about.button.blank).toBe(1);
   });
 

@@ -2,7 +2,7 @@
  * Ajoute un paramètre de version pour éviter le cache navigateur/CDN
  * quand l'URL du menu reste identique (`/api/menu/file`).
  * @param {string} fileUrl
- * @param {{ updatedAt?: string | Date, gridFsId?: string | null }} [meta]
+ * @param {{ updatedAt?: string | Date, gridFsId?: string | null, version?: number }} [meta]
  */
 export function withMenuCacheBuster(fileUrl, meta = {}) {
   if (!fileUrl || fileUrl.startsWith("/uploads/")) {
@@ -11,9 +11,10 @@ export function withMenuCacheBuster(fileUrl, meta = {}) {
 
   const version =
     meta.gridFsId ||
+    (meta.version != null ? String(meta.version) : null) ||
     (meta.updatedAt ? new Date(meta.updatedAt).getTime() : null);
 
-  if (!version || (!meta.gridFsId && Number.isNaN(Number(version)))) {
+  if (!version || (!meta.gridFsId && !meta.version && Number.isNaN(Number(version)))) {
     return fileUrl;
   }
 

@@ -2004,9 +2004,96 @@
   color: $dl1t !important;
 }
 
+.tst-admin-menu__permanent {
+  padding: 20px 24px;
+  border-bottom: 1px solid rgba($dl1, 0.08);
+  background: rgba($ac, 0.04);
+
+  strong {
+    display: block;
+    font-family: $sf;
+    font-size: 14px;
+    color: $dl1;
+    margin-bottom: 6px;
+  }
+
+  p {
+    margin: 0;
+    font-family: $sf;
+    font-size: 13px;
+    color: $dl1t;
+  }
+
+  code {
+    font-size: 13px;
+    color: $dl1;
+    word-break: break-all;
+  }
+}
+
+.tst-admin-menu__permanent-main {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.tst-admin-menu__qr-preview {
+  flex: 0 0 auto;
+  width: 140px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba($dl1, 0.1);
+  background: $wl1;
+  box-shadow: 0 8px 20px rgba($dl1, 0.08);
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.tst-admin-menu__qr-actions,
+.tst-admin-menu__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.tst-admin-menu__status {
+  margin-top: 6px !important;
+}
+
+.tst-admin-menu__badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+
+  &.is-active {
+    color: #027a48;
+    background: rgba(#027a48, 0.1);
+  }
+
+  &.is-inactive {
+    color: #b42318;
+    background: rgba(#b42318, 0.08);
+  }
+}
+
 .tst-admin-menu__preview {
   padding: 0 24px 24px;
   border-bottom: 1px solid rgba($dl1, 0.08);
+}
+
+.tst-admin-menu__preview-note {
+  margin: 0 0 10px;
+  font-family: $sf;
+  font-size: 13px;
+  color: $dl1t;
 }
 
 .tst-admin-menu__preview-frame {
@@ -2016,6 +2103,37 @@
   border: 1px solid rgba($dl1, 0.08);
   border-radius: 12px;
   background: $wl1;
+}
+
+.tst-admin-menu__progress {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: $sf;
+  font-size: 13px;
+  color: $dl1t;
+}
+
+.tst-admin-menu__progress-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    rgba($ac, 0.25),
+    $ac,
+    rgba($ac, 0.25)
+  );
+  background-size: 200% 100%;
+  animation: tst-admin-menu-progress 1.2s linear infinite;
+}
+
+@keyframes tst-admin-menu-progress {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
 }
 
 .tst-admin-products__preview {
@@ -2200,6 +2318,16 @@
   .tst-admin-menu__current {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .tst-admin-menu__permanent-main {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .tst-admin-menu__qr-preview {
+    width: min(180px, 100%);
+    align-self: center;
   }
 }
 

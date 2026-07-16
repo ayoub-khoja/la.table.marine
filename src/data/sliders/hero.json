@@ -13,7 +13,7 @@
                 "label": "Réserver"
             },
             "button2": {
-                "link": "/api/menu/file",
+                "link": "/menu",
                 "label": "Voir le menu",
                 "blank": true
             }
