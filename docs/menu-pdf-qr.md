@@ -41,13 +41,15 @@ Seul le document MongoDB `carte-menu` (référence active) change.
 
 Dans `/admin/menu` :
 
-- **Carton PNG brandé** → `qr-menu-la-table-marine.png`  
-  (nom « La Table Marine », logo ancre au centre, motifs fruits de mer / vagues, correction H)
+- **Carton PNG** → `qr-menu-la-table-marine.png` (2400 × 3400 px, prêt à imprimer)  
+  Style affiche : fond marine, « SCANNEZ », cadre viewfinder, logo La Table Marine
 - **SVG** → `qr-menu-la-table-marine.svg` (même design, vectoriel)
-- **PNG compact** → QR seul + logo central (format carré)
+- **PNG compact** → QR carré + logo central (usage technique)
 
 Imprimez-le une seule fois ; il reste valide après chaque remplacement de PDF.
 L’URL encodée reste toujours `/menu`.
+
+Les illustrations poisson/moule proviennent de [Game Icons](https://game-icons.net) (CC BY 3.0).
 
 ## Vérifier que le nouveau PDF est publié
 

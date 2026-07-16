@@ -252,12 +252,12 @@ const MenuPanel = () => {
       <div className="tst-admin-menu__permanent">
         <div className="tst-admin-menu__permanent-main">
           <div>
-            <strong>QR code permanent — La Table Marine</strong>
+            <strong>QR code permanent — prêt à imprimer</strong>
             <p>
               <code>{permanentUrl}</code>
             </p>
             <p className="tst-admin-menu__meta">
-              Carton brandé (logo ancre, nom du restaurant, motifs marins).
+              Format affiche/table (SCANNEZ, cadre viewfinder, fond marine).
               L&apos;URL encodée ne change jamais lors du remplacement du PDF.
             </p>
             <div className="tst-admin-menu__qr-actions">
@@ -290,8 +290,8 @@ const MenuPanel = () => {
             <img
               src="/api/admin/menu/qr?format=png&variant=branded&download=0"
               alt="Aperçu du QR code La Table Marine"
-              width={220}
-              height={275}
+              width={180}
+              height={255}
             />
           </div>
         </div>
