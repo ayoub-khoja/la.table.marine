@@ -1,0 +1,199 @@
+/* Carte menu partagée (admin + commande en ligne) */
+
+.menu-item-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.menu-item-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px 16px;
+  align-items: start;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: $card;
+  box-shadow: 0 2px 10px rgba($dl2, 0.06);
+  border: 1px solid rgba($dl2, 0.04);
+  min-height: 88px;
+  width: 100%;
+  box-sizing: border-box;
+
+  &__text {
+    min-width: 0;
+
+    h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      color: $dl2;
+      font-family: $sf;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    p {
+      margin: 0;
+      color: $dl1t;
+      font-size: 13px;
+      line-height: 1.45;
+      font-family: $sf;
+      font-style: italic;
+    }
+  }
+
+  &__side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 64px;
+  }
+
+  &__price {
+    display: inline-flex;
+    align-items: center;
+    font-family: $sf;
+    font-weight: 700;
+    font-size: 14px;
+    color: $dl2;
+    white-space: nowrap;
+  }
+
+  &__add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 0;
+    background: $dl2;
+    color: $wl1;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    flex-shrink: 0;
+    outline: none;
+    box-shadow: none;
+    padding: 0;
+    transition: $tr-sm;
+
+    &:hover,
+    &:focus {
+      background: $ac;
+    }
+  }
+
+  &__qty {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    button {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 0;
+      background: $dl2;
+      color: $wl1;
+      font-size: 18px;
+      line-height: 1;
+      cursor: pointer;
+      outline: none;
+      transition: $tr-sm;
+      flex-shrink: 0;
+
+      &:hover,
+      &:focus {
+        background: $ac;
+      }
+    }
+
+    span {
+      min-width: 18px;
+      text-align: center;
+      font-family: $sf;
+      font-weight: 800;
+      color: $dl2;
+      font-size: 15px;
+    }
+  }
+
+  &--preview {
+    background: rgba($dl1, 0.03);
+    box-shadow: none;
+  }
+}
+
+.menu-accordion {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.menu-accordion__item {
+  border-radius: 14px;
+  background: rgba($dl1, 0.06);
+  overflow: hidden;
+}
+
+.menu-accordion__trigger {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 12px 16px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  font-family: $sf;
+  color: $dl2;
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.menu-accordion__thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: $card;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &--wine {
+    background: rgba($dl2, 0.08);
+    color: $dl2;
+    font-size: 20px;
+  }
+}
+
+.menu-accordion__name {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: $sf;
+}
+
+.menu-accordion__panel {
+  padding: 0 16px 16px;
+}

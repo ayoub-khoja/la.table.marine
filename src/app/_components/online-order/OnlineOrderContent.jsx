@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import menuConfig from "@data/online-order/menu.json";
 import OnlineOrderCheckoutModal from "@components/online-order/OnlineOrderCheckoutModal";
+import MenuItemCard from "@components/menu/MenuItemCard";
 import { formatPrice } from "@library/online-order/format-price";
 import {
   isChildSpecialMenu,
@@ -134,85 +135,90 @@ function CartModal({ isOpen, lines, onClose, onUpdateQty, onRemove, total, onChe
   );
 }
 
+function getBrowseSectionId(tab) {
+  if (tab.kind === "products" || tab.kind === "categories") {
+    return "tab-catalog";
+  }
+  return `tab-${tab.id}`;
+}
+
+function sectionKey(prefix, id) {
+  return `${prefix}:${id}`;
+}
+
 const OnlineOrderContent = () => {
-  const sectionRefs = useRef({});
-  const [menuCategories, setMenuCategories] = useState([]);
+  const contentRefs = useRef({});
+  const [tabs, setTabs] = useState([]);
   const [menuSections, setMenuSections] = useState([]);
-  const [menuLoading, setMenuLoading] = useState(true);
+  const [wineSections, setWineSections] = useState([]);
+  const [specialMenus, setSpecialMenus] = useState([]);
+  const [customByTab, setCustomByTab] = useState({});
+  const [loading, setLoading] = useState(true);
   const [openSections, setOpenSections] = useState({});
-  const [cartLines, setCartLines] = useState(/** @type {Array<CartLine & { quantity: number }>} */ ([]));
+  const [cartLines, setCartLines] = useState(/** @type {Array<{ id: string, name: string, description?: string, price: number, quantity: number }>} */ ([]));
   const [cartOpen, setCartOpen] = useState(false);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
-  const [specialMenus, setSpecialMenus] = useState([]);
-  const [specialMenusLoading, setSpecialMenusLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
 
-    const fetchMenu = async () => {
+    const fetchMenuTabs = async () => {
       try {
-        const res = await fetch("/api/online-order/menu", { cache: "no-store" });
+        const res = await fetch("/api/menu-tabs", { cache: "no-store" });
         const data = await res.json();
 
-        if (!res.ok) {
+        if (!res.ok || !data.success) {
           throw new Error(data.error || "Erreur lors du chargement.");
         }
 
         if (!cancelled) {
-          const sections = data.sections || [];
-          setMenuCategories(data.categories || []);
-          setMenuSections(sections);
-          setOpenSections(
-            Object.fromEntries(sections.map((section) => [section.id, Boolean(section.defaultOpen)]))
+          const nextTabs = Array.isArray(data.tabs) ? data.tabs : [];
+          const productSections = data.products?.sections || [];
+          const nextWineSections = data.wines?.sections || [];
+          const nextCustom = data.custom && typeof data.custom === "object" ? data.custom : {};
+
+          setTabs(nextTabs);
+          setMenuSections(productSections);
+          setWineSections(nextWineSections);
+          setSpecialMenus(data.specialMenus || []);
+          setCustomByTab(nextCustom);
+
+          const openMap = {};
+          const firstProductWithItems = productSections.find(
+            (section) => Array.isArray(section.items) && section.items.length > 0
           );
+          if (firstProductWithItems) {
+            openMap[sectionKey("product", firstProductWithItems.id)] = true;
+          }
+          nextWineSections.forEach((section, index) => {
+            if (!Array.isArray(section.items) || !section.items.length) return;
+            openMap[sectionKey("wine", section.id)] = index === 0;
+          });
+          Object.entries(nextCustom).forEach(([tabId, payload]) => {
+            (payload?.sections || []).forEach((section, index) => {
+              if (!Array.isArray(section.items) || !section.items.length) return;
+              openMap[sectionKey(`custom:${tabId}`, section.id)] = index === 0;
+            });
+          });
+          setOpenSections(openMap);
         }
       } catch {
         if (!cancelled) {
-          setMenuCategories([]);
+          setTabs([]);
           setMenuSections([]);
+          setWineSections([]);
+          setSpecialMenus([]);
+          setCustomByTab({});
           setOpenSections({});
         }
       } finally {
         if (!cancelled) {
-          setMenuLoading(false);
+          setLoading(false);
         }
       }
     };
 
-    fetchMenu();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    const fetchSpecialMenus = async () => {
-      try {
-        const res = await fetch("/api/special-menus", { cache: "no-store" });
-        const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(data.error || "Erreur lors du chargement.");
-        }
-
-        if (!cancelled) {
-          setSpecialMenus(data.menus || []);
-        }
-      } catch {
-        if (!cancelled) {
-          setSpecialMenus([]);
-        }
-      } finally {
-        if (!cancelled) {
-          setSpecialMenusLoading(false);
-        }
-      }
-    };
-
-    fetchSpecialMenus();
+    fetchMenuTabs();
 
     return () => {
       cancelled = true;
@@ -238,6 +244,31 @@ const OnlineOrderContent = () => {
     if (displaySpecialMenus.length !== 3) return false;
     return displaySpecialMenus.some(isChildSpecialMenu);
   }, [displaySpecialMenus]);
+
+  const [activeBrowseId, setActiveBrowseId] = useState(null);
+
+  const visibleTabs = useMemo(
+    () => tabs.filter((tab) => tab.kind !== "wines"),
+    [tabs]
+  );
+
+  useEffect(() => {
+    if (!visibleTabs.length) {
+      setActiveBrowseId(null);
+      return;
+    }
+    setActiveBrowseId((current) => {
+      if (current && visibleTabs.some((tab) => tab.id === current)) return current;
+      return visibleTabs[0].id;
+    });
+  }, [visibleTabs]);
+
+  const catalogTitle = useMemo(() => {
+    const catalogTab = visibleTabs.find(
+      (tab) => tab.kind === "products" || tab.kind === "categories"
+    );
+    return catalogTab?.label || "Notre carte";
+  }, [visibleTabs]);
 
   const addToCart = useCallback((item) => {
     setCartLines((prev) => {
@@ -265,22 +296,348 @@ const OnlineOrderContent = () => {
     setCartLines((prev) => prev.filter((line) => line.id !== id));
   }, []);
 
-  const scrollToSection = useCallback((sectionId) => {
-    setOpenSections((prev) => ({ ...prev, [sectionId]: true }));
-    const el = sectionRefs.current[sectionId];
+  const scrollToTab = useCallback((tab) => {
+    setActiveBrowseId(tab.id);
+    const sectionId = getBrowseSectionId(tab);
+    const el = contentRefs.current[sectionId];
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   }, []);
 
-  const toggleSection = useCallback((sectionId) => {
-    setOpenSections((prev) => ({ ...prev, [sectionId]: !prev[sectionId] }));
+  const toggleSection = useCallback((key) => {
+    setOpenSections((prev) => ({ ...prev, [key]: !prev[key] }));
   }, []);
 
   const getItemQuantity = useCallback(
     (id) => cartLines.find((line) => line.id === id)?.quantity ?? 0,
     [cartLines]
   );
+
+  const renderItemCards = useCallback(
+    (items) => {
+      if (!items.length) return null;
+
+      return (
+        <div className="menu-item-cards">
+          {items.map((item) => {
+            const quantity = getItemQuantity(item.id);
+            const price = Number(item.price) || 0;
+            const cartItem = {
+              id: item.id,
+              name: item.name,
+              description: item.description || "",
+              price,
+            };
+
+            return (
+              <MenuItemCard
+                key={item.id}
+                name={item.name}
+                description={item.description}
+                priceLabel={item.priceFormatted || formatPrice(price)}
+                quantity={quantity}
+                interactive
+                onAdd={() => addToCart(cartItem)}
+                onRemove={() => updateQty(item.id, quantity - 1)}
+              />
+            );
+          })}
+        </div>
+      );
+    },
+    [addToCart, getItemQuantity, updateQty]
+  );
+
+  const renderProductAccordion = () => {
+    const sectionsWithItems = menuSections.filter(
+      (section) => Array.isArray(section.items) && section.items.length > 0
+    );
+
+    if (!sectionsWithItems.length) {
+      return null;
+    }
+
+    return (
+      <div className="online-order__accordion">
+        {sectionsWithItems.map((section) => {
+          const key = sectionKey("product", section.id);
+          const isOpen = Boolean(openSections[key]);
+
+          return (
+            <article
+              key={section.id}
+              className={`online-order__accordion-item${isOpen ? " is-open" : ""}`}
+            >
+              <button
+                type="button"
+                className="online-order__accordion-trigger"
+                aria-expanded={isOpen}
+                onClick={(event) => {
+                  toggleSection(key);
+                  event.currentTarget.blur();
+                }}
+              >
+                <span className="online-order__accordion-thumb">
+                  {section.image ? (
+                    <Image
+                      src={section.image}
+                      alt=""
+                      width={80}
+                      height={80}
+                      sizes="40px"
+                    />
+                  ) : null}
+                </span>
+                <span className="online-order__accordion-name">{section.name}</span>
+                <i className={`fas fa-chevron-${isOpen ? "up" : "down"}`} aria-hidden="true" />
+              </button>
+
+              {isOpen ? (
+                <div className="online-order__accordion-panel">
+                  {section.accompaniments?.length ? (
+                    <div className="online-order__accompaniments">
+                      <span>Accompagnements :</span>
+                      <div className="online-order__tags">
+                        {section.accompaniments.map((tag) => (
+                          <span key={tag} className="online-order__tag">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+
+                  {renderItemCards(section.items || [])}
+                </div>
+              ) : null}
+            </article>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const renderSimpleAccordion = (sections, prefix, emptyThumbIcon = "fa-utensils") => {
+    const sectionsWithItems = (sections || []).filter(
+      (section) => Array.isArray(section.items) && section.items.length > 0
+    );
+
+    if (!sectionsWithItems.length) {
+      return null;
+    }
+
+    return (
+      <div className="menu-accordion online-order__accordion">
+        {sectionsWithItems.map((section) => {
+          const key = sectionKey(prefix, section.id);
+          const isOpen = Boolean(openSections[key]);
+
+          return (
+            <article
+              key={section.id}
+              className={`menu-accordion__item online-order__accordion-item${
+                isOpen ? " is-open" : ""
+              }`}
+            >
+              <button
+                type="button"
+                className="menu-accordion__trigger online-order__accordion-trigger"
+                aria-expanded={isOpen}
+                onClick={(event) => {
+                  toggleSection(key);
+                  event.currentTarget.blur();
+                }}
+              >
+                <span className="menu-accordion__thumb menu-accordion__thumb--wine">
+                  <i className={`fas ${emptyThumbIcon}`} aria-hidden="true" />
+                </span>
+                <span className="menu-accordion__name online-order__accordion-name">
+                  {section.name}
+                </span>
+                <i
+                  className={`fas fa-chevron-${isOpen ? "up" : "down"}`}
+                  aria-hidden="true"
+                />
+              </button>
+
+              {isOpen ? (
+                <div className="menu-accordion__panel online-order__accordion-panel">
+                  {renderItemCards(section.items || [])}
+                </div>
+              ) : null}
+            </article>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const renderSpecialMenus = () => (
+    <div className="online-order__specials online-order__specials--inline">
+      {displaySpecialMenus.length ? (
+        <div
+          className={`online-order__specials-grid${
+            centerChildMenu ? " online-order__specials-grid--three" : ""
+          }`}
+        >
+          {displaySpecialMenus.map((menu) => {
+            const isChild = isChildSpecialMenu(menu);
+            const isCompact = isCompactSpecialMenu(menu);
+
+            return (
+              <article
+                key={menu.id}
+                className={`online-order__special-card${
+                  isChild ? " online-order__special-card--child" : ""
+                }${isCompact ? " online-order__special-card--compact" : ""}`}
+              >
+                {menu.image ? (
+                  <div className="online-order__special-media">
+                    <Image
+                      src={menu.image}
+                      alt=""
+                      fill
+                      sizes="(max-width: 767px) 100vw, 50vw"
+                      className="online-order__special-image"
+                    />
+                  </div>
+                ) : null}
+                <div className="online-order__special-body">
+                  <div className="online-order__special-head">
+                    <h4>{menu.name}</h4>
+                    <strong>{formatPrice(menu.price)}</strong>
+                  </div>
+                  {menu.subtitle ? (
+                    <p className="online-order__special-sub">{menu.subtitle}</p>
+                  ) : null}
+                  {menu.courses?.map((course) => (
+                    <div key={`${menu.id}-${course.title}`} className="online-order__special-course">
+                      <h5>{course.title}</h5>
+                      <ul>
+                        {course.items.map((entry) => (
+                          <li key={entry}>{entry}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                  {getAccompanimentTags(menu.accompaniments).length ? (
+                    <div className="online-order__special-accompaniments">
+                      <span className="online-order__special-accompaniments-label">
+                        Accompagnement au choix
+                      </span>
+                      <div className="online-order__special-tags">
+                        {getAccompanimentTags(menu.accompaniments).map((tag) => (
+                          <span key={tag} className="online-order__special-tag">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null}
+                  <button
+                    type="button"
+                    className="online-order__special-btn tst-btn"
+                    onClick={() =>
+                      addToCart({
+                        id: menu.id,
+                        name: menu.name,
+                        description: menu.subtitle || "Menu spécial",
+                        price: menu.price,
+                      })
+                    }
+                  >
+                    Commander
+                  </button>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      ) : (
+        <p className="online-order__specials-empty">Aucun menu spécial pour le moment.</p>
+      )}
+    </div>
+  );
+
+  const renderTabContent = () => {
+    let catalogRendered = false;
+
+    return visibleTabs.map((tab) => {
+      if (tab.kind === "products" || tab.kind === "categories") {
+        if (catalogRendered) return null;
+        catalogRendered = true;
+
+        const hasCatalogItems = menuSections.some(
+          (section) => Array.isArray(section.items) && section.items.length > 0
+        );
+        if (!hasCatalogItems) return null;
+
+        return (
+          <section
+            key="tab-catalog"
+            id="tab-catalog"
+            ref={(node) => {
+              contentRefs.current["tab-catalog"] = node;
+            }}
+            className="online-order__menu"
+            aria-label={catalogTitle}
+          >
+            <h3 className="online-order__section-title">{catalogTitle}</h3>
+            {renderProductAccordion()}
+          </section>
+        );
+      }
+
+      if (tab.kind === "special-menus") {
+        const sectionId = getBrowseSectionId(tab);
+        return (
+          <section
+            key={tab.id}
+            id={sectionId}
+            ref={(node) => {
+              contentRefs.current[sectionId] = node;
+            }}
+            className="online-order__menu"
+            aria-label={tab.label}
+          >
+            <h3 className="online-order__section-title">{tab.label}</h3>
+            {renderSpecialMenus()}
+          </section>
+        );
+      }
+
+      if (tab.kind === "custom") {
+        const sectionId = getBrowseSectionId(tab);
+        const sections = customByTab[tab.id]?.sections || [];
+        const hasItems = sections.some(
+          (section) => Array.isArray(section.items) && section.items.length > 0
+        );
+        if (!hasItems) return null;
+
+        return (
+          <section
+            key={tab.id}
+            id={sectionId}
+            ref={(node) => {
+              contentRefs.current[sectionId] = node;
+            }}
+            className="online-order__menu"
+            aria-label={tab.label}
+          >
+            <h3 className="online-order__section-title">{tab.label}</h3>
+            {renderSimpleAccordion(
+              sections,
+              `custom:${tab.id}`,
+              tab.icon || "fa-utensils"
+            )}
+          </section>
+        );
+      }
+
+      return null;
+    });
+  };
 
   return (
     <div className={`online-order${cartCount > 0 ? " online-order--has-summary" : ""}`}>
@@ -312,242 +669,32 @@ const OnlineOrderContent = () => {
         </div>
       </section>
 
-      <section className="online-order__categories" aria-label="Catégories du menu">
-        <h3 className="online-order__section-title">Parcourir le menu</h3>
-        {menuLoading ? (
+      <section className="online-order__categories" aria-label="Parcourir la carte">
+        {loading ? (
           <p className="online-order__specials-empty">Chargement du menu…</p>
-        ) : menuCategories.length ? (
-          <div className="online-order__categories-track">
-            {menuCategories.map((category) => (
+        ) : visibleTabs.length ? (
+          <nav className="online-order__title-nav" aria-label="Sections de la carte">
+            {visibleTabs.map((tab) => (
               <button
-                key={category.id}
+                key={tab.id}
                 type="button"
-                className="online-order__category-card"
-                onClick={() => scrollToSection(category.id)}
+                className={`online-order__section-title online-order__section-title--nav${
+                  activeBrowseId === tab.id ? " is-active" : ""
+                }`}
+                onClick={() => scrollToTab(tab)}
               >
-                {category.image ? (
-                  <span className="online-order__category-media">
-                    <Image
-                      src={category.image}
-                      alt=""
-                      width={320}
-                      height={240}
-                      sizes="160px"
-                      className="online-order__category-image"
-                    />
-                  </span>
-                ) : null}
-                <span className="online-order__category-label">{category.name}</span>
+                {tab.label}
               </button>
             ))}
-          </div>
-        ) : (
-          <p className="online-order__specials-empty">Aucune catégorie disponible pour le moment.</p>
-        )}
+          </nav>
+        ) : null}
       </section>
 
-      <section className="online-order__menu" aria-label="Notre carte">
-        <h3 className="online-order__section-title">Notre carte</h3>
-        {menuLoading ? (
-          <p className="online-order__specials-empty">Chargement de la carte…</p>
-        ) : menuSections.length ? (
-        <div className="online-order__accordion">
-          {menuSections.map((section) => {
-            const isOpen = openSections[section.id];
-            return (
-              <article
-                key={section.id}
-                ref={(node) => {
-                  sectionRefs.current[section.id] = node;
-                }}
-                className={`online-order__accordion-item${isOpen ? " is-open" : ""}`}
-              >
-                <button
-                  type="button"
-                  className="online-order__accordion-trigger"
-                  aria-expanded={isOpen}
-                  onClick={(event) => {
-                    toggleSection(section.id);
-                    event.currentTarget.blur();
-                  }}
-                >
-                  <span className="online-order__accordion-thumb">
-                    {section.image ? (
-                      <Image
-                        src={section.image}
-                        alt=""
-                        width={80}
-                        height={80}
-                        sizes="40px"
-                      />
-                    ) : null}
-                  </span>
-                  <span className="online-order__accordion-name">{section.name}</span>
-                  <i className={`fas fa-chevron-${isOpen ? "up" : "down"}`} aria-hidden="true" />
-                </button>
-
-                {isOpen ? (
-                  <div className="online-order__accordion-panel">
-                    {section.accompaniments?.length ? (
-                      <div className="online-order__accompaniments">
-                        <span>Accompagnements :</span>
-                        <div className="online-order__tags">
-                          {section.accompaniments.map((tag) => (
-                            <span key={tag} className="online-order__tag">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    ) : null}
-
-                    <div className="online-order__products">
-                      {section.items.length ? (
-                        section.items.map((item) => {
-                        const quantity = getItemQuantity(item.id);
-                        return (
-                        <div key={item.id} className="online-order__product">
-                          <div className="online-order__product-text">
-                            <h3>{item.name}</h3>
-                            <p>{item.description}</p>
-                          </div>
-                          <div className="online-order__product-actions">
-                            {quantity > 0 ? (
-                              <div className="online-order__product-qty">
-                                <button
-                                  type="button"
-                                  aria-label={`Retirer un ${item.name}`}
-                                  onClick={() => updateQty(item.id, quantity - 1)}
-                                >
-                                  −
-                                </button>
-                                <span>{quantity}</span>
-                                <button
-                                  type="button"
-                                  aria-label={`Ajouter un ${item.name}`}
-                                  onClick={() => addToCart(item)}
-                                >
-                                  +
-                                </button>
-                              </div>
-                            ) : (
-                              <button
-                                type="button"
-                                className="online-order__product-add"
-                                aria-label={`Ajouter ${item.name} au panier`}
-                                onClick={() => addToCart(item)}
-                              >
-                                +
-                              </button>
-                            )}
-                            <span className="online-order__product-price">{formatPrice(item.price)}</span>
-                          </div>
-                        </div>
-                        );
-                      })
-                      ) : (
-                        <p className="online-order__specials-empty">Aucun produit dans cette catégorie.</p>
-                      )}
-                    </div>
-                  </div>
-                ) : null}
-              </article>
-            );
-          })}
-        </div>
-        ) : (
-          <p className="online-order__specials-empty">Aucun produit disponible pour le moment.</p>
-        )}
-
-        <div className="online-order__specials online-order__specials--inline" aria-label="Menus spéciaux">
-          <h3 className="online-order__specials-title">Nos menus spéciaux</h3>
-
-          {specialMenusLoading ? (
-            <p className="online-order__specials-empty">Chargement des menus spéciaux…</p>
-          ) : displaySpecialMenus.length ? (
-            <div
-              className={`online-order__specials-grid${
-                centerChildMenu ? " online-order__specials-grid--three" : ""
-              }`}
-            >
-              {displaySpecialMenus.map((menu) => {
-                const isChild = isChildSpecialMenu(menu);
-                const isCompact = isCompactSpecialMenu(menu);
-
-                return (
-                <article
-                  key={menu.id}
-                  className={`online-order__special-card${
-                    isChild ? " online-order__special-card--child" : ""
-                  }${isCompact ? " online-order__special-card--compact" : ""}`}
-                >
-                  {menu.image ? (
-                    <div className="online-order__special-media">
-                      <Image
-                        src={menu.image}
-                        alt=""
-                        fill
-                        sizes="(max-width: 767px) 100vw, 50vw"
-                        className="online-order__special-image"
-                      />
-                    </div>
-                  ) : null}
-                  <div className="online-order__special-body">
-                    <div className="online-order__special-head">
-                      <h4>{menu.name}</h4>
-                      <strong>{formatPrice(menu.price)}</strong>
-                    </div>
-                    {menu.subtitle ? (
-                      <p className="online-order__special-sub">{menu.subtitle}</p>
-                    ) : null}
-                    {menu.courses?.map((course) => (
-                      <div key={`${menu.id}-${course.title}`} className="online-order__special-course">
-                        <h5>{course.title}</h5>
-                        <ul>
-                          {course.items.map((entry) => (
-                            <li key={entry}>{entry}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                    {getAccompanimentTags(menu.accompaniments).length ? (
-                      <div className="online-order__special-accompaniments">
-                        <span className="online-order__special-accompaniments-label">
-                          Accompagnement au choix
-                        </span>
-                        <div className="online-order__special-tags">
-                          {getAccompanimentTags(menu.accompaniments).map((tag) => (
-                            <span key={tag} className="online-order__special-tag">
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    ) : null}
-                    <button
-                      type="button"
-                      className="online-order__special-btn tst-btn"
-                      onClick={() =>
-                        addToCart({
-                          id: menu.id,
-                          name: menu.name,
-                          description: menu.subtitle || "Menu spécial",
-                          price: menu.price,
-                        })
-                      }
-                    >
-                      Commander
-                    </button>
-                  </div>
-                </article>
-                );
-              })}
-            </div>
-          ) : (
-            <p className="online-order__specials-empty">Aucun menu spécial disponible pour le moment.</p>
-          )}
-        </div>
-      </section>
+      {loading ? (
+        <p className="online-order__specials-empty">Chargement de la carte…</p>
+      ) : (
+        renderTabContent()
+      )}
 
       <p className="online-order__footer-note">
         {menuConfig.contact.address} — {menuConfig.contact.phone}

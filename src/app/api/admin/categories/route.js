@@ -17,7 +17,7 @@ export async function GET(request) {
   } catch (error) {
     console.error("[api/admin/categories]", error);
     return NextResponse.json(
-      { success: false, error: "Impossible de charger les catégories." },
+      { success: false, error: "Impossible de charger les boissons." },
       { status: 500 }
     );
   }
@@ -44,7 +44,7 @@ export async function POST(request) {
     const message =
       error instanceof Error && error.message
         ? error.message
-        : "Impossible d'ajouter la catégorie.";
+        : "Impossible d'ajouter la boisson.";
 
     return NextResponse.json({ success: false, error: message }, { status: 400 });
   }

@@ -48,7 +48,7 @@ export const ADMIN_NAV_ITEMS = [
   },
   {
     id: "produits",
-    label: "Produit",
+    label: "Notre carte",
     href: "/admin/produits",
     icon: "fa-box",
   },

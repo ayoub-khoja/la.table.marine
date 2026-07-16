@@ -17,7 +17,7 @@ export async function GET(request) {
   } catch (error) {
     console.error("[api/admin/products]", error);
     return NextResponse.json(
-      { success: false, error: "Impossible de charger les produits." },
+      { success: false, error: "Impossible de charger notre carte." },
       { status: 500 }
     );
   }
@@ -66,7 +66,7 @@ export async function POST(request) {
     const message =
       error instanceof Error && error.message
         ? error.message
-        : "Impossible d'ajouter le produit.";
+        : "Impossible d'ajouter à notre carte.";
 
     return NextResponse.json({ success: false, error: message }, { status: 400 });
   }

@@ -1695,10 +1695,70 @@
 /* Produits */
 .tst-admin-products__main-tabs {
   display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
   gap: 10px;
   margin-bottom: 18px;
   padding-bottom: 16px;
   border-bottom: 1px solid rgba($dl1, 0.1);
+}
+
+.tst-admin-products__tabs-loading {
+  font-family: $sf;
+  font-size: 14px;
+  color: $dl1t;
+  align-self: center;
+}
+
+.tst-admin-products__main-tab-wrap {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: stretch;
+}
+
+.tst-admin-products__main-tab-actions {
+  display: flex;
+  justify-content: center;
+  gap: 2px;
+  opacity: 0.55;
+  transition: opacity $tr-sm;
+
+  .tst-admin-products__main-tab-wrap:hover &,
+  .tst-admin-products__main-tab-wrap.is-active & {
+    opacity: 1;
+  }
+}
+
+.tst-admin-products__main-tab-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: $dl1t;
+  cursor: pointer;
+  font-size: 11px;
+  transition: background $tr-sm, color $tr-sm;
+
+  &:hover:not(:disabled) {
+    background: rgba($dl1, 0.08);
+    color: $dl1;
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+
+  &--danger:hover:not(:disabled) {
+    background: rgba(#dc3545, 0.1);
+    color: #dc3545;
+  }
 }
 
 .tst-admin-products__main-tab {
@@ -1716,15 +1776,29 @@
   cursor: pointer;
   transition: background $tr-sm, border-color $tr-sm, color $tr-sm;
 
+  i {
+    color: inherit;
+  }
+
   &:hover {
     border-color: rgba($ac, 0.35);
     color: $dl1;
   }
 
   &.is-active {
-    color: $card;
-    background: $dl2;
-    border-color: $dl2;
+    color: $ac;
+    background: rgba($ac, 0.08);
+    border-color: rgba($ac, 0.35);
+  }
+
+  &--add {
+    color: $dl1;
+    border-style: dashed;
+
+    &:hover {
+      border-color: $ac;
+      color: $ac;
+    }
   }
 }
 
@@ -2094,6 +2168,115 @@
   border-radius: 8px;
 }
 
+.tst-admin-menu-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tst-admin-menu-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 96px;
+  gap: 12px;
+  padding: 18px;
+  border-radius: 14px;
+  background: $card;
+  border: 1px solid rgba($dl1, 0.08);
+  min-height: 120px;
+  align-items: start;
+  box-shadow: 0 1px 3px rgba($dl2, 0.04);
+
+  &--preview {
+    background: rgba($dl1, 0.03);
+  }
+
+  &__text {
+    min-width: 0;
+
+    h3 {
+      margin: 0 0 6px;
+      font-size: 16px;
+      color: $dl2;
+      font-family: $sf;
+      font-weight: 800;
+    }
+
+    p {
+      margin: 0;
+      color: $dl1t;
+      font-size: 13px;
+      line-height: 1.45;
+      font-family: $sf;
+    }
+  }
+
+  &__category {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: rgba($ac, 0.1);
+    color: $ac;
+    font-family: $sf;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 96px;
+    min-height: 84px;
+    gap: 12px;
+  }
+
+  &__add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: $dl2;
+    color: $wl1;
+    font-size: 22px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  &__price {
+    width: 100%;
+    text-align: right;
+    font-family: $sf;
+    font-weight: 800;
+    color: $dl2;
+    white-space: nowrap;
+  }
+}
+
+.tst-admin-wine-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tst-admin-wine-card__delete {
+  align-self: flex-end;
+}
+
+.tst-admin-products__preview-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .tst-admin-products__form {
   display: flex;
   flex-direction: column;
@@ -2133,6 +2316,7 @@
   }
 
   input,
+  select,
   textarea {
     font-family: $sf;
     font-size: 14px;
@@ -2148,6 +2332,11 @@
       border-color: rgba($ac, 0.5);
       box-shadow: 0 0 0 3px rgba($ac, 0.12);
     }
+  }
+
+  select {
+    resize: none;
+    cursor: pointer;
   }
 }
 

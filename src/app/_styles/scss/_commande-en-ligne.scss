@@ -29,9 +29,46 @@
   &__section-title {
     text-align: center;
     margin: 0 0 24px;
-    font-family: $pf;
+    font-family: $sf;
     font-size: clamp(28px, 4vw, 36px);
+    font-weight: 700;
     color: $dl2;
+    letter-spacing: 0;
+
+    &--nav {
+      display: block;
+      width: 100%;
+      margin: 0;
+      padding: 8px 12px;
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      outline: none;
+      box-shadow: none;
+      transition: color $tr-sm, opacity $tr-sm;
+
+      &:focus,
+      &:focus-visible {
+        outline: none;
+        box-shadow: none;
+      }
+
+      &:hover {
+        color: $ac;
+      }
+
+      &.is-active {
+        color: $dl2;
+      }
+    }
+  }
+
+  &__title-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
   }
 
   &__categories {
@@ -104,6 +141,59 @@
     font-weight: 700;
     color: $dl2;
     font-size: 14px;
+  }
+
+  &__categories-track:has(.online-order__tab-card) {
+    display: flex;
+    flex-wrap: wrap;
+    grid-auto-flow: unset;
+    grid-auto-columns: unset;
+    gap: 10px;
+    overflow: visible;
+    scroll-snap-type: none;
+    justify-content: flex-start;
+  }
+
+  &__tab-card {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba($dl1, 0.12);
+    margin: 0;
+    padding: 12px 20px;
+    border-radius: 12px;
+    background: $card;
+    color: $dl1t;
+    font-family: $sf;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background $tr-sm, border-color $tr-sm, color $tr-sm;
+    outline: none;
+    box-shadow: none;
+
+    i {
+      font-size: 15px;
+      color: inherit;
+    }
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+      box-shadow: none;
+    }
+
+    &:hover {
+      border-color: rgba($ac, 0.35);
+      color: $dl1;
+    }
+
+    &.is-active {
+      color: $ac;
+      background: rgba($ac, 0.08);
+      border-color: rgba($ac, 0.35);
+    }
   }
 
   &__delivery {

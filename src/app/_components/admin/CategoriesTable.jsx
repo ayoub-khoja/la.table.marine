@@ -254,10 +254,10 @@ const CategoriesTable = () => {
 
       showFeedback(
         "success",
-        "Catégorie supprimée",
+        "Boisson supprimée",
         deletedProducts > 0
-          ? `La catégorie « ${categoryName} » et ${deletedProducts} produit${deletedProducts > 1 ? "s" : ""} associé${deletedProducts > 1 ? "s" : ""} ont été supprimés.`
-          : `La catégorie « ${categoryName} » a été supprimée avec succès.`
+          ? `La boisson « ${categoryName} » et ${deletedProducts} élément${deletedProducts > 1 ? "s" : ""} de notre carte associé${deletedProducts > 1 ? "s" : ""} ont été supprimés.`
+          : `La boisson « ${categoryName} » a été supprimée avec succès.`
       );
     } catch (err) {
       showFeedback(
@@ -285,7 +285,7 @@ const CategoriesTable = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || "Impossible d'ajouter la catégorie.");
+        throw new Error(data.error || "Impossible d'ajouter la boisson.");
       }
 
       closeAddModal();
@@ -293,8 +293,8 @@ const CategoriesTable = () => {
       await fetchCategories(1);
       showFeedback(
         "success",
-        "Catégorie ajoutée",
-        "La catégorie a été ajoutée avec succès."
+        "Section ajoutée",
+        "La section a été ajoutée. Ajoutez ensuite les articles dans « Notre carte »."
       );
     } catch (err) {
       const message = err.message || "Erreur réseau.";
@@ -310,7 +310,7 @@ const CategoriesTable = () => {
       return (
         <div className="tst-admin-orders__state" role="status">
           <i className="fas fa-spinner fa-spin" aria-hidden="true" />
-          <p>Chargement des catégories…</p>
+          <p>Chargement des boissons…</p>
         </div>
       );
     }
@@ -335,9 +335,9 @@ const CategoriesTable = () => {
       return (
         <div className="tst-admin-orders__state">
           <i className="fas fa-tags" aria-hidden="true" />
-          <p>Aucune catégorie pour le moment.</p>
+          <p>Aucune section pour le moment.</p>
           <span className="tst-admin-orders__hint">
-            Cliquez sur « Ajouter catégorie » pour en créer une.
+            Cliquez sur « Ajouter section » pour créer Cocktails, Cocktails sans Alcool…
           </span>
         </div>
       );
@@ -351,7 +351,7 @@ const CategoriesTable = () => {
               <tr>
                 <th scope="col">Nom</th>
                 <th scope="col" className="tst-admin-categories__col--count">
-                  Produits
+                  Notre carte
                 </th>
                 <th scope="col">Ajoutée le</th>
                 <th scope="col" className="tst-admin-categories__col--actions">
@@ -369,7 +369,7 @@ const CategoriesTable = () => {
                       <strong>{category.name}</strong>
                     </td>
                     <td
-                      data-label="Produits"
+                      data-label="Notre carte"
                       className="tst-admin-categories__col--count"
                     >
                       <strong>{category.productCount ?? 0}</strong>
@@ -400,7 +400,7 @@ const CategoriesTable = () => {
         {pagination && pagination.totalPages > 1 && (
           <nav
             className="tst-admin-orders__pagination"
-            aria-label="Pagination des catégories"
+            aria-label="Pagination des boissons"
           >
             <button
               type="button"
@@ -436,7 +436,7 @@ const CategoriesTable = () => {
           aria-current="page"
         >
           <i className="fas fa-tags" aria-hidden="true" />
-          Toutes les catégories
+          Toutes les sections
         </button>
         <button
           type="button"
@@ -444,14 +444,14 @@ const CategoriesTable = () => {
           onClick={openAddModal}
         >
           <i className="fas fa-plus" aria-hidden="true" />
-          Ajouter catégorie
+          Ajouter section
         </button>
       </div>
 
       <div className="tst-admin-orders">
         <div className="tst-admin-orders__toolbar">
           <p className="tst-admin-orders__count">
-            {pagination?.total ?? 0} catégorie
+            {pagination?.total ?? 0} section
             {(pagination?.total ?? 0) > 1 ? "s" : ""}
           </p>
         </div>
@@ -462,7 +462,7 @@ const CategoriesTable = () => {
       <Popup
         open={addModalOpen}
         onClose={closeAddModal}
-        title="Ajouter une catégorie"
+        title="Ajouter une section boisson"
       >
         <form className="tst-admin-products__form" onSubmit={handleSubmit}>
           {formError ? (
@@ -479,12 +479,12 @@ const CategoriesTable = () => {
               value={form.name}
               onChange={handleFormChange}
               required
-              placeholder="Entrée, Dessert, Salade…"
+              placeholder="Cocktails, Cocktails sans Alcool…"
             />
           </label>
 
           <div className="tst-admin-products__image-section">
-            <span className="tst-admin-products__section-label">Image de la catégorie</span>
+            <span className="tst-admin-products__section-label">Image de la section</span>
 
             <label className="tst-admin-upload__dropzone">
               <input
@@ -508,7 +508,7 @@ const CategoriesTable = () => {
                 ) : form.image ? (
                   <Image
                     src={form.image}
-                    alt="Image de la catégorie"
+                    alt="Image de la section"
                     width={160}
                     height={100}
                   />
@@ -568,19 +568,19 @@ const CategoriesTable = () => {
       <Popup
         open={deleteModalOpen}
         onClose={closeDeleteModal}
-        title="Supprimer la catégorie"
+        title="Supprimer la boisson"
       >
         <div className="tst-admin-categories__delete">
           <p className="tst-admin-categories__delete-text">
-            Êtes-vous sûr de vouloir supprimer la catégorie{" "}
+            Êtes-vous sûr de vouloir supprimer la boisson{" "}
             <strong>« {categoryToDelete?.name} »</strong> ?
           </p>
           <p className="tst-admin-categories__delete-warning">
             <i className="fas fa-exclamation-triangle" aria-hidden="true" />
-            Attention : si vous supprimez cette catégorie, tous les produits qui
-            y sont associés seront également supprimés.
+            Attention : si vous supprimez cette boisson, tous les éléments de
+            notre carte qui y sont associés seront également supprimés.
             {deleteProductCount > 0
-              ? ` (${deleteProductCount} produit${deleteProductCount > 1 ? "s" : ""} concerné${deleteProductCount > 1 ? "s" : ""})`
+              ? ` (${deleteProductCount} élément${deleteProductCount > 1 ? "s" : ""} concerné${deleteProductCount > 1 ? "s" : ""})`
               : ""}
           </p>
 

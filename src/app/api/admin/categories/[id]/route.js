@@ -25,7 +25,7 @@ export async function GET(request, { params }) {
   } catch (error) {
     console.error("[api/admin/categories/[id]]", error);
     return NextResponse.json(
-      { success: false, error: "Impossible de charger la catégorie." },
+      { success: false, error: "Impossible de charger la boisson." },
       { status: 500 }
     );
   }
@@ -55,7 +55,7 @@ export async function PATCH(request, { params }) {
 
     if (!category) {
       return NextResponse.json(
-        { success: false, error: "Catégorie introuvable." },
+        { success: false, error: "Boisson introuvable." },
         { status: 404 }
       );
     }
@@ -66,7 +66,7 @@ export async function PATCH(request, { params }) {
     const message =
       error instanceof Error && error.message
         ? error.message
-        : "Impossible de mettre à jour la catégorie.";
+        : "Impossible de mettre à jour la boisson.";
 
     return NextResponse.json({ success: false, error: message }, { status: 400 });
   }
@@ -89,7 +89,7 @@ export async function DELETE(request, { params }) {
 
     if (!result.deleted) {
       return NextResponse.json(
-        { success: false, error: "Catégorie introuvable." },
+        { success: false, error: "Boisson introuvable." },
         { status: 404 }
       );
     }
@@ -101,7 +101,7 @@ export async function DELETE(request, { params }) {
   } catch (error) {
     console.error("[api/admin/categories/[id]]", error);
     return NextResponse.json(
-      { success: false, error: "Impossible de supprimer la catégorie." },
+      { success: false, error: "Impossible de supprimer la boisson." },
       { status: 500 }
     );
   }
