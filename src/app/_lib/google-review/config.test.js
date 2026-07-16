@@ -1,6 +1,10 @@
 import { afterEach, describe, expect, it } from "vitest";
 
-import { getGoogleReviewRedirectTarget } from "./config";
+import {
+  WORKING_GOOGLE_REVIEW_URL,
+  getGoogleReviewRedirectTarget,
+  normalizeGoogleReviewUrl,
+} from "./config";
 
 const ORIGINAL_GOOGLE = process.env.GOOGLE_REVIEW_URL;
 const ORIGINAL_NODE_ENV = process.env.NODE_ENV;
@@ -35,5 +39,26 @@ describe("getGoogleReviewRedirectTarget", () => {
     process.env.GOOGLE_REVIEW_URL = "https://example.com/review";
     const target = getGoogleReviewRedirectTarget();
     expect(target.ok).toBe(false);
+  });
+
+  it("corrige l'ancienne URL writereview hex qui provoque un 404 Google", () => {
+    process.env.GOOGLE_REVIEW_URL =
+      "https://search.google.com/local/writereview?placeid=0x47e685d4a2e5dfbf:0xce3373429cba3caa";
+    const target = getGoogleReviewRedirectTarget();
+    expect(target.ok).toBe(true);
+    if (target.ok) {
+      expect(target.url).toBe(WORKING_GOOGLE_REVIEW_URL);
+      expect(target.url).toContain("ludocid=");
+      expect(target.url).toContain("#lrd=");
+      expect(target.url).not.toContain("/local/writereview");
+    }
+  });
+});
+
+describe("normalizeGoogleReviewUrl", () => {
+  it("laisse intacte une URL Search valide", () => {
+    expect(normalizeGoogleReviewUrl(WORKING_GOOGLE_REVIEW_URL)).toBe(
+      WORKING_GOOGLE_REVIEW_URL
+    );
   });
 });
