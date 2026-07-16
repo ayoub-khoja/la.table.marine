@@ -288,17 +288,10 @@ const MenuPanel = () => {
           </div>
           <div className="tst-admin-menu__qr-preview">
             <img
-              src="/api/admin/menu/qr?format=png&variant=branded&download=0"
+              src="/api/admin/menu/qr?format=png&variant=branded&download=0&v=branded3"
               alt="Aperçu du QR code La Table Marine"
               width={180}
               height={255}
-              onError={(event) => {
-                const img = event.currentTarget;
-                if (img.dataset.fallback === "1") return;
-                img.dataset.fallback = "1";
-                img.src =
-                  "/api/admin/menu/qr?format=png&variant=compact&download=0";
-              }}
             />
           </div>
         </div>

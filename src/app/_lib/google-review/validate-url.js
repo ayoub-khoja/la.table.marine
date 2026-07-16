@@ -75,5 +75,5 @@ export function validateGoogleReviewUrl(rawUrl, options = {}) {
     return { valid: false, reason: "domain_not_allowed" };
   }
 
-  return { valid: true, url: parsed.toString() };
+  return { valid: true, url: parsed.href };
 }

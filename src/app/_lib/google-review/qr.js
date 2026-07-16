@@ -321,7 +321,8 @@ export async function generateGoogleReviewQrPng() {
       letterSpacing: 3,
     }),
     (async () => {
-      const fontFace = await getQrCardFontFaceCss();
+      const { loadFont } = await import("@library/shared/embed-font");
+      const font = await loadFont("bold");
       const letters = [
         { ch: "G", color: REVIEW_QR_BRAND.waveLight },
         { ch: "o", color: REVIEW_QR_BRAND.gold },
@@ -330,25 +331,28 @@ export async function generateGoogleReviewQrPng() {
         { ch: "l", color: REVIEW_QR_BRAND.sand },
         { ch: "e", color: REVIEW_QR_BRAND.gold },
       ];
-      const charW = 40;
-      const startX = W / 2 - (letters.length * charW) / 2 + charW / 2;
-      const body = letters
-        .map(
-          (letter, i) =>
-            `<text x="${startX + i * charW}" y="48" text-anchor="middle"
-              font-family="QRCard, DejaVu Sans, sans-serif" font-size="58" font-weight="800"
-              fill="${letter.color}">${letter.ch}</text>`
-        )
+      const fontSize = 58;
+      const letterSpacing = 2;
+      let total = 0;
+      for (let i = 0; i < letters.length; i++) {
+        const g = font.charToGlyph(letters[i].ch);
+        total += g.advanceWidth * (fontSize / font.unitsPerEm);
+        if (i < letters.length - 1) total += letterSpacing;
+      }
+      let x = (W - total) / 2;
+      const baseline = 48;
+      const paths = letters
+        .map((letter) => {
+          const g = font.charToGlyph(letter.ch);
+          const p = g.getPath(x, baseline, fontSize);
+          const d = p.toPathData(1);
+          x += g.advanceWidth * (fontSize / font.unitsPerEm) + letterSpacing;
+          return d ? `<path d="${d}" fill="${letter.color}"/>` : "";
+        })
         .join("");
       const svg = `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="70">
-  <defs><style type="text/css"><![CDATA[${fontFace}]]></style></defs>
-  ${body}
-</svg>`;
-      return sharp(Buffer.from(svg, "utf8"))
-        .resize(W, 70, { fit: "fill" })
-        .png()
-        .toBuffer();
+<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="70" viewBox="0 0 ${W} 70">${paths}</svg>`;
+      return sharp(Buffer.from(svg, "utf8")).png().toBuffer();
     })(),
     (async () => {
       const svg = `<?xml version="1.0" encoding="UTF-8"?>
