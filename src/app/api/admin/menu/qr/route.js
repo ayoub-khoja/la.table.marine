@@ -71,14 +71,7 @@ export async function GET(request) {
       png = await generateMenuQrPngCompact();
       filename = "qr-menu-la-table-marine-compact.png";
     } else {
-      try {
-        png = await generateMenuQrPng();
-      } catch (brandedError) {
-        // Fallback production si Sharp échoue sur le carton brandé (filtres SVG / mémoire).
-        console.error("[api/admin/menu/qr] branded failed, fallback compact:", brandedError);
-        png = await generateMenuQrPngCompact();
-        filename = "qr-menu-la-table-marine-compact.png";
-      }
+      png = await generateMenuQrPng();
     }
 
     // Uint8Array : réponse image fiable sur Vercel (Buffer Node parfois mal sérialisé).

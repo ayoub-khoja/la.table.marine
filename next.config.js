@@ -15,6 +15,7 @@ const nextConfig = {
       "@vercel/blob",
       "sharp",
       "qrcode",
+      "opentype.js",
     ],
     outputFileTracingIncludes: {
       "/api/admin/menu/qr": [

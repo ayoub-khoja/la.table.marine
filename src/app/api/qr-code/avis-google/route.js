@@ -62,16 +62,7 @@ export async function GET(request) {
       png = await generateGoogleReviewQrPngCompact();
       filename = "qr-avis-google-la-table-marine-compact.png";
     } else {
-      try {
-        png = await generateGoogleReviewQrPng();
-      } catch (brandedError) {
-        console.error(
-          "[api/qr-code/avis-google] branded failed, fallback compact:",
-          brandedError
-        );
-        png = await generateGoogleReviewQrPngCompact();
-        filename = "qr-avis-google-la-table-marine-compact.png";
-      }
+      png = await generateGoogleReviewQrPng();
     }
 
     return new NextResponse(new Uint8Array(png), {

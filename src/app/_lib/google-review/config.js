@@ -9,10 +9,18 @@ import { validateGoogleReviewUrl } from "./validate-url";
  * @returns {GoogleReviewRedirectResult}
  */
 export function getGoogleReviewRedirectTarget() {
-  const raw = process.env.GOOGLE_REVIEW_URL?.trim();
+  let raw = process.env.GOOGLE_REVIEW_URL?.trim();
 
   if (!raw) {
     return { ok: false, reason: "missing_env" };
+  }
+
+  // Enlève les guillemets éventuels (.env avec # dans l'URL)
+  if (
+    (raw.startsWith('"') && raw.endsWith('"')) ||
+    (raw.startsWith("'") && raw.endsWith("'"))
+  ) {
+    raw = raw.slice(1, -1).trim();
   }
 
   const validation = validateGoogleReviewUrl(raw);

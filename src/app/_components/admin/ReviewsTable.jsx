@@ -592,17 +592,10 @@ const ReviewsTable = () => {
           </div>
           <div className="tst-admin-menu__qr-preview tst-admin-reviews__qr-preview">
             <img
-              src="/api/qr-code/avis-google?format=png&variant=branded&download=0"
+              src="/api/qr-code/avis-google?format=png&variant=branded&download=0&v=branded3"
               alt="Aperçu du QR code avis Google La Table Marine"
               width={160}
               height={210}
-              onError={(event) => {
-                const img = event.currentTarget;
-                if (img.dataset.fallback === "1") return;
-                img.dataset.fallback = "1";
-                img.src =
-                  "/api/qr-code/avis-google?format=png&variant=compact&download=0";
-              }}
             />
           </div>
         </div>
