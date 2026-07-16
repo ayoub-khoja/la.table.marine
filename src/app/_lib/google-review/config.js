@@ -5,14 +5,24 @@ import { validateGoogleReviewUrl } from "./validate-url";
 /** @typedef {GoogleReviewRedirectReady | GoogleReviewRedirectError} GoogleReviewRedirectResult */
 
 /**
- * Ancienne URL writereview + placeid hex → 404 Google.
- * Remplacée par le lien Search qui ouvre la fenêtre d'avis.
+ * Place ID Google Maps (ChIJ…) — requis pour /local/writereview.
+ * Fonctionne sur mobile au scan QR (contrairement au lien Search + #lrd).
  */
+export const GOOGLE_REVIEW_PLACE_ID = "ChIJv9_lotSF5kcRqjy6nEJzM84";
+
+/**
+ * URL d'écriture d'avis sans fragment (#).
+ * Les redirections HTTP et l'app Google mobile conservent cette URL intacte.
+ */
+const WORKING_GOOGLE_REVIEW_URL = `https://search.google.com/local/writereview?placeid=${GOOGLE_REVIEW_PLACE_ID}`;
+
+/** Ancienne URL writereview + placeid hex → 404 Google. */
 const BROKEN_WRITEREVIEW_HEX =
   /search\.google\.com\/local\/writereview\?placeid=0x47e685d4a2e5dfbf:?0xce3373429cba3caa/i;
 
-const WORKING_GOOGLE_REVIEW_URL =
-  "https://www.google.com/search?q=La+Table+Marine+Plaisir&ludocid=14858346325559884970#lrd=0x47e685d4a2e5dfbf:0xce3373429cba3caa,3";
+/** Ancien lien Search + #lrd : OK desktop, souvent cassé sur mobile (app Google). */
+const LEGACY_SEARCH_LRD =
+  /google\.[^/]+\/search\?.*ludocid=14858346325559884970/i;
 
 /**
  * @param {string} raw
@@ -28,12 +38,12 @@ function stripQuotes(raw) {
 }
 
 /**
- * Corrige les anciennes URLs Google invalides (404 /local/writereview).
+ * Corrige les anciennes URLs Google (404 hex, ou Search+#lrd fragile sur mobile).
  * @param {string} url
  */
 export function normalizeGoogleReviewUrl(url) {
   const trimmed = stripQuotes(url.trim());
-  if (BROKEN_WRITEREVIEW_HEX.test(trimmed)) {
+  if (BROKEN_WRITEREVIEW_HEX.test(trimmed) || LEGACY_SEARCH_LRD.test(trimmed)) {
     return WORKING_GOOGLE_REVIEW_URL;
   }
   return trimmed;

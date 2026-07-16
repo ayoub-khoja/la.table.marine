@@ -49,20 +49,30 @@ describe("routes avis Google", () => {
     expect(response.headers.get("cache-control")).toContain("no-store");
   });
 
-  it("utilise une redirection HTML/JS quand l'URL contient #lrd (fenêtre d'avis)", async () => {
+  it("normalise Search+#lrd vers writereview Place ID (302, sans #)", async () => {
     process.env.GOOGLE_REVIEW_URL =
       "https://www.google.com/search?q=La+Table+Marine+Plaisir&ludocid=14858346325559884970#lrd=0x47e685d4a2e5dfbf:0xce3373429cba3caa,3";
+
+    const response = await getAvisGoogleRoute();
+
+    expect(response.status).toBe(302);
+    expect(response.headers.get("location")).toContain(
+      "search.google.com/local/writereview?placeid=ChIJ"
+    );
+    expect(response.headers.get("location")).not.toContain("#");
+  });
+
+  it("utilise une redirection HTML/JS si une URL avec # est fournie telle quelle", async () => {
+    process.env.GOOGLE_REVIEW_URL =
+      "https://www.google.com/maps/place/Test/@48,2,17z#lrd=0xabc:0xdef,3";
 
     const response = await getAvisGoogleRoute();
     const html = await response.text();
 
     expect(response.status).toBe(200);
     expect(response.headers.get("content-type")).toContain("text/html");
-    expect(response.headers.get("cache-control")).toContain("no-store");
     expect(html).toContain("location.replace");
     expect(html).toContain("#lrd=");
-    expect(html).toContain("ludocid=");
-    expect(html).not.toContain("writereview");
   });
 
   it("affiche la page d'erreur si GOOGLE_REVIEW_URL est absente", async () => {
