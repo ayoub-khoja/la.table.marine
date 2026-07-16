@@ -292,6 +292,13 @@ const MenuPanel = () => {
               alt="Aperçu du QR code La Table Marine"
               width={180}
               height={255}
+              onError={(event) => {
+                const img = event.currentTarget;
+                if (img.dataset.fallback === "1") return;
+                img.dataset.fallback = "1";
+                img.src =
+                  "/api/admin/menu/qr?format=png&variant=compact&download=0";
+              }}
             />
           </div>
         </div>

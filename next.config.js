@@ -10,7 +10,12 @@ const nextConfig = {
     ],
   },
   experimental: {
-    serverComponentsExternalPackages: ["@google-analytics/data", "@vercel/blob"],
+    serverComponentsExternalPackages: [
+      "@google-analytics/data",
+      "@vercel/blob",
+      "sharp",
+      "qrcode",
+    ],
   },
   async redirects() {
     return [

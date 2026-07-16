@@ -2332,6 +2332,17 @@
 }
 
 .tst-admin-reviews {
+  .tst-admin-reviews__qr {
+    margin-bottom: 20px;
+    border: 1px solid rgba($dl1, 0.08);
+    border-radius: 14px;
+    border-bottom: 1px solid rgba($dl1, 0.08);
+  }
+
+  .tst-admin-reviews__qr-preview {
+    width: 160px;
+  }
+
   .tst-admin-orders__expand {
     padding: 7px 14px;
     border-radius: 999px;

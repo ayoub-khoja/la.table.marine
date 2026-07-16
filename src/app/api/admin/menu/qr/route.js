@@ -12,6 +12,7 @@ import {
 
 export const dynamic = "force-dynamic";
 export const runtime = "nodejs";
+export const maxDuration = 30;
 
 /**
  * Génère le QR permanent brandé (PNG ou SVG).
@@ -63,17 +64,25 @@ export async function GET(request) {
       );
     }
 
-    const png =
-      variant === "compact"
-        ? await generateMenuQrPngCompact()
-        : await generateMenuQrPng();
+    let png;
+    let filename = MENU_QR_PNG_FILENAME;
 
-    const filename =
-      variant === "compact"
-        ? "qr-menu-la-table-marine-compact.png"
-        : MENU_QR_PNG_FILENAME;
+    if (variant === "compact") {
+      png = await generateMenuQrPngCompact();
+      filename = "qr-menu-la-table-marine-compact.png";
+    } else {
+      try {
+        png = await generateMenuQrPng();
+      } catch (brandedError) {
+        // Fallback production si Sharp échoue sur le carton brandé (filtres SVG / mémoire).
+        console.error("[api/admin/menu/qr] branded failed, fallback compact:", brandedError);
+        png = await generateMenuQrPngCompact();
+        filename = "qr-menu-la-table-marine-compact.png";
+      }
+    }
 
-    return new NextResponse(png, {
+    // Uint8Array : réponse image fiable sur Vercel (Buffer Node parfois mal sérialisé).
+    return new NextResponse(new Uint8Array(png), {
       headers: {
         "Content-Type": "image/png",
         "Content-Disposition": `${disposition}; filename="${filename}"`,
