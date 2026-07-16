@@ -283,14 +283,31 @@ function viewfinderMarkup(x, y, size, color, len = 56, stroke = 5) {
  * Carton QR prêt à imprimer — style scan professionnel.
  * @returns {Promise<string>}
  */
+/**
+ * Charge une image décorative sans faire échouer tout le QR si le fichier manque.
+ * @param {() => Promise<string>} loader
+ */
+async function safeDataUri(loader) {
+  try {
+    return await loader();
+  } catch (error) {
+    console.error("[menu/qr] asset skipped:", error?.message || error);
+    return null;
+  }
+}
+
 export async function generateMenuQrSvg() {
   const payload = getMenuQrPayload();
   const cx = CARD_WIDTH / 2;
-  const logoWhiteUri = await getLogoDataUri(LOGO_WHITE, sc(800));
-  const fishUri = await getImageDataUri(FISH_MINIMAL_SVG, sc(190), sc(114));
-  const musselUri = await getImageDataUri(MUSSEL_MINIMAL_IMAGE, sc(175), sc(175), {
-    transparentDark: true,
-  });
+  const logoWhiteUri = await safeDataUri(() => getLogoDataUri(LOGO_WHITE, sc(800)));
+  const fishUri = await safeDataUri(() =>
+    getImageDataUri(FISH_MINIMAL_SVG, sc(190), sc(114))
+  );
+  const musselUri = await safeDataUri(() =>
+    getImageDataUri(MUSSEL_MINIMAL_IMAGE, sc(175), sc(175), {
+      transparentDark: true,
+    })
+  );
 
   const qrSvg = await QRCode.toString(payload, {
     ...QR_OPTIONS,
@@ -381,14 +398,26 @@ export async function generateMenuQrSvg() {
     fill="${QR_BRAND.white}" letter-spacing="2">VERS LE QR CODE</text>
 
   <!-- Illustrations minimalistes — poisson & moule -->
-  <image xlink:href="${fishUri}" href="${fishUri}"
-    x="${sc(40)}" y="${sc(1240)}" width="${sc(190)}" height="${sc(114)}" opacity="0.98"/>
-  <image xlink:href="${musselUri}" href="${musselUri}"
-    x="${CARD_WIDTH - sc(40) - sc(175)}" y="${sc(1235)}" width="${sc(175)}" height="${sc(175)}" opacity="0.98"/>
+  ${
+    fishUri
+      ? `<image xlink:href="${fishUri}" href="${fishUri}"
+    x="${sc(40)}" y="${sc(1240)}" width="${sc(190)}" height="${sc(114)}" opacity="0.98"/>`
+      : ""
+  }
+  ${
+    musselUri
+      ? `<image xlink:href="${musselUri}" href="${musselUri}"
+    x="${CARD_WIDTH - sc(40) - sc(175)}" y="${sc(1235)}" width="${sc(175)}" height="${sc(175)}" opacity="0.98"/>`
+      : ""
+  }
 
   <!-- Logo restaurant (unique) -->
-  <image xlink:href="${logoWhiteUri}" href="${logoWhiteUri}"
-    x="${(CARD_WIDTH - logoW) / 2}" y="${logoY}" width="${logoW}" height="${logoH}" preserveAspectRatio="xMidYMid meet"/>
+  ${
+    logoWhiteUri
+      ? `<image xlink:href="${logoWhiteUri}" href="${logoWhiteUri}"
+    x="${(CARD_WIDTH - logoW) / 2}" y="${logoY}" width="${logoW}" height="${logoH}" preserveAspectRatio="xMidYMid meet"/>`
+      : ""
+  }
 
   <text x="${cx}" y="${sc(1545)}" text-anchor="middle"
     font-family="Georgia, 'Times New Roman', serif" font-size="${sc(22)}" font-weight="600"
@@ -397,14 +426,26 @@ export async function generateMenuQrSvg() {
 }
 
 /**
- * PNG haute résolution prêt à imprimer (1680 × 2212 px à l'échelle 70 %).
+ * Retire les filtres SVG mal supportés par librsvg (Sharp sur Vercel/Linux).
+ * @param {string} svg
+ */
+function makeSharpCompatibleSvg(svg) {
+  return String(svg)
+    .replace(/\sfilter="url\(#cardShadow\)"/g, "")
+    .replace(/\sfilter="url\(#scanGlow\)"/g, "")
+    .replace(/<filter id="scanGlow"[\s\S]*?<\/filter>/g, "")
+    .replace(/<filter id="cardShadow"[\s\S]*?<\/filter>/g, "");
+}
+
+/**
+ * PNG haute résolution prêt à imprimer (échelle 70 %).
+ * Compatible Vercel : pas de feDropShadow, densité maîtrisée.
  * @returns {Promise<Buffer>}
  */
 export async function generateMenuQrPng() {
-  const svg = await generateMenuQrSvg();
-  return sharp(Buffer.from(svg))
-    .resize(CARD_WIDTH * 2, CARD_HEIGHT * 2, { fit: "fill" })
-    .png({ quality: 100, compressionLevel: 6 })
+  const svg = makeSharpCompatibleSvg(await generateMenuQrSvg());
+  return sharp(Buffer.from(svg, "utf8"), { density: 144 })
+    .png({ compressionLevel: 8 })
     .toBuffer();
 }
 
@@ -438,5 +479,5 @@ export async function generateMenuQrPngCompact() {
     width="${badge}" height="${badge}" preserveAspectRatio="xMidYMid meet"/>
 </svg>`;
 
-  return sharp(Buffer.from(svg)).png().toBuffer();
+  return sharp(Buffer.from(svg, "utf8"), { density: 144 }).png().toBuffer();
 }

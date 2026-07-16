@@ -543,8 +543,71 @@ const ReviewsTable = () => {
     );
   };
 
+  const siteUrl = (
+    process.env.NEXT_PUBLIC_SITE_URL ||
+    process.env.SITE_URL ||
+    "https://latablemarine.com"
+  ).replace(/\/$/, "");
+  const googleReviewQrUrl = `${siteUrl}/avis-google`;
+
   return (
     <div className="tst-admin-orders tst-admin-reviews">
+      <div className="tst-admin-menu__permanent tst-admin-reviews__qr">
+        <div className="tst-admin-menu__permanent-main">
+          <div>
+            <strong>QR code avis Google — prêt à imprimer</strong>
+            <p>
+              <code>{googleReviewQrUrl}</code>
+            </p>
+            <p className="tst-admin-menu__meta">
+              Format présentoir (étoiles, SCANNEZ, couleurs La Table Marine).
+              Le client arrive sur /avis-google puis est redirigé vers Google.
+              L&apos;URL encodée ne change jamais.
+            </p>
+            <div className="tst-admin-menu__qr-actions">
+              <a
+                href="/api/qr-code/avis-google?format=png&variant=branded"
+                className="tst-admin-products__btn"
+                download
+              >
+                <i className="fas fa-qrcode" aria-hidden="true" />
+                Télécharger le carton PNG
+              </a>
+              <a
+                href="/api/qr-code/avis-google?format=svg&variant=branded"
+                className="tst-admin-products__btn tst-admin-products__btn--ghost"
+                download
+              >
+                <i className="fas fa-download" aria-hidden="true" />
+                SVG
+              </a>
+              <a
+                href="/api/qr-code/avis-google?format=png&variant=compact"
+                className="tst-admin-products__btn tst-admin-products__btn--ghost"
+                download
+              >
+                PNG compact
+              </a>
+            </div>
+          </div>
+          <div className="tst-admin-menu__qr-preview tst-admin-reviews__qr-preview">
+            <img
+              src="/api/qr-code/avis-google?format=png&variant=branded&download=0"
+              alt="Aperçu du QR code avis Google La Table Marine"
+              width={160}
+              height={210}
+              onError={(event) => {
+                const img = event.currentTarget;
+                if (img.dataset.fallback === "1") return;
+                img.dataset.fallback = "1";
+                img.src =
+                  "/api/qr-code/avis-google?format=png&variant=compact&download=0";
+              }}
+            />
+          </div>
+        </div>
+      </div>
+
       <div className="tst-admin-reviews__header">
         <div className="tst-admin-reviews__topbar">
           <div className="tst-admin-reviews__stat">
