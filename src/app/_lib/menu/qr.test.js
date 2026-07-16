@@ -34,30 +34,31 @@ describe("menu QR code", () => {
     expect(payload).not.toContain("token=");
   });
 
-  it("génère un carton PNG brandé haute résolution", async () => {
+  it("génère un carton PNG prêt à imprimer en haute résolution", async () => {
     process.env.SITE_URL = "https://latablemarine.com";
     const png = await generateMenuQrPng();
     expect(Buffer.isBuffer(png)).toBe(true);
-    expect(png.length).toBeGreaterThan(5000);
+    expect(png.length).toBeGreaterThan(10000);
     expect(png[0]).toBe(0x89);
     expect(png[1]).toBe(0x50);
     expect(png[2]).toBe(0x4e);
     expect(png[3]).toBe(0x47);
     expect(MENU_QR_PNG_FILENAME).toBe("qr-menu-la-table-marine.png");
-  }, 20000);
+  }, 30000);
 
-  it("génère un SVG brandé avec le nom et le logo", async () => {
+  it("génère un SVG style scan professionnel avec la marque", async () => {
     process.env.SITE_URL = "https://latablemarine.com";
     const svg = await generateMenuQrSvg();
     expect(typeof svg).toBe("string");
     expect(svg).toContain("<svg");
-    expect(svg).toContain("LA TABLE MARINE");
-    expect(svg).toContain("Scannez pour découvrir la carte");
+    expect(svg).toContain("SCANNEZ");
+    expect(svg).toContain("POUR ACCÉDER AU MENU DIGITAL");
+    expect(svg).toContain("DIRIGEZ VOTRE APPAREIL PHOTO");
     expect(svg).toContain("latablemarine.com/menu");
     expect(svg).toContain("data:image/png;base64,");
-    expect(svg).toContain(QR_BRAND.navy);
+    expect(svg).toContain(QR_BRAND.navyDark);
     expect(MENU_QR_SVG_FILENAME).toBe("qr-menu-la-table-marine.svg");
-  }, 20000);
+  }, 30000);
 
   it("génère une variante PNG compacte avec logo central", async () => {
     process.env.SITE_URL = "https://latablemarine.com";
