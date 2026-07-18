@@ -29,6 +29,27 @@ async function ensureDefaultTabs(collection) {
 
   // Retire l'ancien onglet système « Carte des Vins » s'il est encore en base.
   await collection.deleteOne({ id: "wines", system: true, kind: "wines" });
+
+  // Garantit un sortOrder numérique unique (sinon les flèches ne changent rien).
+  const tabs = await collection
+    .find({})
+    .sort({ sortOrder: 1, createdAt: 1 })
+    .toArray();
+  const hasInvalidSort = tabs.some(
+    (tab) => typeof tab.sortOrder !== "number" || Number.isNaN(tab.sortOrder)
+  );
+  const hasDuplicateSort = tabs.some(
+    (tab, index) =>
+      tabs.findIndex((other) => other.sortOrder === tab.sortOrder) !== index
+  );
+
+  if (hasInvalidSort || hasDuplicateSort) {
+    await Promise.all(
+      tabs.map((tab, index) =>
+        collection.updateOne({ id: tab.id }, { $set: { sortOrder: index } })
+      )
+    );
+  }
 }
 
 export async function listMenuTabs() {
@@ -135,21 +156,18 @@ export async function moveMenuTab(id, direction) {
     return tabs;
   }
 
-  const current = tabs[index];
-  const neighbor = tabs[targetIndex];
+  const reordered = [...tabs];
+  const [moved] = reordered.splice(index, 1);
+  reordered.splice(targetIndex, 0, moved);
+
   const db = await getDb();
   const collection = db.collection(COLLECTION);
 
-  await Promise.all([
-    collection.updateOne(
-      { id: current.id },
-      { $set: { sortOrder: neighbor.sortOrder } }
-    ),
-    collection.updateOne(
-      { id: neighbor.id },
-      { $set: { sortOrder: current.sortOrder } }
-    ),
-  ]);
+  await Promise.all(
+    reordered.map((tab, sortOrder) =>
+      collection.updateOne({ id: tab.id }, { $set: { sortOrder } })
+    )
+  );
 
   return listMenuTabs();
 }

@@ -1721,32 +1721,26 @@
   display: flex;
   justify-content: center;
   gap: 2px;
-  opacity: 0.55;
-  transition: opacity $tr-sm;
-
-  .tst-admin-products__main-tab-wrap:hover &,
-  .tst-admin-products__main-tab-wrap.is-active & {
-    opacity: 1;
-  }
+  opacity: 1;
 }
 
 .tst-admin-products__main-tab-action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   padding: 0;
   border: 0;
   border-radius: 6px;
-  background: transparent;
+  background: rgba($dl1, 0.06);
   color: $dl1t;
   cursor: pointer;
   font-size: 11px;
   transition: background $tr-sm, color $tr-sm;
 
   &:hover:not(:disabled) {
-    background: rgba($dl1, 0.08);
+    background: rgba($dl1, 0.12);
     color: $dl1;
   }
 
@@ -2265,6 +2259,14 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+}
+
+.tst-admin-wine-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 6px;
 }
 
 .tst-admin-wine-card__delete {

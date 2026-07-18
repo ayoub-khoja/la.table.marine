@@ -43,6 +43,10 @@ const ProductsTable = () => {
   const [deleteTabModalOpen, setDeleteTabModalOpen] = useState(false);
   const [tabToDelete, setTabToDelete] = useState(null);
   const [deleteTabLoading, setDeleteTabLoading] = useState(false);
+  const [productActionLoading, setProductActionLoading] = useState(null);
+  const [deleteProductModalOpen, setDeleteProductModalOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
+  const [deleteProductLoading, setDeleteProductLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [pagination, setPagination] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -216,6 +220,66 @@ const ProductsTable = () => {
       showFeedback("error", "Suppression impossible", err.message || "Erreur réseau.");
     } finally {
       setDeleteTabLoading(false);
+    }
+  };
+
+  const handleMoveProduct = async (productId, direction) => {
+    setProductActionLoading(`${productId}-${direction}`);
+
+    try {
+      const res = await fetch(`/api/admin/products/${productId}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ direction }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Impossible de déplacer l’article.");
+      }
+
+      await fetchProducts();
+    } catch (err) {
+      showFeedback("error", "Déplacement impossible", err.message || "Erreur réseau.");
+    } finally {
+      setProductActionLoading(null);
+    }
+  };
+
+  const openDeleteProductModal = (product) => {
+    setProductToDelete(product);
+    setDeleteProductModalOpen(true);
+  };
+
+  const closeDeleteProductModal = () => {
+    if (deleteProductLoading) return;
+    setDeleteProductModalOpen(false);
+    setProductToDelete(null);
+  };
+
+  const handleDeleteProduct = async () => {
+    if (!productToDelete) return;
+
+    setDeleteProductLoading(true);
+
+    try {
+      const res = await fetch(`/api/admin/products/${productToDelete.id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Impossible de supprimer l’article.");
+      }
+
+      setDeleteProductModalOpen(false);
+      setProductToDelete(null);
+      await fetchProducts();
+      showFeedback("success", "Article supprimé", "L’article a été retiré de la carte.");
+    } catch (err) {
+      showFeedback("error", "Suppression impossible", err.message || "Erreur réseau.");
+    } finally {
+      setDeleteProductLoading(false);
     }
   };
 
@@ -520,16 +584,56 @@ const ProductsTable = () => {
                 <div className="menu-accordion__panel">
                   {section.items.length ? (
                     <div className="menu-item-cards">
-                      {section.items.map((product) => (
-                        <MenuItemCard
-                          key={product.id}
-                          name={product.title}
-                          description={product.short}
-                          priceLabel={
-                            product.priceFormatted ||
-                            formatPreviewPrice(product.price)
-                          }
-                        />
+                      {section.items.map((product, itemIndex) => (
+                        <div key={product.id} className="tst-admin-wine-card">
+                          <MenuItemCard
+                            name={product.title}
+                            description={product.short}
+                            priceLabel={
+                              product.priceFormatted ||
+                              formatPreviewPrice(product.price)
+                            }
+                          />
+                          <div className="tst-admin-wine-card__actions">
+                            <button
+                              type="button"
+                              className="tst-admin-categories__action"
+                              aria-label={`Monter ${product.title}`}
+                              disabled={
+                                itemIndex === 0 || Boolean(productActionLoading)
+                              }
+                              onClick={() => handleMoveProduct(product.id, "up")}
+                            >
+                              <i className="fas fa-chevron-up" aria-hidden="true" />
+                            </button>
+                            <button
+                              type="button"
+                              className="tst-admin-categories__action"
+                              aria-label={`Descendre ${product.title}`}
+                              disabled={
+                                itemIndex === section.items.length - 1 ||
+                                Boolean(productActionLoading)
+                              }
+                              onClick={() =>
+                                handleMoveProduct(product.id, "down")
+                              }
+                            >
+                              <i
+                                className="fas fa-chevron-down"
+                                aria-hidden="true"
+                              />
+                            </button>
+                            <button
+                              type="button"
+                              className="tst-admin-categories__action tst-admin-categories__action--delete"
+                              onClick={() => openDeleteProductModal(product)}
+                              disabled={Boolean(productActionLoading)}
+                            >
+                              <i className="fas fa-trash" aria-hidden="true" />
+                              Supprimer
+                            </button>
+                          </div>
+                        </div>
                       ))}
                     </div>
                   ) : (
@@ -764,6 +868,37 @@ const ProductsTable = () => {
               disabled={deleteTabLoading}
             >
               {deleteTabLoading ? "Suppression…" : "Supprimer"}
+            </button>
+          </div>
+        </div>
+      </Popup>
+
+      <Popup
+        open={deleteProductModalOpen}
+        onClose={closeDeleteProductModal}
+        title="Supprimer l’article"
+      >
+        <div className="tst-admin-categories__delete">
+          <p className="tst-admin-categories__delete-text">
+            Êtes-vous sûr de vouloir supprimer{" "}
+            <strong>« {productToDelete?.title} »</strong> de la carte ?
+          </p>
+          <div className="tst-admin-products__actions">
+            <button
+              type="button"
+              className="tst-admin-products__btn tst-admin-products__btn--ghost"
+              onClick={closeDeleteProductModal}
+              disabled={deleteProductLoading}
+            >
+              Annuler
+            </button>
+            <button
+              type="button"
+              className="tst-admin-products__btn tst-admin-products__btn--danger"
+              onClick={handleDeleteProduct}
+              disabled={deleteProductLoading}
+            >
+              {deleteProductLoading ? "Suppression…" : "Supprimer"}
             </button>
           </div>
         </div>
