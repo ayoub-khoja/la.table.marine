@@ -114,6 +114,14 @@ export async function POST(request) {
         attachments,
         html: renderOrderEmailHtml("customer", savedOrder),
       },
+      {
+        from: `"Commande" <${mailConfig.from}>`,
+        to: "latablemarineplaisir@gmail.com",
+        subject: "Nouvelle commande (site web)",
+        replyTo: email,
+        attachments,
+        html: renderOrderEmailHtml("admin", savedOrder),
+      },
     ]);
 
     return NextResponse.json({ success: true });

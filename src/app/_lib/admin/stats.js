@@ -28,6 +28,31 @@ function sumRevenue(orders) {
   return orders.reduce((sum, o) => sum + (Number(o.total) || 0), 0);
 }
 
+const ESTIMATED_GUESTS_PER_ORDER = 2;
+
+function parseReservationPersonCount(person) {
+  const parsed = Number.parseInt(String(person || ""), 10);
+  if (!Number.isFinite(parsed) || parsed < 1) return 0;
+  return parsed;
+}
+
+function sumReservationGuests(reservations) {
+  return reservations.reduce(
+    (sum, reservation) => sum + parseReservationPersonCount(reservation.person),
+    0
+  );
+}
+
+function getEstimatedTicketPerGuest(orders, revenueTotal) {
+  if (!orders.length || revenueTotal <= 0) return 0;
+  return revenueTotal / (orders.length * ESTIMATED_GUESTS_PER_ORDER);
+}
+
+function computeApproximateRevenue(guestCount, ticketPerGuest) {
+  if (!guestCount || !ticketPerGuest) return 0;
+  return guestCount * ticketPerGuest;
+}
+
 function formatRevenue(amount, currency = "$") {
   const n = Number(amount);
   if (!Number.isFinite(n)) return `${currency}0.00`;
@@ -145,6 +170,18 @@ export async function getDashboardStats() {
   const currency = orders[0]?.currency || "$";
   const revenueTotal = sumRevenue(orders);
   const revenueMonth = sumRevenue(ordersThisMonth);
+  const ticketPerGuest = getEstimatedTicketPerGuest(orders, revenueTotal);
+  const guestsTotal = sumReservationGuests(reservations);
+  const guestsMonth = sumReservationGuests(reservationsThisMonth);
+  const guestsWeek = sumReservationGuests(reservationsThisWeek);
+  const approximateRevenueTotal = computeApproximateRevenue(
+    guestsTotal,
+    ticketPerGuest
+  );
+  const approximateRevenueMonth = computeApproximateRevenue(
+    guestsMonth,
+    ticketPerGuest
+  );
 
   const activityLast7Days = buildLast7DaysActivity(
     orders,
@@ -163,6 +200,11 @@ export async function getDashboardStats() {
       total: reservations.length,
       thisMonth: reservationsThisMonth.length,
       thisWeek: reservationsThisWeek.length,
+      guests: {
+        total: guestsTotal,
+        thisMonth: guestsMonth,
+        thisWeek: guestsWeek,
+      },
     },
     messages: {
       total: messages.length,
@@ -175,6 +217,14 @@ export async function getDashboardStats() {
       formattedTotal: formatRevenue(revenueTotal, currency),
       formattedMonth: formatRevenue(revenueMonth, currency),
       currency,
+    },
+    approximateRevenue: {
+      total: approximateRevenueTotal,
+      thisMonth: approximateRevenueMonth,
+      formattedTotal: formatRevenue(approximateRevenueTotal, currency),
+      formattedMonth: formatRevenue(approximateRevenueMonth, currency),
+      ticketPerGuest,
+      formattedTicketPerGuest: formatRevenue(ticketPerGuest, currency),
     },
     activity: {
       last7Days: activityLast7Days,
