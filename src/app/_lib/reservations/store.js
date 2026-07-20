@@ -97,6 +97,16 @@ export async function listReservations(searchParams) {
   };
 }
 
+export async function deleteReservation(id) {
+  const normalizedId = String(id || "").trim();
+  if (!normalizedId) return false;
+
+  const db = await getDb();
+  const result = await db.collection(COLLECTION).deleteOne({ id: normalizedId });
+
+  return result.deletedCount > 0;
+}
+
 function escapeRegex(str) {
   return String(str).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }

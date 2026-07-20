@@ -21,7 +21,9 @@ const DefaultHeader = () => {
   const headerMenuItems = AppData.header.menu
     .filter((item) => item.visible !== false)
     // Boutique is temporarily disabled by request.
-    .filter((item) => item.label !== "Boutique");
+    .filter((item) => item.label !== "Boutique")
+    // Commande en ligne temporairement masquée.
+    .filter((item) => item.label !== "Commande en ligne");
 
   const isPathActive = (path) => {
     return (asPath.endsWith(path) == 1 && path !== '/') || asPath === path;

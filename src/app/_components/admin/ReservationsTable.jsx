@@ -50,6 +50,7 @@ const ReservationsTable = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [actionLoading, setActionLoading] = useState(null);
   const [expandedId, setExpandedId] = useState(null);
   const [search, setSearch] = useState("");
   const [searchInput, setSearchInput] = useState("");
@@ -172,6 +173,34 @@ const ReservationsTable = () => {
 
   const reload = () => {
     fetchReservations(page, activeFilters);
+  };
+
+  const deleteReservation = async (id) => {
+    if (!window.confirm("Supprimer définitivement cette réservation ?")) return;
+
+    setActionLoading(id);
+    setError(null);
+
+    try {
+      const res = await fetch(`/api/admin/reservations/${id}`, {
+        method: "DELETE",
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Suppression impossible.");
+      }
+
+      if (expandedId === id) {
+        setExpandedId(null);
+      }
+
+      await fetchReservations(page, activeFilters);
+    } catch (err) {
+      setError(err.message || "Erreur réseau.");
+    } finally {
+      setActionLoading(null);
+    }
   };
 
   if (loading && !reservations.length) {
@@ -343,6 +372,7 @@ const ReservationsTable = () => {
               <tbody>
                 {reservations.map((row) => {
                   const isOpen = expandedId === row.id;
+                  const isLoading = actionLoading === row.id;
                   const message = normalizeCustomerMessage(row.message);
 
                   return (
@@ -422,6 +452,20 @@ const ReservationsTable = () => {
                                       </div>
                                     ) : null}
                                   </dl>
+                                </div>
+                              </div>
+                              <div className="tst-admin-reviews__detail-actions">
+                                <h3>Actions</h3>
+                                <div className="tst-admin-reviews__actions">
+                                  <button
+                                    type="button"
+                                    className="tst-admin-reviews__action tst-admin-reviews__action--delete"
+                                    disabled={isLoading}
+                                    onClick={() => deleteReservation(row.id)}
+                                  >
+                                    <i className="fas fa-trash" aria-hidden="true" />
+                                    {isLoading ? "Suppression…" : "Supprimer"}
+                                  </button>
                                 </div>
                               </div>
                             </div>
