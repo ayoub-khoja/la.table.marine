@@ -46,7 +46,12 @@ const DashboardStats = ({ stats }) => {
       id: "approxRevenue",
       label: "CA approximatif",
       value: stats.approximateRevenue.formattedTotal,
-      hint: `${stats.approximateRevenue.formattedMonth} ce mois · ${stats.approximateRevenue.formattedTicketPerGuest} / personne estimée`,
+      hint:
+        stats.approximateRevenue.ticketSource === "orders"
+          ? `${stats.approximateRevenue.formattedMonth} ce mois · ${stats.approximateRevenue.formattedTicketPerGuest} / personne estimée`
+          : stats.approximateRevenue.ticketSource === "menu"
+            ? `${stats.approximateRevenue.formattedMonth} ce mois · basé sur la carte`
+            : `${stats.approximateRevenue.formattedMonth} ce mois · estimation standard`,
       icon: "fa-coins",
       href: "/admin/reservations",
       accent: "revenue",
