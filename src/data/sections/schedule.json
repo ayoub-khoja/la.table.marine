@@ -17,7 +17,7 @@
     "groups": [
         {
             "id": "week",
-            "label": "Lundi au jeudi & dimanche",
+            "label": "Lundi, mardi, jeudi & dimanche",
             "lunch": "12:00 – 15:00",
             "dinner": "19:00 – 22:30"
         },
