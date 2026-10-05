@@ -59,7 +59,7 @@ const ScheduleSection = () => {
                 <span className="tst-schedule-card__head-icon" aria-hidden="true">
                   <i className="fas fa-clock" />
                 </span>
-                <span className="tst-schedule-card__head-text">Ouvert 7j/7</span>
+                <span className="tst-schedule-card__head-text">Fermé le mercredi</span>
               </div>
 
               {Data.groups.map((group) => (
