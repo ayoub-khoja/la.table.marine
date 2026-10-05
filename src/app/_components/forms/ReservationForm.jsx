@@ -69,16 +69,222 @@ function todayLocalISO() {
 function formatDateLabel(isoDate) {
   if (!isoDate) return "";
   try {
-    const [y, m, d] = isoDate.split("-").map(Number);
+    const date = parseISODate(isoDate);
+    if (!date) return isoDate;
     return new Intl.DateTimeFormat("fr-FR", {
       weekday: "long",
       day: "numeric",
       month: "long",
       year: "numeric",
-    }).format(new Date(y, m - 1, d));
+    }).format(date);
   } catch {
     return isoDate;
   }
+}
+
+const WEEKDAY_LABELS = ["lu", "ma", "me", "je", "ve", "sa", "di"];
+const CLOSED_WEEKDAY = 3;
+
+function parseISODate(isoDate) {
+  if (!isoDate || typeof isoDate !== "string") return null;
+  const [y, m, d] = isoDate.split("-").map(Number);
+  if (!y || !m || !d) return null;
+  const date = new Date(y, m - 1, d);
+  if (date.getFullYear() !== y || date.getMonth() !== m - 1 || date.getDate() !== d) {
+    return null;
+  }
+  return date;
+}
+
+function toISODate(date) {
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function isSameCalendarDay(a, b) {
+  return (
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate()
+  );
+}
+
+function isClosedReservationDate(isoDate) {
+  const date = parseISODate(isoDate);
+  return Boolean(date && date.getDay() === CLOSED_WEEKDAY);
+}
+
+function buildMonthCells(viewMonth) {
+  const year = viewMonth.getFullYear();
+  const month = viewMonth.getMonth();
+  const first = new Date(year, month, 1);
+  const offset = (first.getDay() + 6) % 7;
+  const start = new Date(year, month, 1 - offset);
+  return Array.from({ length: 42 }, (_, index) => {
+    const day = new Date(start);
+    day.setDate(start.getDate() + index);
+    return day;
+  });
+}
+
+function ReservationDateField({ value, minDate, invalid, onChange, onBlur }) {
+  const [open, setOpen] = useState(false);
+  const [viewMonth, setViewMonth] = useState(() => new Date());
+  const rootRef = useRef(null);
+  const min = parseISODate(minDate);
+  const selected = parseISODate(value);
+  const today = new Date();
+
+  useEffect(() => {
+    if (!open) return undefined;
+
+    const close = () => {
+      setOpen(false);
+      onBlur?.({ target: { name: "date" } });
+    };
+
+    const onPointerDown = (event) => {
+      if (!rootRef.current?.contains(event.target)) close();
+    };
+
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") close();
+    };
+
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open, onBlur]);
+
+  const openCalendar = () => {
+    const base = selected || today;
+    setViewMonth(new Date(base.getFullYear(), base.getMonth(), 1));
+    setOpen(true);
+  };
+
+  const monthLabel = new Intl.DateTimeFormat("fr-FR", {
+    month: "long",
+    year: "numeric",
+  }).format(viewMonth);
+
+  return (
+    <div className="tst-reservation-wizard__date-field" ref={rootRef}>
+      <span className="tst-reservation-wizard__date-label" id="reservation-date-label">
+        Date
+      </span>
+      <div className="tst-reservation-wizard__date-control">
+        <button
+          type="button"
+          className={`tst-reservation-wizard__date-trigger${open ? " is-open" : ""}`}
+          aria-labelledby="reservation-date-label"
+          aria-haspopup="dialog"
+          aria-expanded={open}
+          aria-invalid={invalid}
+          onClick={() => (open ? setOpen(false) : openCalendar())}
+        >
+          <span
+            className={`tst-reservation-wizard__date-value${
+              value ? "" : " is-placeholder"
+            }`}
+          >
+            {value ? formatDateLabel(value) : "Choisir une date"}
+          </span>
+          <i
+            className="fas fa-calendar-alt tst-reservation-wizard__date-icon"
+            aria-hidden="true"
+          />
+        </button>
+
+        {open ? (
+          <div
+            className="tst-reservation-wizard__calendar"
+            role="dialog"
+            aria-label="Choisir une date"
+          >
+            <div className="tst-reservation-wizard__calendar-nav">
+              <button
+                type="button"
+                aria-label="Mois précédent"
+                onClick={() =>
+                  setViewMonth(
+                    (current) => new Date(current.getFullYear(), current.getMonth() - 1, 1)
+                  )
+                }
+              >
+                <i className="fas fa-chevron-left" aria-hidden="true" />
+              </button>
+              <span>{monthLabel}</span>
+              <button
+                type="button"
+                aria-label="Mois suivant"
+                onClick={() =>
+                  setViewMonth(
+                    (current) => new Date(current.getFullYear(), current.getMonth() + 1, 1)
+                  )
+                }
+              >
+                <i className="fas fa-chevron-right" aria-hidden="true" />
+              </button>
+            </div>
+
+            <div className="tst-reservation-wizard__calendar-weekdays" aria-hidden="true">
+              {WEEKDAY_LABELS.map((label) => (
+                <span key={label}>{label}</span>
+              ))}
+            </div>
+
+            <div className="tst-reservation-wizard__calendar-grid">
+              {buildMonthCells(viewMonth).map((day) => {
+                const closed = day.getDay() === CLOSED_WEEKDAY;
+                const past = Boolean(min && day < new Date(min.getFullYear(), min.getMonth(), min.getDate()));
+                const disabled = closed || past;
+                const outside = day.getMonth() !== viewMonth.getMonth();
+                const iso = toISODate(day);
+                const className = [
+                  "tst-reservation-wizard__calendar-day",
+                  closed ? "is-closed" : "",
+                  past && !closed ? "is-past" : "",
+                  outside ? "is-outside" : "",
+                  selected && isSameCalendarDay(day, selected) ? "is-selected" : "",
+                  isSameCalendarDay(day, today) ? "is-today" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ");
+
+                return (
+                  <button
+                    key={iso}
+                    type="button"
+                    className={className}
+                    disabled={disabled}
+                    aria-label={
+                      closed
+                        ? `${formatDateLabel(iso)}, fermé`
+                        : formatDateLabel(iso)
+                    }
+                    onClick={() => {
+                      if (disabled) return;
+                      onChange(iso);
+                      setOpen(false);
+                    }}
+                  >
+                    {day.getDate()}
+                  </button>
+                );
+              })}
+            </div>
+
+            <p className="tst-reservation-wizard__calendar-note">Fermé le mercredi</p>
+          </div>
+        ) : null}
+      </div>
+    </div>
+  );
 }
 
 const STEP_REQUIRED = {
@@ -89,7 +295,47 @@ const STEP_REQUIRED = {
 
 function isStepComplete(values, step) {
   const fields = STEP_REQUIRED[step] || [];
-  return fields.every((key) => Boolean((values?.[key] || "").toString().trim()));
+  return fields.every((key) => {
+    const fieldValue = (values?.[key] || "").toString().trim();
+    if (!fieldValue) return false;
+    if (key === "date" && isClosedReservationDate(fieldValue)) return false;
+    return true;
+  });
+}
+
+function getScrollParent(node) {
+  let parent = node.parentElement;
+  while (parent) {
+    const { overflowY } = window.getComputedStyle(parent);
+    if (
+      (overflowY === "auto" || overflowY === "scroll") &&
+      parent.scrollHeight > parent.clientHeight
+    ) {
+      return parent;
+    }
+    parent = parent.parentElement;
+  }
+  return document.scrollingElement || document.documentElement;
+}
+
+function scrollStepIntoView(node) {
+  const scrollParent = getScrollParent(node);
+  const pageScroller =
+    scrollParent === document.scrollingElement ||
+    scrollParent === document.documentElement ||
+    scrollParent === document.body;
+
+  if (pageScroller) {
+    const top = node.getBoundingClientRect().top + window.scrollY - 120;
+    window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+    return;
+  }
+
+  const top =
+    scrollParent.scrollTop +
+    (node.getBoundingClientRect().top - scrollParent.getBoundingClientRect().top) -
+    16;
+  scrollParent.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
 }
 
 function AutoAdvance({ step, setStep, isSubmitting, pausedUntilTs }) {
@@ -118,7 +364,19 @@ const ReservationForm = () => {
   const [step, setStep] = useState(1);
   const [autoPauseUntil, setAutoPauseUntil] = useState(0);
   const hasTrackedStart = useRef(false);
+  const stepAnchorRef = useRef(null);
+  const skipStepScroll = useRef(true);
   const minReservationDate = useMemo(() => todayLocalISO(), []);
+
+  useEffect(() => {
+    if (skipStepScroll.current) {
+      skipStepScroll.current = false;
+      return;
+    }
+    const node = stepAnchorRef.current;
+    if (!node) return;
+    scrollStepIntoView(node);
+  }, [step]);
 
   useEffect(() => {
     if (hasTrackedStart.current) return;
@@ -137,7 +395,10 @@ const ReservationForm = () => {
     if (!values.last_name) errors.last_name = "Champ requis";
     if (!values.phone) errors.phone = "Champ requis";
     if (!values.person) errors.person = "Champ requis";
-    if (!values.date) errors.date = "Champ requis";
+    if (!values.date) errors.date = "Veuillez sélectionner une date.";
+    else if (isClosedReservationDate(values.date)) {
+      errors.date = "Le restaurant est fermé le mercredi.";
+    }
     if (!values.time) errors.time = "Champ requis";
     if (!values.email) {
       errors.email = "Champ requis";
@@ -260,7 +521,11 @@ const ReservationForm = () => {
               isSubmitting={isSubmitting}
               pausedUntilTs={autoPauseUntil}
             />
-            <div className="tst-mb-30" aria-label="Progression du formulaire">
+            <div
+              className="tst-mb-30"
+              ref={stepAnchorRef}
+              aria-label="Progression du formulaire"
+            >
               <div className="tst-text tst-text-sm" style={{ opacity: 0.8 }}>
                 Étape {step} sur 3
               </div>
@@ -436,42 +701,19 @@ const ReservationForm = () => {
                       ) : null}
 
                       <div className="col-12">
-                        <label className="tst-reservation-wizard__date-field" htmlFor="reservation-date">
-                          <span className="tst-reservation-wizard__date-label">Date</span>
-                          <div className="tst-reservation-wizard__date-trigger">
-                            <span
-                              className={`tst-reservation-wizard__date-value${
-                                values.date ? "" : " is-placeholder"
-                              }`}
-                            >
-                              {values.date
-                                ? formatDateLabel(values.date)
-                                : "Choisir une date"}
-                            </span>
-                            <i
-                              className="fas fa-calendar-alt tst-reservation-wizard__date-icon"
-                              aria-hidden="true"
-                            />
-                            <input
-                              id="reservation-date"
-                              type="date"
-                              name="date"
-                              className="tst-reservation-wizard__date-input"
-                              required
-                              min={minReservationDate}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.date}
-                              aria-invalid={Boolean(touched.date && errors.date)}
-                            />
-                          </div>
-                        </label>
+                        <ReservationDateField
+                          value={values.date}
+                          minDate={minReservationDate}
+                          invalid={Boolean(touched.date && errors.date)}
+                          onChange={(isoDate) => setFieldValue("date", isoDate)}
+                          onBlur={handleBlur}
+                        />
                       </div>
 
                       {touched.date && errors.date ? (
                         <div className="col-12">
                           <p className="tst-reservation-wizard__error" role="alert">
-                            Veuillez sélectionner une date.
+                            {errors.date}
                           </p>
                         </div>
                       ) : null}
