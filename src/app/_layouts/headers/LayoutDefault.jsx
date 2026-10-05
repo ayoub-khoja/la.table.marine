@@ -22,7 +22,7 @@ const DefaultHeader = () => {
     .filter((item) => item.visible !== false)
     // Boutique is temporarily disabled by request.
     .filter((item) => item.label !== "Boutique")
-    // Commande en ligne masquée pour le moment.
+    // Commande en ligne temporairement masquée.
     .filter((item) => item.label !== "Commande en ligne");
 
   const isPathActive = (path) => {

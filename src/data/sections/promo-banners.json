@@ -3,7 +3,7 @@
     {
       "image": "/img/carte-menu.png",
       "alt": "Notre carte — fruits de mer et cuisine gourmande",
-      "link": "/api/menu/file",
+      "link": "/menu",
       "blank": true,
       "width": 2048,
       "height": 768

@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto";
 import { getDb } from "@library/mongodb/client";
 import { buildPagination, parsePagination } from "@library/mongodb/pagination";
+import { sortPublishedSpecialMenus } from "@library/special-menus/sort";
 
 const COLLECTION = "special_menus";
 
@@ -141,7 +142,7 @@ export async function listPublishedSpecialMenus() {
     .toArray()
     .then((items) => items.map(formatMenuDocument));
 
-  return menus;
+  return sortPublishedSpecialMenus(menus);
 }
 
 /**

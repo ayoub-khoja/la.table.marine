@@ -10,7 +10,25 @@ const nextConfig = {
     ],
   },
   experimental: {
-    serverComponentsExternalPackages: ["@google-analytics/data", "@vercel/blob"],
+    serverComponentsExternalPackages: [
+      "@google-analytics/data",
+      "@vercel/blob",
+      "sharp",
+      "qrcode",
+      "opentype.js",
+    ],
+    outputFileTracingIncludes: {
+      "/api/admin/menu/qr": [
+        "./public/img/logo-blanc.png",
+        "./public/img/logo-sans-texte.png",
+        "./public/img/qr/**/*",
+        "./src/app/_lib/shared/fonts/**/*",
+      ],
+      "/api/qr-code/avis-google": [
+        "./public/img/logo-blanc.png",
+        "./src/app/_lib/shared/fonts/**/*",
+      ],
+    },
   },
   async redirects() {
     return [

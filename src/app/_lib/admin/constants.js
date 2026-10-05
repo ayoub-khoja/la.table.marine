@@ -13,6 +13,7 @@ export const ADMIN_PROTECTED_PATHS = [
   "/admin/produits",
   "/admin/menu",
   "/admin/avis",
+  "/admin/code-qr",
 ];
 
 export const ADMIN_NAV_ITEMS = [
@@ -63,6 +64,12 @@ export const ADMIN_NAV_ITEMS = [
     label: "Avis clients",
     href: "/admin/avis",
     icon: "fa-star",
+  },
+  {
+    id: "code-qr",
+    label: "Code QR",
+    href: "/admin/code-qr",
+    icon: "fa-qrcode",
   },
 ];
 

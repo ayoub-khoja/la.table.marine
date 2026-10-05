@@ -5,9 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import AppData from "@data/app.json";
-import { ADMIN_NAV_ITEMS } from "@library/admin/constants";
-
-const AdminSidebar = ({ userEmail }) => {
+import { ADMIN_NAV_ITEMS } from "@library/admin/constants";const AdminSidebar = ({ userEmail }) => {
   const pathname = usePathname();
   const router = useRouter();
   const [loggingOut, setLoggingOut] = useState(false);
@@ -63,8 +61,7 @@ const AdminSidebar = ({ userEmail }) => {
         </ul>
       </nav>
 
-      <div className="tst-admin-sidebar__footer">
-        {userEmail && (
+      <div className="tst-admin-sidebar__footer">        {userEmail && (
           <p className="tst-admin-sidebar__user" title={userEmail}>
             {userEmail}
           </p>

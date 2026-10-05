@@ -43,7 +43,7 @@
     "description": "Consultez notre carte ou réservez votre table pour déguster nos spécialités de la mer dans notre restaurant à Plaisir.",
     "buttonMenu": {
       "label": "Voir le menu",
-      "link": "/api/menu/file",
+      "link": "/menu",
       "blank": true
     },
     "buttonReservation": {

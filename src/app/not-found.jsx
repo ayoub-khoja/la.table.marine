@@ -40,7 +40,7 @@ const NotFound = () => {
                       Accueil
                     </Link>
                     <a
-                      href="/api/menu/file"
+                      href="/menu"
                       className="tst-btn tst-btn--ghost"
                       target="_blank"
                       rel="noopener noreferrer"

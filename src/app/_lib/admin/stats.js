@@ -28,6 +28,69 @@ function sumRevenue(orders) {
   return orders.reduce((sum, o) => sum + (Number(o.total) || 0), 0);
 }
 
+const ESTIMATED_GUESTS_PER_ORDER = 2;
+const DEFAULT_TICKET_PER_GUEST = 35;
+const DEFAULT_CURRENCY = "€";
+const ESTIMATED_DISHES_PER_GUEST = 2;
+
+function parseProductPrice(price) {
+  const raw = String(price ?? "")
+    .trim()
+    .replace(",", ".");
+  const value = Number(raw);
+  return Number.isFinite(value) && value > 0 ? value : 0;
+}
+
+function getAverageProductPrice(products) {
+  const prices = products
+    .map((product) => parseProductPrice(product.price))
+    .filter((price) => price > 0);
+
+  if (!prices.length) return 0;
+
+  return prices.reduce((sum, price) => sum + price, 0) / prices.length;
+}
+
+function parseReservationPersonCount(person) {
+  const parsed = Number.parseInt(String(person || ""), 10);
+  if (!Number.isFinite(parsed) || parsed < 1) return 0;
+  return parsed;
+}
+
+function sumReservationGuests(reservations) {
+  return reservations.reduce(
+    (sum, reservation) => sum + parseReservationPersonCount(reservation.person),
+    0
+  );
+}
+
+function getEstimatedTicketPerGuest(orders, revenueTotal, products) {
+  if (orders.length > 0 && revenueTotal > 0) {
+    return {
+      value: revenueTotal / (orders.length * ESTIMATED_GUESTS_PER_ORDER),
+      source: "orders",
+    };
+  }
+
+  const averageProductPrice = getAverageProductPrice(products);
+  if (averageProductPrice > 0) {
+    return {
+      value: averageProductPrice * ESTIMATED_DISHES_PER_GUEST,
+      source: "menu",
+    };
+  }
+
+  return {
+    value: DEFAULT_TICKET_PER_GUEST,
+    source: "default",
+  };
+}
+
+function computeApproximateRevenue(guestCount, ticketPerGuest) {
+  if (!guestCount || !ticketPerGuest) return 0;
+  return guestCount * ticketPerGuest;
+}
+
 function formatRevenue(amount, currency = "$") {
   const n = Number(amount);
   if (!Number.isFinite(n)) return `${currency}0.00`;
@@ -113,10 +176,11 @@ function buildRecentActivity(orders, reservations, messages, limit = 6) {
 export async function getDashboardStats() {
   const db = await getDb();
 
-  const [orders, reservations, messages] = await Promise.all([
+  const [orders, reservations, messages, products] = await Promise.all([
     db.collection("orders").find({}).sort({ createdAt: -1 }).toArray(),
     db.collection("reservations").find({}).sort({ createdAt: -1 }).toArray(),
     db.collection("messages").find({}).sort({ createdAt: -1 }).toArray(),
+    db.collection("products").find({}).toArray(),
   ]);
 
   const now = new Date();
@@ -142,9 +206,26 @@ export async function getDashboardStats() {
     isOnOrAfter(m.createdAt, weekStart)
   );
 
-  const currency = orders[0]?.currency || "$";
+  const currency = orders[0]?.currency || DEFAULT_CURRENCY;
   const revenueTotal = sumRevenue(orders);
   const revenueMonth = sumRevenue(ordersThisMonth);
+  const ticketEstimate = getEstimatedTicketPerGuest(
+    orders,
+    revenueTotal,
+    products
+  );
+  const ticketPerGuest = ticketEstimate.value;
+  const guestsTotal = sumReservationGuests(reservations);
+  const guestsMonth = sumReservationGuests(reservationsThisMonth);
+  const guestsWeek = sumReservationGuests(reservationsThisWeek);
+  const approximateRevenueTotal = computeApproximateRevenue(
+    guestsTotal,
+    ticketPerGuest
+  );
+  const approximateRevenueMonth = computeApproximateRevenue(
+    guestsMonth,
+    ticketPerGuest
+  );
 
   const activityLast7Days = buildLast7DaysActivity(
     orders,
@@ -163,6 +244,11 @@ export async function getDashboardStats() {
       total: reservations.length,
       thisMonth: reservationsThisMonth.length,
       thisWeek: reservationsThisWeek.length,
+      guests: {
+        total: guestsTotal,
+        thisMonth: guestsMonth,
+        thisWeek: guestsWeek,
+      },
     },
     messages: {
       total: messages.length,
@@ -175,6 +261,15 @@ export async function getDashboardStats() {
       formattedTotal: formatRevenue(revenueTotal, currency),
       formattedMonth: formatRevenue(revenueMonth, currency),
       currency,
+    },
+    approximateRevenue: {
+      total: approximateRevenueTotal,
+      thisMonth: approximateRevenueMonth,
+      formattedTotal: formatRevenue(approximateRevenueTotal, currency),
+      formattedMonth: formatRevenue(approximateRevenueMonth, currency),
+      ticketPerGuest,
+      formattedTicketPerGuest: formatRevenue(ticketPerGuest, currency),
+      ticketSource: ticketEstimate.source,
     },
     activity: {
       last7Days: activityLast7Days,

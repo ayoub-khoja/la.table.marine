@@ -7,7 +7,7 @@
         "url": "https://raw.githubusercontent.com/ayoub-khoja/Media-latablemarine/main/apropos.mp4"
     },
     "button": {
-        "link": "/api/menu/file",
+        "link": "/menu",
         "label": "Consulter la carte",
         "blank": true
     },

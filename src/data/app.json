@@ -66,7 +66,7 @@
             },
             {
                 "label": "Carte et menu",
-                "link": "/api/menu/file",
+                "link": "/menu",
                 "blank": 1
             },
             {
@@ -190,7 +190,7 @@
             "title": "À propos",
             "text": "Restaurant de poissons et fruits de mer à Plaisir. Consultez notre carte PDF, réservez en ligne ou contactez-nous pour organiser votre venue au 2 rue Pierre Curie.",
             "button": {
-                "link": "/api/menu/file",
+                "link": "/menu",
                 "label": "Carte et menu",
                 "blank": 1
             }
@@ -198,7 +198,7 @@
         "nav": [
             { "label": "Accueil", "link": "/" },
             { "label": "À propos", "link": "/about" },
-            { "label": "Carte et menu", "link": "/api/menu/file", "blank": 1 },
+            { "label": "Carte et menu", "link": "/menu", "blank": 1 },
             { "label": "Réservation", "link": "/reservation" },
             { "label": "Contact", "link": "/contact" },
             { "label": "Vidéo", "link": "/decouvrir-le-restaurant-en-video" },
