@@ -83,7 +83,6 @@ function formatDateLabel(isoDate) {
 }
 
 const WEEKDAY_LABELS = ["lu", "ma", "me", "je", "ve", "sa", "di"];
-const CLOSED_WEEKDAY = 3;
 
 function parseISODate(isoDate) {
   if (!isoDate || typeof isoDate !== "string") return null;
@@ -109,11 +108,6 @@ function isSameCalendarDay(a, b) {
     a.getMonth() === b.getMonth() &&
     a.getDate() === b.getDate()
   );
-}
-
-function isClosedReservationDate(isoDate) {
-  const date = parseISODate(isoDate);
-  return Boolean(date && date.getDay() === CLOSED_WEEKDAY);
 }
 
 function buildMonthCells(viewMonth) {
@@ -240,15 +234,12 @@ function ReservationDateField({ value, minDate, invalid, onChange, onBlur }) {
 
             <div className="tst-reservation-wizard__calendar-grid">
               {buildMonthCells(viewMonth).map((day) => {
-                const closed = day.getDay() === CLOSED_WEEKDAY;
                 const past = Boolean(min && day < new Date(min.getFullYear(), min.getMonth(), min.getDate()));
-                const disabled = closed || past;
                 const outside = day.getMonth() !== viewMonth.getMonth();
                 const iso = toISODate(day);
                 const className = [
                   "tst-reservation-wizard__calendar-day",
-                  closed ? "is-closed" : "",
-                  past && !closed ? "is-past" : "",
+                  past ? "is-past" : "",
                   outside ? "is-outside" : "",
                   selected && isSameCalendarDay(day, selected) ? "is-selected" : "",
                   isSameCalendarDay(day, today) ? "is-today" : "",
@@ -261,14 +252,10 @@ function ReservationDateField({ value, minDate, invalid, onChange, onBlur }) {
                     key={iso}
                     type="button"
                     className={className}
-                    disabled={disabled}
-                    aria-label={
-                      closed
-                        ? `${formatDateLabel(iso)}, fermé`
-                        : formatDateLabel(iso)
-                    }
+                    disabled={past}
+                    aria-label={formatDateLabel(iso)}
                     onClick={() => {
-                      if (disabled) return;
+                      if (past) return;
                       onChange(iso);
                       setOpen(false);
                     }}
@@ -278,8 +265,6 @@ function ReservationDateField({ value, minDate, invalid, onChange, onBlur }) {
                 );
               })}
             </div>
-
-            <p className="tst-reservation-wizard__calendar-note">Fermé le mercredi</p>
           </div>
         ) : null}
       </div>
@@ -295,12 +280,7 @@ const STEP_REQUIRED = {
 
 function isStepComplete(values, step) {
   const fields = STEP_REQUIRED[step] || [];
-  return fields.every((key) => {
-    const fieldValue = (values?.[key] || "").toString().trim();
-    if (!fieldValue) return false;
-    if (key === "date" && isClosedReservationDate(fieldValue)) return false;
-    return true;
-  });
+  return fields.every((key) => Boolean((values?.[key] || "").toString().trim()));
 }
 
 function getScrollParent(node) {
@@ -396,9 +376,6 @@ const ReservationForm = () => {
     if (!values.phone) errors.phone = "Champ requis";
     if (!values.person) errors.person = "Champ requis";
     if (!values.date) errors.date = "Veuillez sélectionner une date.";
-    else if (isClosedReservationDate(values.date)) {
-      errors.date = "Le restaurant est fermé le mercredi.";
-    }
     if (!values.time) errors.time = "Champ requis";
     if (!values.email) {
       errors.email = "Champ requis";

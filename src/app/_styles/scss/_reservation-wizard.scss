@@ -227,26 +227,6 @@
     &.is-past:disabled {
       color: rgba($rz-ink, 0.28);
     }
-
-    &.is-closed:disabled {
-      color: rgba($rz-ink, 0.28);
-      background: repeating-linear-gradient(
-        -45deg,
-        transparent,
-        transparent 3px,
-        rgba($dl1, 0.06) 3px,
-        rgba($dl1, 0.06) 4px
-      );
-    }
-  }
-
-  &__calendar-note {
-    margin: 10px 0 0;
-    font-family: $sf;
-    font-size: 12px;
-    font-weight: 700;
-    color: rgba($rz-ink, 0.55);
-    text-align: center;
   }
 
   &__error {
