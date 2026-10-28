@@ -13,6 +13,7 @@ src/app/_lib/cookies/
   consent-storage.js    # Lecture/écriture du consentement (cookie first-party)
   google-consent.js     # Google Consent Mode v2 (default + update)
   analytics.js          # Chargement GA4 (Basic Consent Mode) + trackEvent
+  meta-pixel.js         # Meta Pixel (PageView + Lead), uniquement après consentement marketing
   cleanup-cookies.js    # Suppression des cookies Analytics/Marketing
   use-external-media.js # Hook pour Google Maps et contenus tiers
 
@@ -21,6 +22,7 @@ src/app/_components/cookies/
   CookieConsentRoot.jsx
   CookieConsentManager.jsx
   CookieConsentRouteTracker.jsx
+  MetaPixelTracker.jsx
   CookieBanner.jsx
   CookiePreferencesModal.jsx
   CookieSettingsButton.jsx
@@ -35,7 +37,8 @@ src/app/_components/cookies/
 3. Si absent, expiré ou version obsolète → bannière affichée.
 4. L'utilisateur accepte, refuse ou personnalise → choix sauvegardé 6 mois.
 5. GA4 n'est chargé qu'après acceptation Analytics (Basic Consent Mode).
-6. Retrait du consentement → `analytics_storage: denied`, script GA retiré, cookies `_ga*` supprimés.
+6. Le Meta Pixel (`1826056291860129`) n'est chargé qu'après acceptation Marketing. Pas de balise `<noscript>`. PageView sur les navigations client ; Lead uniquement si `POST /api/reservation` confirme `reservationSaved`.
+7. Retrait du consentement → `analytics_storage` / `ad_storage: denied`, scripts retirés, cookies `_ga*` et `_fbp` / `_fbc` supprimés. Si le Pixel était déjà exécuté, la page est rechargée.
 
 ## Ajouter l'identifiant GA4
 
@@ -128,7 +131,7 @@ Incrémenter `CONSENT_VERSION` dans `consent-config.js`. Tous les utilisateurs v
 
 - La suppression des cookies tiers (domaine Google) depuis le site first-party est limitée ; seuls les cookies accessibles sur le domaine du site sont supprimés.
 - Le Basic Consent Mode ne charge pas GA avant consentement : pas de ping cookieless.
-- Pas de CSP configurée actuellement ; si une CSP est ajoutée, autoriser `https://www.googletagmanager.com` et `https://www.google-analytics.com` uniquement si Analytics est activé.
+- Pas de CSP configurée actuellement ; si une CSP est ajoutée, autoriser `https://www.googletagmanager.com` et `https://www.google-analytics.com` uniquement si Analytics est activé, et `https://connect.facebook.net` plus `https://www.facebook.com` uniquement si le Meta Pixel est activé.
 
 ## Points juridiques à valider
 

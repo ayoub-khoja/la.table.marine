@@ -8,6 +8,10 @@ import {
   trackReservationCompleted,
   trackReservationStarted,
 } from "@library/cookies/track-analytics-events";
+import {
+  getReservationLeadEventId,
+  trackMetaLead,
+} from "@library/cookies/meta-pixel";
 
 import {
   OCCASION_LABELS,
@@ -344,6 +348,7 @@ const ReservationForm = () => {
   const [step, setStep] = useState(1);
   const [autoPauseUntil, setAutoPauseUntil] = useState(0);
   const hasTrackedStart = useRef(false);
+  const submitInFlight = useRef(false);
   const stepAnchorRef = useRef(null);
   const skipStepScroll = useRef(true);
   const minReservationDate = useMemo(() => todayLocalISO(), []);
@@ -420,6 +425,8 @@ const ReservationForm = () => {
         }}
         validate={(values) => validateStep(values, step)}
         onSubmit={async (values, { setSubmitting, resetForm }) => {
+          if (submitInFlight.current) return;
+          submitInFlight.current = true;
           try {
             const res = await fetch("/api/reservation", {
               method: "POST",
@@ -466,6 +473,10 @@ const ReservationForm = () => {
               service_type: values.serviceType,
               occasion: values.occasion,
             });
+            const leadEventId = getReservationLeadEventId(res.ok, data);
+            if (leadEventId) {
+              trackMetaLead({ eventId: leadEventId, requestType: values.requestType });
+            }
             setPopupOpen(true);
             resetForm();
             setStep(1);
@@ -476,6 +487,7 @@ const ReservationForm = () => {
             });
             setPopupOpen(true);
           } finally {
+            submitInFlight.current = false;
             setSubmitting(false);
           }
         }}

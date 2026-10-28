@@ -35,6 +35,8 @@ async function ensureIndexes(db) {
 export async function createReservation(payload) {
   const reservation = {
     id: randomUUID(),
+    // Identifiant aléatoire distinct de `id`, partagé avec Meta (eventID) sans donnée client.
+    trackingEventId: randomUUID(),
     createdAt: new Date().toISOString(),
     first_name: payload.first_name,
     last_name: payload.last_name,

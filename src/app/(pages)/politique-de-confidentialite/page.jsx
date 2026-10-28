@@ -9,7 +9,7 @@ import { getPageMetadata } from "@library/seo/page-metadata";
 
 export const metadata = getPageMetadata("privacy");
 
-const LAST_UPDATED = "12 juillet 2026";
+const LAST_UPDATED = "28 octobre 2026";
 
 const PrivacyPolicyPage = () => {
   return (
@@ -58,6 +58,7 @@ const PrivacyPolicyPage = () => {
                 <ul>
                   <li>Identité et coordonnées (nom, e-mail, téléphone) via les formulaires de contact ou de réservation ;</li>
                   <li>Données de navigation agrégées, uniquement si vous acceptez les cookies de mesure d&apos;audience ;</li>
+                  <li>Pages consultées et envoi d&apos;une demande de réservation (sans nom, e-mail, téléphone ni message), transmis à Meta Platforms Ireland via le Meta Pixel, uniquement si vous acceptez les cookies marketing ;</li>
                   <li>Préférences de consentement aux cookies (cookie <code>ltm_cookie_consent</code>).</li>
                 </ul>
 
@@ -66,6 +67,7 @@ const PrivacyPolicyPage = () => {
                   <li>Répondre à vos demandes et gérer les réservations ;</li>
                   <li>Assurer le fonctionnement et la sécurité du site ;</li>
                   <li>Mesurer l&apos;audience du site, avec votre consentement ;</li>
+                  <li>Mesurer l&apos;efficacité de nos publicités Facebook et Instagram, avec votre consentement ;</li>
                   <li>Respecter nos obligations légales.</li>
                 </ul>
 

@@ -29,6 +29,7 @@ import {
   loadGoogleAnalyticsScript,
   unloadGoogleAnalytics,
 } from "@library/cookies/analytics";
+import { disableMetaPixel } from "@library/cookies/meta-pixel";
 
 /** @type {import('react').Context<ReturnType<typeof createDefaultContextValue> | null>} */
 const CookieConsentContext = createContext(null);
@@ -53,9 +54,23 @@ function createDefaultContextValue() {
 }
 
 /**
+ * Coupe le Pixel si le marketing n'est pas autorisé.
+ * Les cookies sont nettoyés par l'appelant avant un éventuel rechargement :
+ * fbevents.js, une fois exécuté, ne peut pas être déchargé.
+ * @param {import('./consent-types').CookieConsent | null | undefined} consent
+ * @returns {boolean}
+ */
+function shouldDisableMetaPixel(consent) {
+  if (canUseMarketing(consent)) return false;
+  return disableMetaPixel().reloadRequired;
+}
+
+/**
  * @param {import('./consent-types').CookieConsent | null} consent
  */
 function syncServicesWithConsent(consent) {
+  const reloadForMeta = shouldDisableMetaPixel(consent);
+
   applyGoogleConsentUpdate(consent);
   cleanupCookiesForConsent(
     consent || { analytics: false, marketing: false, externalMedia: false, necessary: true }
@@ -67,6 +82,10 @@ function syncServicesWithConsent(consent) {
     loadGoogleAnalyticsScript(measurementId);
   } else {
     unloadGoogleAnalytics();
+  }
+
+  if (reloadForMeta) {
+    window.location.reload();
   }
 }
 
@@ -139,6 +158,7 @@ export function CookieConsentProvider({ children }) {
 
   const resetConsent = useCallback(() => {
     clearStoredConsent();
+    const reloadForMeta = disableMetaPixel().reloadRequired;
     unloadGoogleAnalytics();
     applyGoogleConsentUpdate(null);
     cleanupCookiesForConsent({
@@ -152,6 +172,10 @@ export function CookieConsentProvider({ children }) {
     setHasValidConsent(false);
     setIsBannerVisible(true);
     setIsPreferencesOpen(false);
+
+    if (reloadForMeta) {
+      window.location.reload();
+    }
   }, []);
 
   const value = useMemo(

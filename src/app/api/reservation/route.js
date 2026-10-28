@@ -123,12 +123,17 @@ export async function POST(request) {
     };
 
     const stored = await createReservation(reservation);
+    const savedResult = {
+      success: true,
+      reservationSaved: true,
+      trackingEventId: stored.trackingEventId,
+    };
 
     const mailConfig = getMailConfig();
     if (!mailConfig) {
       console.error("[api/reservation] SMTP not configured");
       return NextResponse.json({
-        success: true,
+        ...savedResult,
         emailSent: false,
         emailReason: "not_configured",
       });
@@ -165,14 +170,14 @@ export async function POST(request) {
       }
 
       return NextResponse.json({
-        success: true,
+        ...savedResult,
         emailSent: sent > 0,
         emailReason: sent > 0 ? undefined : "send_failed",
       });
     } catch (mailError) {
       console.error("[api/reservation] email failed", mailError);
       return NextResponse.json({
-        success: true,
+        ...savedResult,
         emailSent: false,
         emailReason: "send_failed",
       });
