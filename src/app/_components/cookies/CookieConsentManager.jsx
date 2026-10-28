@@ -6,6 +6,7 @@ import { Suspense } from "react";
 import CookieBanner from "@components/cookies/CookieBanner";
 import CookiePreferencesModal from "@components/cookies/CookiePreferencesModal";
 import { CookieConsentRouteTracker } from "@components/cookies/CookieConsentRouteTracker";
+import { MetaPixelTracker } from "@components/cookies/MetaPixelTracker";
 
 /**
  * Affiche la bannière et la modale de consentement sur les pages publiques uniquement.
@@ -23,6 +24,7 @@ const CookieConsentManager = () => {
       <CookiePreferencesModal />
       <Suspense fallback={null}>
         <CookieConsentRouteTracker />
+        <MetaPixelTracker />
       </Suspense>
     </>
   );

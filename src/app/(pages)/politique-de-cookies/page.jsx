@@ -14,7 +14,7 @@ import { getPageMetadata } from "@library/seo/page-metadata";
 
 export const metadata = getPageMetadata("cookies");
 
-const LAST_UPDATED = "12 juillet 2026";
+const LAST_UPDATED = "28 octobre 2026";
 
 const CookiePolicyPage = () => {
   return (
@@ -88,6 +88,23 @@ const CookiePolicyPage = () => {
                 <p>
                   Cookies susceptibles d&apos;être déposés : <code>_ga</code>, <code>_ga_*</code>.
                   Durée indicative : jusqu&apos;à 2 ans selon Google.
+                </p>
+
+                <h2>Meta Pixel (Facebook / Instagram)</h2>
+                <p>
+                  Uniquement si vous acceptez la catégorie « Marketing », nous chargeons le Meta
+                  Pixel (Meta Platforms Ireland Limited) afin de mesurer l&apos;efficacité de nos
+                  campagnes publicitaires sur Facebook et Instagram. Sont alors transmis à Meta : les
+                  pages consultées sur le site et, lorsqu&apos;une demande de réservation est
+                  enregistrée, un événement « Lead » accompagné d&apos;un identifiant technique
+                  aléatoire. Vos nom, e-mail, téléphone et message ne sont jamais transmis via cette
+                  intégration.
+                </p>
+                <p>
+                  Cookies susceptibles d&apos;être déposés : <code>_fbp</code>, <code>_fbc</code>.
+                  Durée indicative : 3 mois selon Meta. Si vous retirez votre consentement, le Pixel
+                  est désactivé, les cookies accessibles sur notre domaine sont supprimés et la page
+                  est rechargée.
                 </p>
 
                 <h2>Contenus externes</h2>

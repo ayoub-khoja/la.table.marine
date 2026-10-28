@@ -29,8 +29,9 @@ const CookieBanner = () => {
           </div>
           <p id="ltm-cookie-banner-desc" className="ltm-cookie-banner__text">
             Nous utilisons des cookies nécessaires au fonctionnement du site et, avec votre accord,
-            des cookies de mesure d&apos;audience afin de comprendre l&apos;utilisation de notre site
-            et d&apos;améliorer votre expérience. Vous pouvez accepter, refuser ou personnaliser vos
+            des cookies de mesure d&apos;audience afin de comprendre l&apos;utilisation de notre site,
+            ainsi que des cookies marketing (Meta Pixel) pour mesurer l&apos;efficacité de nos
+            publicités Facebook et Instagram. Vous pouvez accepter, refuser ou personnaliser vos
             choix.
           </p>
           <Link href={COOKIE_POLICY_PATH} className="ltm-cookie-banner__link">

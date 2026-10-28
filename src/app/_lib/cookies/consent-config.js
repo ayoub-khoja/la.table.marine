@@ -20,7 +20,7 @@ export const COOKIE_CATEGORIES = [
     id: "marketing",
     name: "Marketing",
     description:
-      "Prévu pour de futurs outils publicitaires (Meta Pixel, Google Ads, etc.). Aucun outil marketing n'est actuellement actif.",
+      "Mesure de l'efficacité de nos publicités Facebook et Instagram via le Meta Pixel (Meta Platforms Ireland) : pages visitées et demandes de réservation envoyées, sans transmission de vos nom, e-mail, téléphone ou message.",
     required: false,
     defaultEnabled: false,
   },
@@ -65,6 +65,20 @@ export const COOKIE_SERVICE_DETAILS = [
     categoryId: "analytics",
   },
   {
+    name: "_fbp",
+    purpose: "Mesurer l'efficacité des publicités Facebook / Instagram (Meta Pixel)",
+    provider: "Meta Platforms Ireland Limited",
+    duration: "3 mois",
+    categoryId: "marketing",
+  },
+  {
+    name: "_fbc",
+    purpose: "Attribuer une visite à un clic sur une publicité Meta",
+    provider: "Meta Platforms Ireland Limited",
+    duration: "3 mois",
+    categoryId: "marketing",
+  },
+  {
     name: "Google Maps (iframe)",
     purpose: "Affichage de la carte interactive et localisation du restaurant",
     provider: "Google Ireland Limited",
@@ -74,7 +88,7 @@ export const COOKIE_SERVICE_DETAILS = [
 ];
 
 export const CONSENT_COOKIE_NAME = "ltm_cookie_consent";
-export const CONSENT_VERSION = "1.0";
+export const CONSENT_VERSION = "1.1";
 export const CONSENT_DURATION_MS = 6 * 30 * 24 * 60 * 60 * 1000;
 
 export const ANALYTICS_EVENT_NAMES = {
