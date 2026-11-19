@@ -48,11 +48,10 @@ export const SEO_CONFIG = {
   logoUrl: `${SEO_SITE_URL}/img/home/logo-latablemarine.png`,
   defaultOgImage: `${SEO_SITE_URL}/img/image00015.png`,
   areaServed: ["Plaisir", "Yvelines", "Île-de-France"],
-  /**
-   * TODO: Remplacer par les URLs réelles des profils sociaux (Google Business, Instagram, Facebook…).
-   * Les liens actuels dans app.json sont des placeholders génériques.
-   */
-  socialProfiles: [],
+  socialProfiles: [
+    "https://www.instagram.com/latablemarine78/",
+    "https://www.facebook.com/profile.php?id=61596089903085",
+  ],
   openingHours: buildOpeningHoursFromSchedule(),
   acceptsReservations: true,
   paymentAccepted: null,

@@ -16,6 +16,35 @@
     padding-right: 32px;
   }
 
+  &__poster {
+    display: block;
+    width: min(100%, 560px);
+    margin: 0 auto 28px;
+    border-radius: 16px;
+    overflow: hidden;
+    line-height: 0;
+    box-shadow: 0 12px 32px rgba(2, 6, 23, 0.08);
+    transition: transform 0.45s ease, box-shadow $tr-sm;
+
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 44px rgba(2, 6, 23, 0.14);
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow:
+        0 20px 44px rgba(2, 6, 23, 0.14),
+        0 0 0 3px rgba($ac, 0.35);
+    }
+  }
+
+  &__poster-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
   &__grid {
     display: grid;
     gap: 12px;
