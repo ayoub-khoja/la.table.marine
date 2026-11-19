@@ -1,7 +1,7 @@
 "use client";
 
 import Data from "@data/sections/hero.json";
-import Link from "next/link";
+// import Link from "next/link";
 import { useEffect, useRef } from "react";
 
 import { ScrollAnimation } from "@common/scrollAnims";
@@ -68,10 +68,12 @@ const Hero = ( { bgType } ) => {
                     )}
                     <div className="tst-overlay"></div>
                 </div>
+                {/* texte et bouton masqués : la vidéo s'affiche seule
                 <div className="tst-banner-content-frame">
                     <div className="container">
                         <div className="tst-main-title-frame">
                         <div className="tst-main-title">
+                            <div className="tst-hero-front">
                             <div className="tst-suptitle tst-suptitle-mobile-center tst-text-shadow tst-white-2 tst-mb-15">{Data.subtitle}</div>
                             <h1 className="tst-white-2 tst-text-shadow tst-mb-30" dangerouslySetInnerHTML={{__html : Data.title}} />
                             {Data.description ? (
@@ -84,10 +86,12 @@ const Hero = ( { bgType } ) => {
                                 <Link href={Data.button1.link} className="tst-hero-actions__secondary-btn tst-hero-actions__primary">{Data.button1.label}</Link>
                                 )}
                             </div>
+                            </div>
                         </div>
                         </div>
                     </div>
                 </div>
+                */}
             </div>
             {/* banner end */}
         </>

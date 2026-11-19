@@ -55,6 +55,21 @@ const PromoBannersSection = () => {
       className={`tst-promo-banners${inView ? " is-visible" : ""}`}
       aria-label="Découvrir La Table Marine"
     >
+      <Link
+        href="/reservation"
+        className="tst-promo-banners__poster"
+        aria-label="Menu de la Saint-Sylvestre, 110 euros par personne. Réserver une table"
+      >
+        <Image
+          src="/img/menu-saint-sylvestre.jpeg"
+          alt="Menu de la Saint-Sylvestre à La Table Marine, le 31 décembre, 110 euros par personne"
+          width={1122}
+          height={1402}
+          quality={92}
+          priority
+          className="tst-promo-banners__poster-image"
+        />
+      </Link>
       <div className={`tst-promo-banners__grid tst-promo-banners__grid--count-${Data.items.length}`}>
         {Data.items.map((item, index) => {
           const imageSizes =

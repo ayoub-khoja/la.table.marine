@@ -351,11 +351,14 @@ describe("seo corrections — réseaux sociaux", () => {
     expect(aboutPage).not.toContain("https://instagram.com");
   });
 
-  it("garde sameAs vide tant que les profils ne sont pas confirmés", () => {
-    expect(SEO_CONFIG.socialProfiles).toEqual([]);
+  it("expose les profils Instagram et Facebook confirmés dans sameAs", () => {
+    expect(SEO_CONFIG.socialProfiles).toEqual([
+      "https://www.instagram.com/latablemarine78/",
+      "https://www.facebook.com/profile.php?id=61596089903085",
+    ]);
 
     const restaurant = buildRestaurantSchema();
-    expect(restaurant.sameAs).toBeUndefined();
+    expect(restaurant.sameAs).toEqual(SEO_CONFIG.socialProfiles);
   });
 });
 
